@@ -4,7 +4,7 @@ import * as d3 from "https://cdn.skypack.dev/d3@7";
 const INDEXES = [0, 1, 2, 3, 4];
 
 const App = {
-  data() {
+  data() { // variables
     return {
       target: "CHART",
       guesses: [],
@@ -17,7 +17,7 @@ const App = {
       didWin: false
     };
   },
-  methods: {
+  methods: { // static functions
     addGuess() {
       const newGuess = this.currentGuess.toUpperCase();
       const indexOfNewGuess = this.guesses.indexOf(newGuess)
@@ -50,13 +50,13 @@ const App = {
       this.didWin = false;
     }
   },
-  computed: {
+  computed: { // dynamic functions
     gridData() {
       return this.guesses.map((guess) => guess.split("").map((letter, i) => {
         let color = 'lightgrey'
         if (this.target[i] === letter) {
           color = 'green'
-        } else if (this.target.indexOf(letter) !== -1) {
+        } else if (this.target.indexOf(letter) !== -1) { // found index in target, but not in the same position
           color = 'orange'
         }
         return {
