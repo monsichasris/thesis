@@ -46,10 +46,10 @@ export default {
         return {};
       }
       console.log(this.forecast);
-      const daytimePeriod = this.forecast.properties.periods.find(
+      const daytimePeriod = this.forecast.properties.periods.find( 
         (d) => d.isDaytime
       );
-      return daytimePeriod || {};
+      return daytimePeriod || {}; // return empty object if daytimePeriod is undefined - to be safe that it not break
     },
     recommendation() {
       const { temperature } = this.firstDaytimePeriod;
@@ -61,8 +61,8 @@ export default {
   },
   mounted() {
     fetch(API_URL)
-      .then((res) => res.json())
-      .then((data) => {
+      .then((res) => res.json()) //response
+      .then((data) => { // promise
         this.forecast = data;
       });
   },
