@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     setDays(event) {
-      this.days = +event.target.value;
+      this.days = +event.target.value; // convert int to number
     },
   },
   updated() {
