@@ -7,6 +7,10 @@
       <div>
         <el-slider v-model="bikeTempRange" range :min="20" :max="90" />
         <BikeRecommender :recommendation="bikeRecommendation" />
+        <div>
+        <el-checkbox v-model="checked1" label="Bicycle"></el-checkbox>
+        <el-checkbox v-model="checked2" label="Motorcycle"></el-checkbox>
+      </div>
       </div>
       <div>
         <el-select
@@ -50,6 +54,8 @@ export default {
       selectedUmbrellaOption: "Rain",
       bikeTempRange: [45, 80],
       width: MAX_SVG_WIDTH,
+      checked1: true,
+      checked2: false,
     };
   },
   computed: {
