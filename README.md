@@ -28,8 +28,16 @@ Unlike upscale restaurants, which often cater to specific demographics, grocery 
 This study will analyze the names and visual elements of grocery store signage across different cuisines in New York City. Using food retail datasets from NYC OpenData and Google Maps, I will apply machine learning to detect patterns in typography and color, and group the meaning of the name structure. Additionally, I will examine economic, geographic, and demographic factors to understand how grocery stores position themselves in the market and reflect the city's multicultural food scene.
 The findings offer insights into how grocery stores communicate identity and attract customers across cultural and linguistic boundaries. By documenting and analyzing signage trends, this study provides a valuable reference for researchers studying urban diversity culture, visual communication, and food retail stores. It also offers insights into how customers perceive grocery store signs, influencing them to explore new stores. Additionally, store owners could use these findings to reflect on how their signage aligns with their intended identity and market position in a diverse city like New York. Ultimately, this project contributes to a deeper understanding of how everyday visual language often unnoticed shapes the way we navigate, experience, and connect with the multicultural food landscape of the city.
 
-[Sketch](https://github.com/monsichasris/thesis/tree/main/sketch)<br>
+[Sketch Folder](https://github.com/monsichasris/thesis/tree/main/sketch)<br>
 
-[Design Mock](https://www.figma.com/proto/opzcJnmFgAs0uTJeLV0gQa/MSDV-Thesis?page-id=4%3A2&node-id=9-7&viewport=165%2C320%2C0.13&t=q1pWCCxfoiLduXCe-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=9%3A7)<br><br>
-![Mock Preview](https://github.com/user-attachments/assets/6e0200e7-1f41-44be-8f57-2e705bb3b35f)
+[Design Mock on Figma](https://www.figma.com/proto/opzcJnmFgAs0uTJeLV0gQa/MSDV-Thesis?page-id=4%3A2&node-id=9-7&viewport=165%2C320%2C0.13&t=q1pWCCxfoiLduXCe-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=9%3A7)<br><br>
+
+![00_landing](https://github.com/user-attachments/assets/751bcf6c-22ec-4d0b-8d21-413cd5efe305)
+![02_name](https://github.com/user-attachments/assets/05f63017-0538-4b0a-a8fb-e520c4749479)
+![02_name-2](https://github.com/user-attachments/assets/62aa388c-a1b1-4d32-99c1-3f1658a8e505)
+![02_name-1](https://github.com/user-attachments/assets/b974e884-8fdb-4275-a4ae-2a41d2619922)
+![03_visual](https://github.com/user-attachments/assets/248cb1c2-cbc6-4062-ae19-b1c0143a00cf)
+![03_visual-1](https://github.com/user-attachments/assets/4cc178eb-3607-4842-9de7-5351ffa99b44)
+![04_map](https://github.com/user-attachments/assets/eb80ffdb-4024-4c48-99fb-ced10a086b23)
+
 
