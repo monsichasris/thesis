@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style>
-// center the card
+ /* center the card */
 .card {
   margin: 0 auto;
   width: 200px;
