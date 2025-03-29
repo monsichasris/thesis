@@ -1,0 +1,28 @@
+<svg width="1149" height="259" viewBox="0 0 1149 259" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_174_94)">
+<line x1="329.498" y1="0.506759" x2="353.318" y2="256.401" stroke="black"/>
+<line y1="-0.5" x2="257" y2="-0.5" transform="matrix(-0.0926838 0.995696 0.995696 0.0926838 819.73 0.553101)" stroke="black"/>
+<path d="M433.41 1L435.41 258" stroke="black"/>
+<line x1="527.41" y1="1" x2="527.41" y2="258" stroke="black"/>
+<line x1="621.41" y1="1" x2="621.41" y2="258" stroke="black"/>
+<path d="M715.41 1L713.41 258" stroke="black"/>
+<path d="M1149 259L909.087 1H239.913L0 259" stroke="black"/>
+<path d="M1114 352L888.703 93H260.297L35 352" stroke="black"/>
+<path d="M1081 454L869.484 195H279.516L68 454" stroke="black"/>
+<path d="M240 0.5L293 258.5" stroke="black"/>
+<path d="M196 48L257.5 304" stroke="black"/>
+<path d="M952.5 48L893 304" stroke="black"/>
+<path d="M152 96L211.5 352" stroke="black"/>
+<path d="M996.5 96L935 352" stroke="black"/>
+<path d="M106 145L167.5 401" stroke="black"/>
+<path d="M1042.5 145L982 401" stroke="black"/>
+<path d="M58 198L121.5 454" stroke="black"/>
+<path d="M1090.5 198L1027 454" stroke="black"/>
+<path d="M856 258L909 0" stroke="black"/>
+</g>
+<defs>
+<clipPath id="clip0_174_94">
+<rect width="1149" height="259" fill="white"/>
+</clipPath>
+</defs>
+</svg>
