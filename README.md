@@ -34,14 +34,12 @@ The findings offer insights into how grocery stores communicate identity and att
 
 [Sketch Folder](https://github.com/monsichasris/thesis/tree/main/sketch)<br>
 
-[Design Mock on Figma](https://www.figma.com/proto/opzcJnmFgAs0uTJeLV0gQa/MSDV-Thesis?page-id=4%3A2&node-id=9-7&viewport=165%2C320%2C0.13&t=q1pWCCxfoiLduXCe-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=9%3A7)<br><br>
+[Design Mock on Figma](https://www.figma.com/proto/opzcJnmFgAs0uTJeLV0gQa/MSDV-Thesis?page-id=4%3A2&node-id=9-7&viewport=165%2C320%2C0.13&t=q1pWCCxfoiLduXCe-1&scaling=min-zoom&content-scaling=fixed&starting-point-node-id=9%3A7)<br>
 
-![00_landing](https://github.com/user-attachments/assets/751bcf6c-22ec-4d0b-8d21-413cd5efe305)
-![02_name](https://github.com/user-attachments/assets/05f63017-0538-4b0a-a8fb-e520c4749479)
-![02_name-2](https://github.com/user-attachments/assets/62aa388c-a1b1-4d32-99c1-3f1658a8e505)
-![02_name-1](https://github.com/user-attachments/assets/b974e884-8fdb-4275-a4ae-2a41d2619922)
-![03_visual](https://github.com/user-attachments/assets/248cb1c2-cbc6-4062-ae19-b1c0143a00cf)
-![03_visual-1](https://github.com/user-attachments/assets/4cc178eb-3607-4842-9de7-5351ffa99b44)
-![04_map](https://github.com/user-attachments/assets/eb80ffdb-4024-4c48-99fb-ced10a086b23)
+[Design Prototype on Figma](https://www.figma.com/proto/opzcJnmFgAs0uTJeLV0gQa/MSDV-Thesis?page-id=111%3A381&node-id=136-1940&viewport=431%2C16%2C0.29&t=NsCNclGbJqq5bCDO-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=136%3A1940)<br><br>
+
+![Screenshot 2025-03-27 at 1 52 03 AM](https://github.com/user-attachments/assets/a2097da5-0479-4637-93d8-638b68634f26)
+
+
 
 
