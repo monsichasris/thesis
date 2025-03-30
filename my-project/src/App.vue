@@ -15,6 +15,7 @@
     </div>
 
     <Intro />
+
     <img
       src="./assets/explain-sign.png"
       width="60%"
@@ -22,19 +23,47 @@
     />
   </section>
 
-  <section class="viz" id="cluster">Group</section>
+  <section id="cluster">
+    <NameCluster :csvData="csvData" />
+  </section>
+
   <section class="viz" id="map">Map</section>
   <section>Thank you</section>
   <footer></footer>
 </template>
 
 <script>
+// let { RiTa } = require("rita");
+// import * as d3 from "d3";
 import Intro from "./components/Intro.vue";
+import NameCluster from "./components/NameCluster.vue";
 
 export default {
   name: "App",
   components: {
     Intro,
+    NameCluster,
+  },
+  data() {
+    return {
+      csvData: null,
+    };
+  },
+  async mounted() {
+    this.csvData = await this.loadCSV();
+    console.log("Loaded CSV Data:", this.csvData); // Debugging
+  },
+  methods: {
+    async loadCSV() {
+      try {
+        const response = await fetch("/Retail_Food_Store.csv");
+        const text = await response.text();
+        return text;
+      } catch (error) {
+        console.error("Error loading CSV:", error);
+        return null;
+      }
+    },
   },
 };
 </script>
