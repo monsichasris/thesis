@@ -14,11 +14,11 @@ export default {
     },
     center: {
       type: Array,
-      default: () => [-74.5, 40], // Default center [longitude, latitude]
+      default: () => [40, -74.5], // Default center [longitude, latitude]
     },
     zoom: {
       type: Number,
-      default: 9, // Default zoom level
+      default: 10, // Default zoom level
     },
   },
   data() {
@@ -45,6 +45,7 @@ export default {
 
       this.map.on("load", () => {
         console.log("Map loaded successfully!");
+        console.log("Map style:", this.map.getStyle());
       });
 
       this.map.on("error", (e) => {

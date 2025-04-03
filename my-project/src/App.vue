@@ -5,7 +5,7 @@
 
   <section><NameCluster :csvData="csvData" /></section>
 
-  <section class="viz" id="map">
+  <section>
     <MapBase
       :accessToken="mapboxAccessToken"
       :center="[40.7128, -74.006]"
@@ -20,6 +20,7 @@
 import Intro from "./components/Intro.vue";
 import NameCluster from "./components/NameCluster.vue";
 import MapBase from "./components/Map.vue";
+import "mapbox-gl/dist/mapbox-gl.css";
 
 export default {
   name: "App",
@@ -60,11 +61,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   margin-top: 0;
-}
-
-.viz {
-  height: 100vh;
-  background-color: #f0f0f0;
 }
 
 .textbox {
