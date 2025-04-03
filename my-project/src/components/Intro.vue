@@ -1,4 +1,16 @@
 <template>
+  <div style="height: 100vh; position: sticky; top: 0">
+    <img
+      src="img/basket.svg"
+      style="
+        position: absolute;
+        transform: translate(-50%, 0%);
+        bottom: 0;
+        left: 50%;
+        z-index: -1;
+      "
+    />
+  </div>
   <div class="scroll">
     <p class="textbox">
       If you live in the city, going to the grocery store is a part of
@@ -14,16 +26,20 @@
       Let’s take a closer look.
     </p>
     <p class="textbox">What we will explore on grocery store signs</p>
-    <!-- <img
-      src="./assets/explain-sign.png"
+    <img
+      src="img/explain-sign.png"
       width="60%"
-      style="margin-top: -320px"
+      style="
+        margin-top: -320px;
+        transform: translate(-50%, 0%);
+        margin-left: 50%;
+      "
     />
     <p class="textbox">
       These are the key elements of brand identity that shape how a store
       presents itself. But beyond branding, do these signs also reflect the
       identities of the people and cultures they serve?
-    </p> -->
+    </p>
   </div>
 </template>
 

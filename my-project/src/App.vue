@@ -1,31 +1,9 @@
 <template>
-  <img alt="title" src="./assets/title.png" width="100%" />
+  <img alt="title" src="img/title.png" width="100%" />
 
-  <section>
-    <div style="height: 100vh; position: sticky; top: 0">
-      <img
-        src="./assets/basket.svg"
-        style="
-          position: absolute;
-          transform: translate(-50%, 0%);
-          bottom: 0;
-          left: 50%;
-        "
-      />
-    </div>
+  <section><Intro /></section>
 
-    <Intro />
-
-    <img
-      src="./assets/explain-sign.png"
-      width="60%"
-      style="margin-top: -320px; margin-bottom: 400px"
-    />
-  </section>
-
-  <section id="cluster">
-    <NameCluster :csvData="csvData" />
-  </section>
+  <section><NameCluster :csvData="csvData" /></section>
 
   <section class="viz" id="map">Map</section>
   <section>Thank you</section>
@@ -33,8 +11,6 @@
 </template>
 
 <script>
-// let { RiTa } = require("rita");
-// import * as d3 from "d3";
 import Intro from "./components/Intro.vue";
 import NameCluster from "./components/NameCluster.vue";
 
@@ -51,7 +27,6 @@ export default {
   },
   async mounted() {
     this.csvData = await this.loadCSV();
-    console.log("Loaded CSV Data:", this.csvData); // Debugging
   },
   methods: {
     async loadCSV() {
@@ -87,5 +62,6 @@ export default {
   line-height: 1.5;
   margin: 200px auto 400px auto;
   width: 400px;
+  background-color: white;
 }
 </style>
