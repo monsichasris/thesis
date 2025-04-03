@@ -5,7 +5,13 @@
 
   <section><NameCluster :csvData="csvData" /></section>
 
-  <section class="viz" id="map">Map</section>
+  <section class="viz" id="map">
+    <MapBase
+      :accessToken="mapboxAccessToken"
+      :center="[40.7128, -74.006]"
+      :zoom="12"
+    />
+  </section>
   <section>Thank you</section>
   <footer></footer>
 </template>
@@ -13,16 +19,20 @@
 <script>
 import Intro from "./components/Intro.vue";
 import NameCluster from "./components/NameCluster.vue";
+import MapBase from "./components/Map.vue";
 
 export default {
   name: "App",
   components: {
     Intro,
     NameCluster,
+    MapBase,
   },
   data() {
     return {
       csvData: null,
+      mapboxAccessToken:
+        "pk.eyJ1IjoibW9uc2ljaGEiLCJhIjoiY2t1Z2Z2MXV1MjNtYzJucXBjYmwxNnpkNSJ9.e2G2z3OlPked0RO2kHnWlw",
     };
   },
   async mounted() {
