@@ -1,15 +1,33 @@
 <template>
   <div>
     <h1>Groups of DBA Names</h1>
+
+    <!-- Dropdown for Grouping Options -->
+    <label for="groupBy">Group By:</label>
+    <select id="groupBy" v-model="state.groupBy.selected" @change="updateChart">
+      <option
+        v-for="option in state.groupBy.menu"
+        :key="option"
+        :value="option"
+      >
+        {{ option }}
+      </option>
+    </select>
+
+    <!-- Toggle Buttons -->
     <button @click="setView('words')">Shared Words View</button>
     <button @click="setView('counties')">Counties View</button>
 
+    <!-- Shared Words Chart -->
     <div v-if="groups.length && currentView === 'words'">
       <svg ref="bubbleChart" width="800" height="600"></svg>
     </div>
+
+    <!-- Counties Chart -->
     <div v-if="countyGroups.length && currentView === 'counties'">
       <svg ref="bubbleChart" width="800" height="600"></svg>
     </div>
+
     <p v-else>No groups found</p>
   </div>
 </template>
@@ -23,13 +41,19 @@ export default {
   data() {
     return {
       groups: [], // Store groups of names with shared words
-      countyGroups: [],
-      currentView: "counties", // Default view
+      countyGroups: [], // Store groups of names by county
+      currentView: "words", // Default view
+      state: {
+        data: [], // Chart data
+        groupBy: {
+          menu: ["name", "font", "colors"], // Grouping options
+          selected: "name", // Default grouping option
+        },
+      },
     };
   },
   watch: {
     currentView(newView) {
-      console.log("Current view changed to:", newView); // Debugging
       this.$nextTick(() => {
         if (newView === "words" && this.groups.length) {
           this.createBubbleChart();
@@ -42,7 +66,6 @@ export default {
       if (newData) this.processCSV(newData); // Process CSV when data changes
     },
     groups(newGroups) {
-      console.log("Groups updated:", newGroups); // Debugging
       if (newGroups.length && this.currentView === "words") {
         this.$nextTick(() => {
           this.createBubbleChart();
@@ -50,7 +73,6 @@ export default {
       }
     },
     countyGroups(newCountyGroups) {
-      console.log("countyGroups updated:", newCountyGroups); // Debugging
       if (newCountyGroups.length && this.currentView === "counties") {
         this.$nextTick(() => {
           this.createCountyBubbleChart();
@@ -60,11 +82,20 @@ export default {
   },
   methods: {
     setView(view) {
-      console.log("Switching view to:", view); // Debugging
       this.currentView = view;
     },
+    updateChart() {
+      console.log("Grouping by:", this.state.groupBy.selected); // Debugging
+      if (this.state.groupBy.selected === "name") {
+        this.prepareDataByName();
+      } else if (this.state.groupBy.selected === "font") {
+        this.prepareDataByFont();
+      } else if (this.state.groupBy.selected === "colors") {
+        this.prepareDataByColors();
+      }
+    },
     async processCSV(csvText) {
-      console.log("processCSV called with data:", csvText);
+      // console.log("processCSV called with data:", csvText);
       if (!csvText) {
         console.error("Empty or invalid CSV data");
         return;
@@ -75,11 +106,6 @@ export default {
       const dbaIndex = header.indexOf("DBA Name");
       const countyIndex = header.indexOf("County");
 
-      // if (dbaIndex === -1) {
-      //   console.error("DBA Name column not found");
-      //   return;
-      // }
-
       const wordMap = {}; // Map to store names by words
       const countyMap = {}; // Map to store names by county
 
@@ -88,10 +114,9 @@ export default {
         const county = rows[i][countyIndex]?.trim();
 
         if (name && county) {
-          console.log(`Processing name: ${name}, County: ${county}`); // Debugging
-
-          // Group by words
           const words = name.split(/[\s&]+/).map((word) => word.toLowerCase());
+
+          // Populate wordMap for shared words
           for (const word of words) {
             const isNumber = !isNaN(word); // Check if the word is a number
             const key = isNumber ? "numbers" : word; // Use "numbers" as the key for all numeric words
@@ -102,49 +127,76 @@ export default {
             wordMap[key].push(name);
           }
 
-          // Group by county
+          // Populate countyMap for counties
           if (!countyMap[county]) {
             countyMap[county] = [];
           }
           countyMap[county].push(name);
         }
       }
-      // console.log("Word Map:", wordMap); // Debugging
-      // console.log("County Map:", countyMap); // Debugging
 
-      // Group names by shared words
-      const groups = [];
-      const processedNames = new Set();
+      // Populate groups
+      const groups = Object.entries(wordMap).map(([word, names]) => ({
+        sharedWord: word,
+        names,
+      }));
 
-      for (const [word, names] of Object.entries(wordMap)) {
-        const group = {
-          names: [],
-          sharedWord: word,
-        };
-
-        for (const name of names) {
-          if (!processedNames.has(name)) {
-            group.names.push(name);
-            processedNames.add(name);
-          }
-        }
-
-        if (group.names.length > 1) {
-          groups.push(group);
-        }
-      }
-
-      // Group names by county
+      // Populate countyGroups
       const countyGroups = Object.entries(countyMap).map(([county, names]) => ({
         county,
-        names,
-        size: names.length,
+        children: Object.entries(
+          names.reduce((acc, name) => {
+            const words = name
+              .split(/[\s&]+/)
+              .map((word) => word.toLowerCase());
+            words.forEach((word) => {
+              const key = !isNaN(word) ? "numbers" : word;
+              if (!acc[key]) acc[key] = [];
+              acc[key].push(name);
+            });
+            return acc;
+          }, {})
+        ).map(([word, names]) => ({
+          sharedWord: word,
+          size: names.length,
+          names,
+        })),
       }));
-      console.log("Final Groups:", groups); // Debugging
-      console.log("Final County Groups:", countyGroups); // Debugging
 
-      this.groups = [...groups]; // For shared words
-      this.countyGroups = [...countyGroups]; // For counties
+      console.log("Final Groups:", groups);
+      console.log("Final County Groups:", countyGroups);
+
+      this.groups = [...groups];
+      this.countyGroups = [...countyGroups];
+    },
+    prepareDataByName() {
+      console.log("Preparing data grouped by name...");
+      this.state.data = this.groups.map((group) => ({
+        name: group.sharedWord,
+        size: group.names.length,
+      }));
+      console.log("Data grouped by name:", this.state.data);
+      this.createBubbleChart();
+    },
+    prepareDataByFont() {
+      // Example: Prepare data grouped by font (dummy data for now)
+      this.state.data = [
+        { name: "Arial", size: 10 },
+        { name: "Helvetica", size: 15 },
+        { name: "Times New Roman", size: 20 },
+      ];
+      console.log("Data grouped by font:", this.state.data); // Debugging
+      this.createBubbleChart();
+    },
+    prepareDataByColors() {
+      // Example: Prepare data grouped by colors (dummy data for now)
+      this.state.data = [
+        { name: "Red", size: 5 },
+        { name: "Blue", size: 8 },
+        { name: "Green", size: 12 },
+      ];
+      console.log("Data grouped by colors:", this.state.data); // Debugging
+      this.createBubbleChart();
     },
     createBubbleChart() {
       const svg = d3.select(this.$refs.bubbleChart);
@@ -202,10 +254,9 @@ export default {
       const hierarchyData = {
         children: this.countyGroups.map((group) => ({
           name: group.county,
-          size: group.size,
-          children: group.names.map((name) => ({
-            name,
-            size: 1, // Each name gets a size of 1
+          children: group.children.map((child) => ({
+            name: child.sharedWord,
+            size: child.size, // Size based on the number of names in the group
           })),
         })),
       };
@@ -242,7 +293,7 @@ export default {
         .attr("text-anchor", "middle")
         .attr("dy", ".3em")
         .style("font-size", (d) => Math.min(d.r / 3, 12) + "px")
-        .text((d) => (d.children ? d.data.name : d.data.name)); // Show county or name
+        .text((d) => d.data.name); // Show county or name
     },
   },
 };
