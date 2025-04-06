@@ -3,8 +3,5 @@ module.exports = defineConfig({
   transpileDependencies: true,
 });
 module.exports = {
-  publicPath:
-    process.env.NODE_ENV === "production"
-      ? "/my-vue-project/" // Replace with your repository name
-      : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/thesis/" : "/",
 };

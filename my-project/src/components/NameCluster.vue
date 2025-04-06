@@ -24,8 +24,23 @@
     </div>
 
     <!-- Counties Chart -->
-    <div v-if="countyGroups.length && currentView === 'counties'">
-      <svg ref="bubbleChart" width="800" height="600"></svg>
+    <div
+      v-if="countyGroups.length && currentView === 'counties'"
+      ref="wordCloudContainer"
+      class="word-cloud-grid"
+    ></div>
+
+    <!-- Modal for Neighborhood Names -->
+    <div v-if="selectedNeighborhood" class="modal-overlay" @click="closeModal">
+      <div class="modal-content" @click.stop>
+        <h2>{{ selectedNeighborhood.county }}</h2>
+        <ul>
+          <li v-for="name in selectedNeighborhood.names" :key="name">
+            {{ name }}
+          </li>
+        </ul>
+        <button @click="closeModal">Close</button>
+      </div>
     </div>
 
     <p v-else>No groups found</p>
@@ -34,6 +49,8 @@
 
 <script>
 import * as d3 from "d3";
+import cloud from "d3-cloud";
+import { RiTa } from "rita";
 
 export default {
   name: "NameCluster",
@@ -42,7 +59,7 @@ export default {
     return {
       groups: [], // Store groups of names with shared words
       countyGroups: [], // Store groups of names by county
-      currentView: "words", // Default view
+      currentView: "counties", // Default view
       state: {
         data: [], // Chart data
         groupBy: {
@@ -50,6 +67,8 @@ export default {
           selected: "name", // Default grouping option
         },
       },
+      synonymCache: {},
+      selectedNeighborhood: null,
     };
   },
   watch: {
@@ -94,6 +113,65 @@ export default {
         this.prepareDataByColors();
       }
     },
+    async fetchSynonyms(word) {
+      if (this.synonymCache[word]) {
+        return this.synonymCache[word];
+      }
+      try {
+        const response = await fetch(
+          `https://api.datamuse.com/words?rel_spc=${word}`
+        );
+        const data = await response.json();
+        const synonyms = data.map((item) => item.word);
+        this.synonymCache[word] = synonyms; // Cache the result
+        return synonyms;
+      } catch (error) {
+        console.error(`Error fetching synonyms for "${word}":`, error);
+        return [];
+      }
+    },
+    async processSharedWords(name, map) {
+      const words = RiTa.tokenize(name.toLowerCase());
+      const excludedWords = [
+        "grocery",
+        "groceries",
+        "deli",
+        "gourmet",
+        "supermarket",
+        "market",
+        "marketplace",
+        "food",
+        "minimart",
+        "mini",
+        "mart",
+        "store",
+        "shop",
+      ];
+
+      for (const word of words) {
+        // Skip if the word is a stop word or in the excludedWords array
+        if (RiTa.isStopWord(word) || excludedWords.includes(word)) {
+          continue;
+        }
+
+        // Fetch synonyms for the word
+        const synonyms = await this.fetchSynonyms(word);
+
+        // Use the original word as the key and include synonyms in the group
+        const key = word; // Keep the original word as the key
+
+        if (!map[key]) {
+          map[key] = { names: [], synonyms: [] };
+        }
+
+        // Add the name to the group
+        map[key].names.push(name);
+
+        // Add synonyms to the group (avoid duplicates)
+        map[key].synonyms = [...new Set([...map[key].synonyms, ...synonyms])];
+      }
+    },
+
     async processCSV(csvText) {
       // console.log("processCSV called with data:", csvText);
       if (!csvText) {
@@ -103,63 +181,53 @@ export default {
 
       const rows = csvText.split(/\r?\n/).map((row) => row.split(","));
       const header = rows[0];
-      const dbaIndex = header.indexOf("DBA Name");
-      const countyIndex = header.indexOf("County");
+      const dbaIndex = header.indexOf("Normalized DBA Name");
+      const countyIndex = header.indexOf("Neighborhood");
+      const chainStoreIndex = header.indexOf("Is Chain Store");
 
       const wordMap = {}; // Map to store names by words
       const countyMap = {}; // Map to store names by county
+      const seenChainStores = new Set(); // Set to track unique chain stores
 
       for (let i = 1; i < rows.length; i++) {
         const name = rows[i][dbaIndex]?.trim();
         const county = rows[i][countyIndex]?.trim();
+        const isChainStore =
+          rows[i][chainStoreIndex]?.trim().toLowerCase() === "yes";
+
+        // If it's a chain store and already counted, skip it
+        if (isChainStore && seenChainStores.has(name)) continue;
+
+        // Mark chain store as seen
+        if (isChainStore) seenChainStores.add(name);
 
         if (name && county) {
-          const words = name.split(/[\s&]+/).map((word) => word.toLowerCase());
-
           // Populate wordMap for shared words
-          for (const word of words) {
-            const isNumber = !isNaN(word); // Check if the word is a number
-            const key = isNumber ? "numbers" : word; // Use "numbers" as the key for all numeric words
-
-            if (!wordMap[key]) {
-              wordMap[key] = [];
-            }
-            wordMap[key].push(name);
-          }
+          await this.processSharedWords(name, wordMap);
 
           // Populate countyMap for counties
           if (!countyMap[county]) {
-            countyMap[county] = [];
+            countyMap[county] = {};
           }
-          countyMap[county].push(name);
+          await this.processSharedWords(name, countyMap[county]);
         }
       }
 
       // Populate groups
-      const groups = Object.entries(wordMap).map(([word, names]) => ({
+      const groups = Object.entries(wordMap).map(([word, data]) => ({
         sharedWord: word,
-        names,
+        names: data.names,
+        synonyms: data.synonyms,
       }));
 
       // Populate countyGroups
-      const countyGroups = Object.entries(countyMap).map(([county, names]) => ({
+      const countyGroups = Object.entries(countyMap).map(([county, words]) => ({
         county,
-        children: Object.entries(
-          names.reduce((acc, name) => {
-            const words = name
-              .split(/[\s&]+/)
-              .map((word) => word.toLowerCase());
-            words.forEach((word) => {
-              const key = !isNaN(word) ? "numbers" : word;
-              if (!acc[key]) acc[key] = [];
-              acc[key].push(name);
-            });
-            return acc;
-          }, {})
-        ).map(([word, names]) => ({
+        children: Object.entries(words).map(([word, data]) => ({
           sharedWord: word,
-          size: names.length,
-          names,
+          size: data.names.length,
+          names: data.names,
+          synonyms: data.synonyms,
         })),
       }));
 
@@ -168,6 +236,26 @@ export default {
 
       this.groups = [...groups];
       this.countyGroups = [...countyGroups];
+    },
+    showNeighborhoodNames(neighborhood) {
+      console.log("Neighborhood clicked:", neighborhood.county);
+
+      const uniqueNames = [...new Set(neighborhood.names)];
+
+      // Ensure synonyms are extracted correctly
+      const synonyms = neighborhood.words
+        ? neighborhood.words.flatMap((word) => word.text)
+        : [];
+
+      // Display the names in a dedicated section
+      this.selectedNeighborhood = {
+        county: neighborhood.county,
+        names: uniqueNames,
+        synonyms: synonyms,
+      };
+    },
+    closeModal() {
+      this.selectedNeighborhood = null;
     },
     prepareDataByName() {
       console.log("Preparing data grouped by name...");
@@ -244,57 +332,151 @@ export default {
         .text((d) => d.data.name);
     },
     createCountyBubbleChart() {
-      const svg = d3.select(this.$refs.bubbleChart);
-      svg.selectAll("*").remove(); // Clear previous chart
+      const container = d3.select(this.$refs.wordCloudContainer);
+      container.selectAll("*").remove(); // Clear previous word clouds
 
-      const width = +svg.attr("width");
-      const height = +svg.attr("height");
-
-      // Prepare hierarchical data
-      const hierarchyData = {
-        children: this.countyGroups.map((group) => ({
-          name: group.county,
-          children: group.children.map((child) => ({
-            name: child.sharedWord,
-            size: child.size, // Size based on the number of names in the group
-          })),
+      // Prepare data for each neighborhood
+      const neighborhoods = this.countyGroups.map((group) => ({
+        county: group.county,
+        words: group.children.map((child) => ({
+          text: child.sharedWord,
+          size: child.size * 10, // Scale size for better visualization
         })),
-      };
+        names: group.children.flatMap((child) => child.names),
+      }));
 
-      console.log("Hierarchy Data for County Bubble Chart:", hierarchyData); // Debugging
+      // Set up grid layout
+      const gridContainer = this.$refs.wordCloudContainer;
+      const gridWidth = gridContainer.clientWidth;
+      const columns = Math.floor(gridWidth / 300); // Number of columns in the grid
+      const cellWidth = Math.floor(gridWidth / columns); // Width of each grid cell
+      const cellHeight = 360; // Height of each grid cell
 
-      const pack = d3.pack().size([width, height]).padding(5);
+      // Create an SVG for each neighborhood
+      neighborhoods.forEach((neighborhood, index) => {
+        const row = Math.floor(index / columns);
+        const col = index % columns;
 
-      const root = d3
-        .hierarchy(hierarchyData)
-        .sum((d) => d.size)
-        .sort((a, b) => b.value - a.value); // Sort by size
+        const svg = container
+          .append("svg")
+          .attr("width", cellWidth)
+          .attr("height", cellHeight)
+          .style("border", "1px solid #ccc")
+          .style("margin", "0")
+          .attr(
+            "transform",
+            `translate(${col * cellWidth}, ${row * cellHeight})`
+          )
+          .on("click", () => {
+            this.showNeighborhoodNames(neighborhood); // Call the method to display names
+          });
 
-      const nodes = pack(root).descendants();
+        // Add neighborhood name at the top of the cell
+        svg
+          .append("text")
+          .attr("x", cellWidth / 2) // Center the text horizontally
+          .attr("y", 20) // Position the text at the top
+          .attr("text-anchor", "middle")
+          .style("font-size", "16px")
+          .style("font-weight", "bold")
+          .text(neighborhood.county);
 
-      const bubbles = svg
-        .selectAll("g")
-        .data(nodes)
-        .enter()
-        .append("g")
-        .attr("transform", (d) => `translate(${d.x},${d.y})`);
+        // Generate word cloud for the neighborhood
+        const layout = cloud()
+          .size([cellWidth, cellHeight])
+          .words(neighborhood.words)
+          .padding(5)
+          .rotate(() => (Math.random() > 0.5 ? 0 : 90)) // Random rotation
+          .fontSize((d) => d.size)
+          .on("end", (words) => {
+            svg
+              .append("g")
+              .attr(
+                "transform",
+                `translate(${cellWidth / 2}, ${cellHeight / 2})`
+              )
+              .selectAll("text")
+              .data(words)
+              .enter()
+              .append("text")
+              .style("font-size", (d) => `${d.size}px`)
+              .style("fill", "#000")
+              .attr("text-anchor", "middle")
+              .attr(
+                "transform",
+                (d) => `translate(${d.x}, ${d.y}) rotate(${d.rotate})`
+              )
+              .text((d) => d.text);
+          });
 
-      // Draw circles
-      bubbles
-        .append("circle")
-        .attr("r", (d) => d.r)
-        .attr("fill", (d) => (d.children ? "#ccc" : "#fff")); // Parent nodes (counties) get a different color
-      // .attr("stroke", "#000")
-      // .attr("stroke-width", 1);
-
-      // Add text labels
-      bubbles
-        .append("text")
-        .attr("text-anchor", "middle")
-        .attr("dy", ".3em")
-        .style("font-size", (d) => Math.min(d.r / 3, 12) + "px")
-        .text((d) => d.data.name); // Show county or name
+        layout.start();
+      });
     },
   },
 };
 </script>
+
+<style>
+.word-cloud-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+  overflow: hidden; /* Prevent overflow */
+}
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-height: 80%;
+  overflow-y: auto; /* Scroll if content is too long */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.modal-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.modal-content li {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.modal-content button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
+}
+</style>

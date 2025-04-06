@@ -42,7 +42,7 @@ export default {
   methods: {
     async loadCSV() {
       try {
-        const response = await fetch("/Retail_Food_Store.csv");
+        const response = await fetch("Filtered_Grocery_Neighborhoods.csv");
         const text = await response.text();
         return text;
       } catch (error) {
@@ -56,11 +56,11 @@ export default {
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Avenir, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin-top: 0;
+  margin: 0;
 }
 
 .textbox {
