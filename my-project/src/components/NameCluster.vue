@@ -14,16 +14,7 @@
       </option>
     </select>
 
-    <!-- Toggle Buttons -->
-    <button @click="setView('words')">Shared Words View</button>
-    <button @click="setView('counties')">Counties View</button>
-
-    <!-- Shared Words Chart -->
-    <div v-if="groups.length && currentView === 'words'">
-      <svg ref="bubbleChart" width="800" height="600"></svg>
-    </div>
-
-    <!-- Counties Chart -->
+    <!-- Neighborhood Chart -->
     <div
       v-if="countyGroups.length && currentView === 'counties'"
       ref="wordCloudContainer"
@@ -57,9 +48,9 @@ export default {
   props: ["csvData"], // Accept csvData as a prop
   data() {
     return {
-      groups: [], // Store groups of names with shared words
-      countyGroups: [], // Store groups of names by county
-      currentView: "counties", // Default view
+      groups: [],
+      countyGroups: [],
+      currentView: "counties",
       state: {
         data: [], // Chart data
         groupBy: {
@@ -73,23 +64,14 @@ export default {
   },
   watch: {
     currentView(newView) {
-      this.$nextTick(() => {
-        if (newView === "words" && this.groups.length) {
-          this.createBubbleChart();
-        } else if (newView === "counties" && this.countyGroups.length) {
+      if (newView === "counties" && this.countyGroups.length) {
+        this.$nextTick(() => {
           this.createCountyBubbleChart();
-        }
-      });
+        });
+      }
     },
     csvData(newData) {
       if (newData) this.processCSV(newData); // Process CSV when data changes
-    },
-    groups(newGroups) {
-      if (newGroups.length && this.currentView === "words") {
-        this.$nextTick(() => {
-          this.createBubbleChart();
-        });
-      }
     },
     countyGroups(newCountyGroups) {
       if (newCountyGroups.length && this.currentView === "counties") {
@@ -285,51 +267,6 @@ export default {
       ];
       console.log("Data grouped by colors:", this.state.data); // Debugging
       this.createBubbleChart();
-    },
-    createBubbleChart() {
-      const svg = d3.select(this.$refs.bubbleChart);
-      svg.selectAll("*").remove(); // Clear previous chart
-
-      const width = +svg.attr("width");
-      const height = +svg.attr("height");
-
-      // Prepare data for the bubble chart
-      const data = this.groups.map((group, index) => ({
-        id: index,
-        name: group.sharedWord,
-        size: group.names.length,
-        names: group.names,
-      }));
-      console.log("Bubble Chart Data:", data); // Debugging
-
-      const pack = d3.pack().size([width, height]).padding(5);
-
-      const root = d3.hierarchy({ children: data }).sum((d) => d.size);
-
-      const nodes = pack(root).leaves();
-
-      const bubbles = svg
-        .selectAll("g")
-        .data(nodes)
-        .enter()
-        .append("g")
-        .attr("transform", (d) => `translate(${d.x},${d.y})`);
-
-      // Draw circles
-      bubbles
-        .append("circle")
-        .attr("r", (d) => d.r)
-        .attr("fill", "#fff")
-        .attr("stroke", "#000")
-        .attr("stroke-width", 1);
-
-      // Add text labels
-      bubbles
-        .append("text")
-        .attr("text-anchor", "middle")
-        .attr("dy", ".3em")
-        .style("font-size", (d) => Math.min(d.r / 3, 12) + "px")
-        .text((d) => d.data.name);
     },
     createCountyBubbleChart() {
       const container = d3.select(this.$refs.wordCloudContainer);
