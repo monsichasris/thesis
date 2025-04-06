@@ -346,27 +346,18 @@ export default {
       }));
 
       // Set up grid layout
-      const gridContainer = this.$refs.wordCloudContainer;
-      const gridWidth = gridContainer.clientWidth;
-      const columns = Math.floor(gridWidth / 300); // Number of columns in the grid
-      const cellWidth = Math.floor(gridWidth / columns); // Width of each grid cell
-      const cellHeight = 360; // Height of each grid cell
-
+      const cellWidth = Math.floor(
+        (this.$refs.wordCloudContainer.clientWidth - 16) / 5
+      );
+      const cellHeight = cellWidth;
       // Create an SVG for each neighborhood
-      neighborhoods.forEach((neighborhood, index) => {
-        const row = Math.floor(index / columns);
-        const col = index % columns;
-
+      neighborhoods.forEach((neighborhood) => {
         const svg = container
           .append("svg")
           .attr("width", cellWidth)
           .attr("height", cellHeight)
           .style("border", "1px solid #ccc")
           .style("margin", "0")
-          .attr(
-            "transform",
-            `translate(${col * cellWidth}, ${row * cellHeight})`
-          )
           .on("click", () => {
             this.showNeighborhoodNames(neighborhood); // Call the method to display names
           });
