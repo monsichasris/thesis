@@ -1,4 +1,5 @@
 <template>
+  <link rel="stylesheet" href="https://use.typekit.net/zik1lgr.css" />
   <section><Intro /></section>
   <section><WordsSection :jsonData="jsonData" /></section>
   <!-- <section><NameCluster :csvData="csvData" /></section> -->
@@ -90,5 +91,14 @@ export default {
 
 h1 {
   font-size: 80px;
+}
+
+.subhead {
+  font-size: 40px;
+}
+
+.skew {
+  font-family: "skew-variable", sans-serif;
+  font-variation-settings: "wght" 300;
 }
 </style>

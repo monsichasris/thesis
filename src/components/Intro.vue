@@ -1,12 +1,11 @@
 <template>
   <div class="title">
-    <p><b>SEE | SIGN | STORE</b></p>
-    <img alt="see" src="img/see.png" height="20%" />
-    <p>Stories Behind</p>
-    <img alt="sign" src="img/sign.png" height="20%" />
-    <p>Storefronts</p>
-    <img alt="store" src="img/store.png" height="20%" />
-    <img alt="scroll down" src="img/chevron-down.svg" />
+    <img alt="grocery signery" src="img/title.svg" width="50%" />
+    <img alt="stores" src="img/stores.png" width="100%" />
+    <div>
+      <p class="skew subhead">Scenery Behind NYC Storefront Signs</p>
+      <img alt="scroll down" src="img/chevron-down.svg" />
+    </div>
   </div>
 
   <div style="height: 100vh; position: sticky; top: 0">
@@ -75,6 +74,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 5vh;
+  padding-top: 10vh;
 }
 </style>
