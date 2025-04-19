@@ -90,7 +90,7 @@ export default {
 }
 
 h1 {
-  font-size: 80px;
+  font-size: 56px;
 }
 
 .subhead {

@@ -1,72 +1,185 @@
 <template>
-  <h1>NAMES</h1>
-  <p>
-    What we see in the words when we split all names that not generic like
-    store, market, deli etc.
-  </p>
-  <p>
-    The size show how repeated the word is in the dataset. The bigger the word,
-    the more common it is.
-  </p>
-  <div class="word-container">
-    <span
-      v-for="word in filteredWords"
-      :key="word['Name Words']"
-      :style="{ fontSize: `${word['Store Count'] * 0.6}px` }"
-      class="word"
-    >
-      {{ word["Name Words"] }}
-    </span>
+  <div class="word-split-layout">
+    <!-- left section: words -->
+    <div class="sticky-word-cloud">
+      <h1>TEXTUAL</h1>
+      <p>
+        What we see in the words when we split all names that not generic like
+        store, market, deli etc.
+      </p>
+      <p>
+        The size show how repeated the word is in the dataset. The bigger the
+        word, the more common it is.
+      </p>
+      <div class="word-container">
+        <span
+          v-for="word in filteredWords"
+          :key="word['Name Words']"
+          :class="[
+            'word',
+            {
+              highlight: (activeWords || []).includes(
+                word['Name Words'].toLowerCase()
+              ),
+            },
+          ]"
+          :style="{ fontSize: `${word['Store Count'] * 0.6}px` }"
+        >
+          {{ word["Name Words"] }}
+        </span>
+      </div>
+    </div>
+
+    <!-- right section: text -->
+    <div class="scroll-section">
+      <div class="word-highlight">
+        <h2>NEW</h2>
+        <p>
+          Of couse it's in New York we can see the word new first, but not only
+          new for new york - Form 162 stores only 18 is New York.
+        </p>
+        <div class="word-container">
+          <span v-for="item in processedWords" :key="item.word" class="word">
+            {{ item.word }} {{ item.count }}
+          </span>
+        </div>
+      </div>
+
+      <div class="word-highlight">
+        <h2>FRESH</h2>
+        <p>
+          Even if Americans are not so much into fresh food, we can see that the
+          word fresh, green, farm, organic, natural in the top of the list are
+          used in the names of stores. - healthy over tasty only few names
+          promote tasty or delicious
+        </p>
+      </div>
+
+      <div class="word-highlight">
+        <h2>STOP</h2>
+        <p>
+          Another group of word that reflect the culture of the city. Stop,
+          Express. Fast and convinient compare to the word like big, grand,
+          empoium
+        </p>
+      </div>
+
+      <div class="word-highlight">
+        <h2>STAR</h2>
+        <p>
+          Star, Super, Best, Top, Great. The words that show the quality of the
+          product. The words that are used in the names of stores. And star is
+          use over the moon or sun!
+        </p>
+      </div>
+
+      <div class="word-highlight">
+        <h2>Lucky</h2>
+        <p>The word lucky have been use over other adj like happy</p>
+      </div>
+
+      <div class="word-highlight">
+        <h2>Nationality</h2>
+        <p>
+          Beside the street name of the location a lot of store name show
+          Nationality of the food or Religion related
+        </p>
+      </div>
+
+      <div class="word-highlight">
+        <h2>Mr</h2>
+        <p>Bro, Brother, Bros, Bro's. Son Mr. Word represent men</p>
+      </div>
+    </div>
   </div>
-  <h2>NEW</h2>
-  <p>
-    Of couse it's in New York we can see the word new first, but not only new
-    for new york - Form 162 stores only 18 is New York.
-  </p>
-  <div class="word-container">
-    <ul>
-      <li v-for="item in processedWords" :key="item.word">
-        {{ item.word }}: {{ item.count }}
-      </li>
-    </ul>
-  </div>
-
-  <h2>FRESH</h2>
-  <p>
-    Even if Americans are not so much into fresh food, we can see that the word
-    fresh, green, farm, organic, natural in the top of the list are used in the
-    names of stores. - healthy over tasty only few names promote tasty or
-    delicious
-  </p>
-
-  <h2>STOP</h2>
-  <p>
-    Another group of word that reflect the culture of the city. Stop, Express.
-    Fast and convinient compare to the word like big, grand, empoium
-  </p>
-
-  <h2>STAR</h2>
-  <p>
-    Star, Super, Best, Top, Great. The words that show the quality of the
-    product. The words that are used in the names of stores. And star is use
-    over the moon or sun!
-  </p>
-
-  <h2>Lucky</h2>
-  <p>The word lucky have been use over other adj like happy</p>
-
-  <h2>Nationality/Religion</h2>
-
-  <h2>Mr. Bro</h2>
 </template>
 
 <script>
+import scrollama from "scrollama";
 export default {
   name: "WordsSection",
   props: {
     jsonData: {
       type: Array,
       required: false, // Optional if jsonData might be null initially
+    },
+  },
+  data() {
+    return {
+      activeWords: [],
+      scroller: null,
+    };
+  },
+  watch: {
+    jsonData(newVal) {
+      if (newVal && newVal.length > 0) {
+        this.initScrollama();
+      }
+    },
+  },
+  methods: {
+    initScrollama() {
+      this.scroller = scrollama();
+      this.scroller
+        .setup({
+          step: ".word-highlight",
+          offset: 0.8,
+          debug: false,
+        })
+        .onStepEnter(({ element }) => {
+          const title = element
+            .querySelector("h2")
+            ?.textContent?.toLowerCase()
+            .trim();
+
+          // Define custom word groups
+          const wordGroups = {
+            fresh: [
+              "fresh",
+              "green",
+              "organic",
+              "natural",
+              "farm",
+              "healthy",
+              "farmer",
+              "farmers",
+              "garden",
+            ],
+            stop: [
+              "stop",
+              "express",
+              "fast",
+              "convenient",
+              "quick",
+              "go",
+              "grab",
+            ],
+            star: ["star", "super", "best", "top", "great"],
+            lucky: ["lucky", "happy", "famous"],
+            nationality: [
+              "halal",
+              "kosher",
+              "islamic",
+              "jewish",
+              "chinese",
+              "korean",
+              "italian",
+              "american",
+              "latin",
+              "mexican",
+              "indian",
+            ],
+            mr: ["brothers", "bro", "brother", "bros", "son", "mr"],
+          };
+
+          this.activeWords = wordGroups[title] || [title]; // fallback to single-word array
+        })
+        .onStepExit(({ element, direction }) => {
+          const title = element.querySelector("h2")?.textContent?.toLowerCase();
+          if (title && this.activeWord === title.trim() && direction === "up") {
+            this.activeWord = null;
+          }
+        });
     },
   },
   computed: {
@@ -129,13 +242,25 @@ export default {
 </script>
 
 <style>
+.word-split-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
 .word-container {
   display: flex;
   flex-wrap: wrap;
   margin: auto;
   align-items: self-start;
-  width: 80%;
-  padding: 80px 0;
+}
+
+.word-highlight {
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 60vh;
+  background-color: white;
+  z-index: 1;
 }
 
 .word {
@@ -155,5 +280,28 @@ export default {
   font-weight: bold;
   border: 2px solid black;
   cursor: pointer;
+}
+
+.sticky-word-cloud {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 1em;
+  width: 50vw;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.scroll-section {
+  width: 50vw;
+  height: 100vh;
+  overflow-y: scroll;
+  padding: 2rem;
+}
+
+.word.highlight {
+  background-color: yellow;
+  font-weight: bold;
+  border: 2px solid black;
 }
 </style>
