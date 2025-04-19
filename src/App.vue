@@ -2,6 +2,7 @@
   <link rel="stylesheet" href="https://use.typekit.net/zik1lgr.css" />
   <section><Intro /></section>
   <section><WordsSection :jsonData="jsonData" /></section>
+  <section><VisualSection :jsonData="jsonData" /></section>
   <!-- <section><NameCluster :csvData="csvData" /></section> -->
   <!-- <section>
     <MapBase
@@ -11,13 +12,15 @@
     />
   </section> -->
 
-  <section>Thank you</section>
+  <section><Outro /></section>
   <footer></footer>
 </template>
 
 <script>
 import Intro from "./components/Intro.vue";
 import WordsSection from "./components/WordsSection.vue";
+import VisualSection from "./components/VisualSection.vue";
+import Outro from "./components/Outro.vue";
 // import NameCluster from "./components/NameCluster.vue";
 // import MapBase from "./components/Map.vue";
 // import "mapbox-gl/dist/mapbox-gl.css";
@@ -27,8 +30,10 @@ export default {
   components: {
     Intro,
     WordsSection,
+    VisualSection,
     // NameCluster,
     // MapBase,
+    Outro,
   },
   data() {
     return {
@@ -100,5 +105,28 @@ h1 {
 .skew {
   font-family: "skew-variable", sans-serif;
   font-variation-settings: "wght" 300;
+}
+
+.split-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sticky-left {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 1em;
+  width: 50vw;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.scroll-right {
+  width: 50vw;
+  height: 100vh;
+  overflow-y: scroll;
+  padding: 2rem;
 }
 </style>

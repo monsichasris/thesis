@@ -1,7 +1,7 @@
 <template>
-  <div class="word-split-layout">
+  <div class="split-layout">
     <!-- left section: words -->
-    <div class="sticky-word-cloud">
+    <div class="sticky-left">
       <h1>TEXTUAL</h1>
       <p>
         What we see in the words when we split all names that not generic like
@@ -31,7 +31,7 @@
     </div>
 
     <!-- right section: text -->
-    <div class="scroll-section">
+    <div class="scroll-right">
       <div class="word-highlight">
         <h2>NEW</h2>
         <p>
@@ -242,12 +242,6 @@ export default {
 </script>
 
 <style>
-.word-split-layout {
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
-}
-
 .word-container {
   display: flex;
   flex-wrap: wrap;
@@ -280,23 +274,6 @@ export default {
   font-weight: bold;
   border: 2px solid black;
   cursor: pointer;
-}
-
-.sticky-word-cloud {
-  position: sticky;
-  top: 0;
-  background: white;
-  padding: 1em;
-  width: 50vw;
-  height: 100vh;
-  overflow-y: auto;
-}
-
-.scroll-section {
-  width: 50vw;
-  height: 100vh;
-  overflow-y: scroll;
-  padding: 2rem;
 }
 
 .word.highlight {
