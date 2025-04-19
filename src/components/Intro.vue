@@ -1,12 +1,16 @@
 <template>
-  <div class="title">
+  <!-- temporary img - animate later -->
+  <div>
+    <img src="img/title_img.png" width="80%" />
+  </div>
+  <!-- <div class="title">
     <img alt="grocery signery" src="img/title.svg" width="50%" />
     <img alt="stores" src="img/stores.png" width="100%" />
     <div>
       <p class="skew subhead">Scenery Behind NYC Storefront Signs</p>
       <img alt="scroll down" src="img/chevron-down.svg" />
     </div>
-  </div>
+  </div> -->
 
   <div style="height: 100vh; position: sticky; top: 0">
     <img
