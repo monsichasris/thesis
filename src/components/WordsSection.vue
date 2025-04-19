@@ -18,7 +18,7 @@
           :class="[
             'word',
             {
-              highlight: (activeWords || []).includes(
+              wordhighlight: (activeWords || []).includes(
                 word['Name Words'].toLowerCase()
               ),
             },
@@ -32,7 +32,7 @@
 
     <!-- right section: text -->
     <div class="scroll-right">
-      <div class="word-highlight">
+      <div class="highlight">
         <h2>NEW</h2>
         <p>
           Of couse it's in New York we can see the word new first, but not only
@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <div class="word-highlight">
+      <div class="highlight">
         <h2>FRESH</h2>
         <p>
           Even if Americans are not so much into fresh food, we can see that the
@@ -55,7 +55,7 @@
         </p>
       </div>
 
-      <div class="word-highlight">
+      <div class="highlight">
         <h2>STOP</h2>
         <p>
           Another group of word that reflect the culture of the city. Stop,
@@ -64,7 +64,7 @@
         </p>
       </div>
 
-      <div class="word-highlight">
+      <div class="highlight">
         <h2>STAR</h2>
         <p>
           Star, Super, Best, Top, Great. The words that show the quality of the
@@ -73,12 +73,12 @@
         </p>
       </div>
 
-      <div class="word-highlight">
+      <div class="highlight">
         <h2>Lucky</h2>
         <p>The word lucky have been use over other adj like happy</p>
       </div>
 
-      <div class="word-highlight">
+      <div class="highlight">
         <h2>Nationality</h2>
         <p>
           Beside the street name of the location a lot of store name show
@@ -86,7 +86,7 @@
         </p>
       </div>
 
-      <div class="word-highlight">
+      <div class="highlight">
         <h2>Mr</h2>
         <p>Bro, Brother, Bros, Bro's. Son Mr. Word represent men</p>
       </div>
@@ -122,7 +122,7 @@ export default {
       this.scroller = scrollama();
       this.scroller
         .setup({
-          step: ".word-highlight",
+          step: ".highlight",
           offset: 0.8,
           debug: false,
         })
@@ -141,6 +141,7 @@ export default {
               "natural",
               "farm",
               "healthy",
+              "health",
               "farmer",
               "farmers",
               "garden",
@@ -167,7 +168,12 @@ export default {
               "american",
               "latin",
               "mexican",
+              "mexicana",
+              "caribbean",
               "indian",
+              "international",
+              "african",
+              "USA",
             ],
             mr: ["brothers", "bro", "brother", "bros", "son", "mr"],
           };
@@ -249,14 +255,6 @@ export default {
   align-items: self-start;
 }
 
-.word-highlight {
-  margin: 0 auto;
-  padding: 20px;
-  margin-bottom: 60vh;
-  background-color: white;
-  z-index: 1;
-}
-
 .word {
   display: inline-block;
   margin: 0.1rem;
@@ -276,7 +274,7 @@ export default {
   cursor: pointer;
 }
 
-.word.highlight {
+.wordhighlight {
   background-color: yellow;
   font-weight: bold;
   border: 2px solid black;

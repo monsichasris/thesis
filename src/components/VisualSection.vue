@@ -7,13 +7,13 @@
 
     <!-- right section: text -->
     <div class="scroll-right">
-      <div>
+      <div class="highlight">
         <h2>Typography</h2>
       </div>
-      <div>
+      <div class="highlight">
         <h2>Colors</h2>
       </div>
-      <div>
+      <div class="highlight">
         <h2>Complimentary</h2>
       </div>
     </div>

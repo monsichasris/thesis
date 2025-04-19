@@ -1,6 +1,11 @@
 <template>
-  <div>
-    <img src="img/stores.png" width="100%" />
+  <div style="display: flex; flex-direction: column; height: 100vh">
+    <div style="flex-grow: 1">
+      <p>Thank you!</p>
+    </div>
+    <div>
+      <img src="img/stores.png" width="100%" style="margin: auto" />
+    </div>
   </div>
 </template>
 
@@ -15,6 +20,6 @@ export default {
 
 <style scoped>
 div {
-  height: 100%;
+  height: 100vh;
 }
 </style>

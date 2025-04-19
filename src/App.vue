@@ -118,15 +118,23 @@ h1 {
   top: 0;
   background: white;
   padding: 1em;
-  width: 50vw;
+  width: 70vw;
   height: 100vh;
   overflow-y: auto;
 }
 
 .scroll-right {
-  width: 50vw;
+  width: 30vw;
   height: 100vh;
   overflow-y: scroll;
   padding: 2rem;
+}
+
+.highlight {
+  margin: 0 auto;
+  padding: 20px;
+  margin-bottom: 60vh;
+  background-color: white;
+  z-index: 1;
 }
 </style>
