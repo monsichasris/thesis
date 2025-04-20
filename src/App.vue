@@ -60,7 +60,7 @@ export default {
     },
     async loadJSON() {
       try {
-        const response = await fetch("word_summary.json");
+        const response = await fetch("main_df.json");
         if (!response.ok) {
           throw new Error("Failed to fetch words.json");
         }

@@ -96,6 +96,7 @@
 
 <script>
 import scrollama from "scrollama";
+import { RiTa } from "rita";
 export default {
   name: "WordsSection",
   props: {
@@ -190,22 +191,41 @@ export default {
   },
   computed: {
     filteredWords() {
-      // Exclude words with specific "Group Name" values and filter by "Store Count"
-      const excludedGroups = [
-        "generic",
-        "alphabet",
-        "direction",
-        "number",
-        "digit",
-        "latin word",
-      ];
-      return (
-        this.jsonData?.filter(
-          (word) =>
-            word["Store Count"] > 10 && // Only include words with "Store Count" > 10
-            !excludedGroups.includes(word["Group Name"]) // Exclude specific "Group Name" values
-        ) || []
-      );
+      // Extract words and their counts from main_df.json
+      const wordCounts = {};
+
+      this.jsonData?.forEach((item) => {
+        if (item.words) {
+          const isChain = item.chain; // Check if the store is a chain
+          const uniqueWords = new Set(item.words); // Use a Set to ensure unique words for chains
+
+          uniqueWords.forEach((word) => {
+            // Exclude stop words using RiTa
+            if (!RiTa.isStopWord(word)) {
+              if (isChain) {
+                // Count the word only once if it's a chain
+                if (!wordCounts[word]) {
+                  wordCounts[word] = 1;
+                }
+              } else {
+                // Count normally for non-chain stores
+                wordCounts[word] = (wordCounts[word] || 0) + 1;
+              }
+            }
+          });
+        }
+      });
+
+      console.log("Filtered words:", wordCounts);
+
+      // Convert wordCounts to an array and filter by count
+      return Object.entries(wordCounts)
+        .filter(([_, count]) => count > 10) // Only include words with count > 10
+        .map(([word, count]) => ({
+          "Name Words": word,
+          "Store Count": count,
+        }))
+        .sort((a, b) => b["Store Count"] - a["Store Count"]); // Sort by count descending;
     },
     wordStartingWithNew() {
       return (
@@ -215,29 +235,24 @@ export default {
     processedWords() {
       if (!this.jsonData) return [];
 
-      // Find the entry where "Name Words" is "new"
-      const newEntry = this.jsonData.find(
-        (word) => word["Name Words"] === "new"
-      );
-      if (!newEntry || !newEntry["Store Names"]) return [];
-
+      // Extract words starting with "new" from main_df.json
       const wordCounts = {};
 
-      // Process each store name in the "Store Names" list
-      newEntry["Store Names"].forEach((storeName) => {
-        const words = storeName.split(" "); // Split the store name into words
-        const newIndex = words.findIndex(
-          (word) => word.toLowerCase() === "new"
-        ); // Find "new"
-        if (newIndex !== -1 && newIndex + 1 < words.length) {
-          const nextWord = words[newIndex + 1].toLowerCase(); // Get the word after "new"
-          wordCounts[nextWord] = (wordCounts[nextWord] || 0) + 1; // Count occurrences
+      this.jsonData?.forEach((item) => {
+        if (item.words) {
+          const newIndex = item.words.findIndex(
+            (word) => word.toLowerCase() === "new"
+          );
+          if (newIndex !== -1 && newIndex + 1 < item.words.length) {
+            const nextWord = item.words[newIndex + 1].toLowerCase();
+            wordCounts[nextWord] = (wordCounts[nextWord] || 0) + 1;
+          }
         }
       });
 
-      // Filter words that repeat more than 10 times
+      // Filter words that repeat more than once
       return Object.entries(wordCounts)
-        .filter(([_, count]) => count > 1) // eslint-disable-line no-unused-vars
+        .filter(([_, count]) => count > 1)
         .map(([word, count]) => ({
           word,
           count,
