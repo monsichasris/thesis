@@ -80,85 +80,68 @@ export default {
         ([key, value]) => ({ category: "Fonts", name: key, value })
       );
 
-      const chartData = [...colorsData, ...fontsData];
+      // Combine data for both categories
+      const chartData = [
+        { category: "Fonts", data: fontsData },
+        { category: "Colors", data: colorsData },
+      ];
 
       // Set up dimensions
+      const width = 800;
+      const height = 100; // Height for each stacked bar
       const margin = { top: 20, right: 30, bottom: 40, left: 50 };
-      const width = 800 - margin.left - margin.right;
-      const height = 400 - margin.top - margin.bottom;
 
       // Create SVG container
       const svg = d3
         .select("#stacked-bar-chart")
         .append("svg")
         .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("height", chartData.length * height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      // Create scales
-      const x = d3
-        .scaleBand()
-        .domain(chartData.map((d) => d.name))
-        .range([0, width])
-        .padding(0.1);
+      // Create a scale for the total width
+      const totalCounts = (data) => data.reduce((sum, d) => sum + d.value, 0);
 
-      const y = d3
-        .scaleLinear()
-        .domain([0, d3.max(chartData, (d) => d.value)])
-        .nice()
-        .range([height, 0]);
+      const x = d3.scaleLinear().range([0, width]);
 
-      const colorScale = d3
-        .scaleOrdinal()
-        .domain(["Colors", "Fonts"])
-        .range(["#69b3a2", "#404080"]);
+      // Render each category as a stacked bar
+      chartData.forEach((group, index) => {
+        const groupTotal = totalCounts(group.data);
+        x.domain([0, groupTotal]);
 
-      // Add axes
-      svg
-        .append("g")
-        .attr("transform", `translate(0,${height})`)
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-        .attr("transform", "rotate(-45)")
-        .style("text-anchor", "end");
+        // Add a group for each category
+        const groupG = svg
+          .append("g")
+          .attr("transform", `translate(0, ${index * height})`);
 
-      svg.append("g").call(d3.axisLeft(y));
+        // Add a label for the category
+        groupG
+          .append("text")
+          .attr("x", -margin.left)
+          .attr("y", height / 2)
+          .attr("dy", "0.35em")
+          .style("text-anchor", "end")
+          .text(group.category);
 
-      // Add bars
-      svg
-        .selectAll(".bar")
-        .data(chartData)
-        .enter()
-        .append("rect")
-        .attr("x", (d) => x(d.name))
-        .attr("y", (d) => y(d.value))
-        .attr("width", x.bandwidth())
-        .attr("height", (d) => height - y(d.value))
-        .attr("fill", (d) => colorScale(d.category));
-
-      // Add legend
-      const legend = svg
-        .selectAll(".legend")
-        .data(colorScale.domain())
-        .enter()
-        .append("g")
-        .attr("transform", (d, i) => `translate(0,${i * 20})`);
-
-      legend
-        .append("rect")
-        .attr("x", width - 18)
-        .attr("width", 18)
-        .attr("height", 18)
-        .attr("fill", colorScale);
-
-      legend
-        .append("text")
-        .attr("x", width - 24)
-        .attr("y", 9)
-        .attr("dy", "0.35em")
-        .style("text-anchor", "end")
-        .text((d) => d);
+        // Add the stacked bar
+        let cumulative = 0;
+        group.data.forEach((d) => {
+          groupG
+            .append("rect")
+            .attr("x", x(cumulative))
+            .attr("y", 0)
+            .attr("width", x(d.value))
+            .attr("height", height - 10)
+            .attr(
+              "fill",
+              group.category === "Colors"
+                ? d.name.toLowerCase()
+                : d3.schemeCategory10[group.data.indexOf(d) % 10]
+            ); // Use the color name for "Colors" or a color scheme for "Fonts"
+          cumulative += d.value;
+        });
+      });
     },
   },
 };
