@@ -220,7 +220,7 @@ export default {
 
       // Convert wordCounts to an array and filter by count
       return Object.entries(wordCounts)
-        .filter(([_, count]) => count > 10) // Only include words with count > 10
+        .filter(([, count]) => count > 10) // Only include words with count > 10
         .map(([word, count]) => ({
           "Name Words": word,
           "Store Count": count,
@@ -252,7 +252,7 @@ export default {
 
       // Filter words that repeat more than once
       return Object.entries(wordCounts)
-        .filter(([_, count]) => count > 1)
+        .filter(([, count]) => count > 1)
         .map(([word, count]) => ({
           word,
           count,

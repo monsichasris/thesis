@@ -3,6 +3,9 @@
   <section><Intro /></section>
   <section><WordsSection :jsonData="jsonData" /></section>
   <section><VisualSection :jsonData="jsonData" /></section>
+  <section>
+    <NeighborhoodSection :jsonData="jsonData" :geojsonData="geojsonData" />
+  </section>
   <!-- <section><NameCluster :csvData="csvData" /></section> -->
   <!-- <section>
     <MapBase
@@ -20,6 +23,7 @@
 import Intro from "./components/Intro.vue";
 import WordsSection from "./components/WordsSection.vue";
 import VisualSection from "./components/VisualSection.vue";
+import NeighborhoodSection from "./components/NeighborhoodSection.vue";
 import Outro from "./components/Outro.vue";
 // import NameCluster from "./components/NameCluster.vue";
 // import MapBase from "./components/Map.vue";
@@ -31,6 +35,7 @@ export default {
     Intro,
     WordsSection,
     VisualSection,
+    NeighborhoodSection,
     // NameCluster,
     // MapBase,
     Outro,
@@ -39,6 +44,7 @@ export default {
     return {
       csvData: null,
       jsonData: null,
+      geojsonData: null,
       // mapboxAccessToken:
       //   "pk.eyJ1IjoibW9uc2ljaGEiLCJhIjoiY2t1Z2Z2MXV1MjNtYzJucXBjYmwxNnpkNSJ9.e2G2z3OlPked0RO2kHnWlw",
     };
@@ -46,6 +52,7 @@ export default {
   async mounted() {
     this.csvData = await this.loadCSV();
     this.jsonData = await this.loadJSON();
+    this.geojsonData = await this.loadGeoJSON();
   },
   methods: {
     async loadCSV() {
@@ -69,6 +76,20 @@ export default {
         return data;
       } catch (error) {
         console.error("Error loading JSON:", error);
+        return null;
+      }
+    },
+    async loadGeoJSON() {
+      try {
+        const response = await fetch("/neighborhoods.json"); // Use relative path for public directory
+        if (!response.ok) {
+          throw new Error("Failed to fetch neighborhoods.json");
+        }
+        const data = await response.json();
+        console.log("Loaded GeoJSON data:", data);
+        return data;
+      } catch (error) {
+        console.error("Error loading GeoJSON:", error);
         return null;
       }
     },
