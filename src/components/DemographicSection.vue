@@ -13,6 +13,22 @@
           segments within the bar represent the racial composition.
         </p>
       </div>
+      <div class="highlight">
+        <h2>Pink</h2>
+        <p>Where is the pink stores?</p>
+      </div>
+      <div class="highlight">
+        <h2>Purple</h2>
+        <p>Where is the pink stores?</p>
+      </div>
+      <div class="highlight">
+        <h2>Script</h2>
+        <p>Where are these type locate?</p>
+      </div>
+      <div class="highlight">
+        <h2>Decorative</h2>
+        <p>Where are these type locate?</p>
+      </div>
     </div>
   </div>
   <div v-else>
@@ -22,6 +38,7 @@
 
 <script>
 import * as d3 from "d3";
+import scrollama from "scrollama";
 
 export default {
   name: "DemographicSection",
@@ -30,17 +47,26 @@ export default {
       type: Array,
       required: true,
     },
+    jsonData: {
+      type: Array,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      scroller: null, // Scrollama instance
+    };
   },
   watch: {
     demographicData: {
       handler(newData) {
-        console.log("Demographic Data in DemographicSection.vue:", newData);
         if (newData && newData.length) {
           this.$nextTick(() => {
             // Ensure the DOM is ready
             const container = d3.select("#stacked-demo-chart");
             if (container.node()) {
               this.renderChart();
+              this.initializeScrollama();
             } else {
               console.error("Stacked demo chart container not found.");
             }
@@ -58,12 +84,10 @@ export default {
       }
 
       const container = d3.select("#stacked-demo-chart");
-      if (!container.node()) {
-        console.error("Stacked demo chart container not found.");
-        return;
-      }
+      container.selectAll("*").remove(); // Clear the container
 
       const data = this.demographicData.map((d) => ({
+        GeoID: d.GeoID,
         NTAName: d.NTAName,
         Hispanic: +d.Hsp_P,
         White: +d.Wt_P,
@@ -159,10 +183,64 @@ export default {
         .selectAll("rect")
         .data((d) => d)
         .join("rect")
+        .attr("class", (d) => `bar-${d.data.GeoID}`)
         .attr("y", (d) => y(d.data.NTAName))
         .attr("x", (d) => x(d[0]))
         .attr("width", (d) => x(d[1]) - x(d[0]))
         .attr("height", y.bandwidth());
+    },
+    initializeScrollama() {
+      this.scroller = scrollama();
+      this.scroller
+        .setup({
+          step: ".highlight", // Target the highlight sections
+          offset: 0.8, // Trigger when the section is 80% in view
+          debug: false,
+        })
+        .onStepEnter(({ element }) => {
+          const activeValue = element
+            .querySelector("h2")
+            ?.textContent?.trim()
+            .toLowerCase();
+          console.log("Active value:", activeValue); // Debugging
+          this.highlightBar(activeValue);
+        })
+        .onStepExit(({ element, direction }) => {
+          const title = element.querySelector("h2")?.textContent?.toLowerCase();
+          if (title && this.activeWord === title.trim() && direction === "up") {
+            this.activeWord = null;
+          }
+        });
+    },
+    highlightBar(activeValue) {
+      console.log("Highlighting bars for:", activeValue); // Debugging
+      const matchingGeoIDs = this.jsonData
+        .filter((item) => {
+          const isColor =
+            Array.isArray(item.colors) &&
+            item.colors.some(
+              (c) => c.toLowerCase() === activeValue.toLowerCase()
+            );
+          const isFont =
+            Array.isArray(item.fonts) &&
+            item.fonts.some(
+              (f) => f.toLowerCase() === activeValue.toLowerCase()
+            );
+          return isColor || isFont;
+        })
+        .map((item) => item.NTA2020);
+
+      d3.select("#stacked-demo-chart").selectAll("rect").attr("opacity", 0.3); // Dim all bars
+
+      // Highlight matching bars
+      matchingGeoIDs.forEach((geoID) => {
+        d3.select("#stacked-demo-chart")
+          .selectAll(`.bar-${geoID}`)
+          .attr("opacity", 1);
+      });
+    },
+    resetHighlighting() {
+      d3.select("#stacked-demo-chart").selectAll("rect").attr("opacity", 1); // Reset all bars to full opacity
     },
   },
 };

@@ -4,7 +4,10 @@
   <section><WordsSection :jsonData="jsonData" /></section>
   <section><VisualSection :jsonData="jsonData" /></section>
   <section>
-    <DemographicSection :demographicData="demographicData" />
+    <DemographicSection
+      :demographicData="demographicData"
+      :jsonData="jsonData"
+    />
   </section>
   <section>
     <NeighborhoodSection :jsonData="jsonData" :geojsonData="geojsonData" />
@@ -49,7 +52,7 @@ export default {
   data() {
     return {
       csvData: null,
-      jsonData: null,
+      jsonData: [],
       geojsonData: null,
       demographicData: [],
       // mapboxAccessToken:
@@ -61,7 +64,6 @@ export default {
     this.jsonData = await this.loadJSON();
     this.geojsonData = await this.loadGeoJSON();
     this.demographicData = await this.loadDemographicData();
-    console.log("Demographic Data in App.vue:", this.demographicData); // Debugging log
   },
   methods: {
     async loadCSV() {
