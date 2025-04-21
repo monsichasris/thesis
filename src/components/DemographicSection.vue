@@ -2,6 +2,7 @@
   <div v-if="demographicData && demographicData.length" class="split-layout">
     <div class="sticky-left">
       <h1>Demographics</h1>
+      <div id="color-legend"></div>
       <div id="stacked-demo-chart"></div>
     </div>
     <div class="scroll-right">
@@ -188,6 +189,38 @@ export default {
         .attr("x", (d) => x(d[0]))
         .attr("width", (d) => x(d[1]) - x(d[0]))
         .attr("height", y.bandwidth());
+
+      // Create the legend container
+      const legendContainer = d3.select("#color-legend");
+      legendContainer.selectAll("*").remove();
+
+      const legend = legendContainer
+        .append("svg")
+        .attr("width", subgroups.length * 100)
+        .attr("height", 30);
+
+      // Add legend items
+      legend
+        .selectAll("g")
+        .data(subgroups)
+        .join("g")
+        .attr("transform", (d, i) => `translate(${i * 100}, 0)`)
+        .each(function (d) {
+          const g = d3.select(this);
+          g.append("rect")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("width", 15)
+            .attr("height", 15)
+            .attr("fill", color(d));
+
+          g.append("text")
+            .attr("x", 20)
+            .attr("y", 12)
+            .text(d)
+            .style("font-size", "12px")
+            .attr("alignment-baseline", "middle");
+        });
     },
     initializeScrollama() {
       this.scroller = scrollama();
