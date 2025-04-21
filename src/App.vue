@@ -4,6 +4,9 @@
   <section><WordsSection :jsonData="jsonData" /></section>
   <section><VisualSection :jsonData="jsonData" /></section>
   <section>
+    <DemographicSection :demographicData="demographicData" />
+  </section>
+  <section>
     <NeighborhoodSection :jsonData="jsonData" :geojsonData="geojsonData" />
   </section>
   <!-- <section><NameCluster :csvData="csvData" /></section> -->
@@ -20,9 +23,11 @@
 </template>
 
 <script>
+import * as d3 from "d3";
 import Intro from "./components/Intro.vue";
 import WordsSection from "./components/WordsSection.vue";
 import VisualSection from "./components/VisualSection.vue";
+import DemographicSection from "./components/DemographicSection.vue";
 import NeighborhoodSection from "./components/NeighborhoodSection.vue";
 import Outro from "./components/Outro.vue";
 // import NameCluster from "./components/NameCluster.vue";
@@ -35,6 +40,7 @@ export default {
     Intro,
     WordsSection,
     VisualSection,
+    DemographicSection,
     NeighborhoodSection,
     // NameCluster,
     // MapBase,
@@ -45,6 +51,7 @@ export default {
       csvData: null,
       jsonData: null,
       geojsonData: null,
+      demographicData: [],
       // mapboxAccessToken:
       //   "pk.eyJ1IjoibW9uc2ljaGEiLCJhIjoiY2t1Z2Z2MXV1MjNtYzJucXBjYmwxNnpkNSJ9.e2G2z3OlPked0RO2kHnWlw",
     };
@@ -53,6 +60,8 @@ export default {
     this.csvData = await this.loadCSV();
     this.jsonData = await this.loadJSON();
     this.geojsonData = await this.loadGeoJSON();
+    this.demographicData = await this.loadDemographicData();
+    console.log("Demographic Data in App.vue:", this.demographicData); // Debugging log
   },
   methods: {
     async loadCSV() {
@@ -72,7 +81,6 @@ export default {
           throw new Error("Failed to fetch words.json");
         }
         const data = await response.json();
-        console.log("Loaded JSON data:", data);
         return data;
       } catch (error) {
         console.error("Error loading JSON:", error);
@@ -86,11 +94,26 @@ export default {
           throw new Error("Failed to fetch neighborhoods.json");
         }
         const data = await response.json();
-        console.log("Loaded GeoJSON data:", data);
         return data;
       } catch (error) {
         console.error("Error loading GeoJSON:", error);
         return null;
+      }
+    },
+    async loadDemographicData() {
+      try {
+        const response = await fetch("/demographic.csv");
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch demographic.csv: ${response.statusText}`
+          );
+        }
+        const text = await response.text();
+        const data = d3.csvParse(text); // Use D3 to parse the CSV
+        return data;
+      } catch (error) {
+        console.error("Error loading demographic data:", error);
+        return [];
       }
     },
   },
