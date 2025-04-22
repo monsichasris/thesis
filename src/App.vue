@@ -12,15 +12,6 @@
   <section>
     <NeighborhoodSection :jsonData="jsonData" :geojsonData="geojsonData" />
   </section>
-  <!-- <section><NameCluster :csvData="csvData" /></section> -->
-  <!-- <section>
-    <MapBase
-      :accessToken="mapboxAccessToken"
-      :center="[40.7128, -74.006]"
-      :zoom="12"
-    />
-  </section> -->
-
   <section><Outro /></section>
   <footer></footer>
 </template>
@@ -33,9 +24,6 @@ import VisualSection from "./components/VisualSection.vue";
 import DemographicSection from "./components/DemographicSection.vue";
 import NeighborhoodSection from "./components/NeighborhoodSection.vue";
 import Outro from "./components/Outro.vue";
-// import NameCluster from "./components/NameCluster.vue";
-// import MapBase from "./components/Map.vue";
-// import "mapbox-gl/dist/mapbox-gl.css";
 
 export default {
   name: "App",
@@ -45,8 +33,6 @@ export default {
     VisualSection,
     DemographicSection,
     NeighborhoodSection,
-    // NameCluster,
-    // MapBase,
     Outro,
   },
   data() {
@@ -55,8 +41,6 @@ export default {
       jsonData: [],
       geojsonData: null,
       demographicData: [],
-      // mapboxAccessToken:
-      //   "pk.eyJ1IjoibW9uc2ljaGEiLCJhIjoiY2t1Z2Z2MXV1MjNtYzJucXBjYmwxNnpkNSJ9.e2G2z3OlPked0RO2kHnWlw",
     };
   },
   async mounted() {
@@ -91,7 +75,7 @@ export default {
     },
     async loadGeoJSON() {
       try {
-        const response = await fetch("/neighborhoods.json"); // Use relative path for public directory
+        const response = await fetch("/neighborhoods.json");
         if (!response.ok) {
           throw new Error("Failed to fetch neighborhoods.json");
         }
@@ -111,7 +95,7 @@ export default {
           );
         }
         const text = await response.text();
-        const data = d3.csvParse(text); // Use D3 to parse the CSV
+        const data = d3.csvParse(text);
         return data;
       } catch (error) {
         console.error("Error loading demographic data:", error);
