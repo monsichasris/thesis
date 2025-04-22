@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      scroller: null, // Scrollama instance
+      scroller: null,
     };
   },
   watch: {
@@ -74,7 +74,7 @@ export default {
           });
         }
       },
-      immediate: true, // Trigger the watcher immediately if data is already available
+      immediate: true,
     },
   },
   methods: {

@@ -9,9 +9,7 @@
       :jsonData="jsonData"
     />
   </section>
-  <section>
-    <NeighborhoodSection :jsonData="jsonData" :geojsonData="geojsonData" />
-  </section>
+  <MapSection :jsonData="jsonData" :geojsonData="geojsonData" />
   <section><Outro /></section>
   <footer></footer>
 </template>
@@ -22,7 +20,7 @@ import Intro from "./components/Intro.vue";
 import WordsSection from "./components/WordsSection.vue";
 import VisualSection from "./components/VisualSection.vue";
 import DemographicSection from "./components/DemographicSection.vue";
-import NeighborhoodSection from "./components/NeighborhoodSection.vue";
+import MapSection from "./components/MapSection.vue";
 import Outro from "./components/Outro.vue";
 
 export default {
@@ -32,37 +30,25 @@ export default {
     WordsSection,
     VisualSection,
     DemographicSection,
-    NeighborhoodSection,
+    MapSection,
     Outro,
   },
   data() {
     return {
-      csvData: null,
       jsonData: [],
-      geojsonData: null,
+      geojsonData: [],
       demographicData: [],
     };
   },
   async mounted() {
-    this.csvData = await this.loadCSV();
     this.jsonData = await this.loadJSON();
     this.geojsonData = await this.loadGeoJSON();
     this.demographicData = await this.loadDemographicData();
   },
   methods: {
-    async loadCSV() {
-      try {
-        const response = await fetch("Filtered_Grocery_Neighborhoods.csv");
-        const text = await response.text();
-        return text;
-      } catch (error) {
-        console.error("Error loading CSV:", error);
-        return null;
-      }
-    },
     async loadJSON() {
       try {
-        const response = await fetch("main_df.json");
+        const response = await fetch("/main_df.json");
         if (!response.ok) {
           throw new Error("Failed to fetch words.json");
         }
