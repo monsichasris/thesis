@@ -14,13 +14,14 @@
 
   <div style="height: 100vh; position: sticky; top: 0">
     <img
-      src="img/basket.svg"
+      src="img/stores.png"
+      width="100%"
       style="
         position: absolute;
         transform: translate(-50%, 0%);
         bottom: 0;
         left: 50%;
-        z-index: -1;
+        z-index: 1;
       "
     />
   </div>
@@ -31,7 +32,7 @@
       signs? Noticed something unusual? Felt drawn to one in particular? These
       signs tell a story more than you think.
     </p>
-    <img src="img/samples-img.png" style="transform: scale(0.8)" />
+    <!-- <img src="img/samples-img.png" style="transform: scale(0.8)" /> -->
     <p class="textbox">
       For me, exploring grocery stores is a way to understand a place, what
       people eat and how they live. In NYC, there are almost 10,000 grocery
@@ -46,12 +47,12 @@
         margin-top: -320px;
         transform: translate(-50%, 0%);
         margin-left: 50%;
+        z-index: 0;
       "
     />
     <p class="textbox">
       These are the key elements of brand identity that shape how a store, But
-      beyond branding, do these signs also reflect the anything else? presents
-      itself.
+      beyond branding, do these signs also reflect the anything else?
     </p>
   </div>
 </template>
@@ -70,7 +71,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 .title {

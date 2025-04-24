@@ -148,6 +148,10 @@ export default {
 </script>
 
 <style scoped>
+template {
+  min-height: 100vh;
+}
+
 #stacked-bar-chart {
   width: 100%;
   height: 100%;

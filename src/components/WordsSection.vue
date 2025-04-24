@@ -5,11 +5,8 @@
       <h1>TEXTUAL</h1>
       <p>
         What we see in the words when we split all names that not generic like
-        store, market, deli etc.
-      </p>
-      <p>
-        The size show how repeated the word is in the dataset. The bigger the
-        word, the more common it is.
+        store, market, deli etc. The size show how repeated the word is in the
+        dataset. The bigger the word, the more common it is.
       </p>
       <div class="word-container">
         <span
@@ -23,7 +20,7 @@
               ),
             },
           ]"
-          :style="{ fontSize: `${word['Store Count'] * 0.6}px` }"
+          :style="{ fontSize: `${word['Store Count'] * 0.2}px` }"
         >
           {{ word["Name Words"] }}
         </span>
@@ -193,6 +190,7 @@ export default {
     filteredWords() {
       // Extract words and their counts from main_df.json
       const wordCounts = {};
+      const excludedWords = ["store", "market", "deli", "shop", "place"];
 
       this.jsonData?.forEach((item) => {
         if (item.words) {
@@ -201,7 +199,10 @@ export default {
 
           uniqueWords.forEach((word) => {
             // Exclude stop words using RiTa
-            if (!RiTa.isStopWord(word)) {
+            if (
+              !RiTa.isStopWord(word) &&
+              !excludedWords.includes(word.toLowerCase())
+            ) {
               if (isChain) {
                 // Count the word only once if it's a chain
                 if (!wordCounts[word]) {
@@ -220,7 +221,7 @@ export default {
 
       // Convert wordCounts to an array and filter by count
       return Object.entries(wordCounts)
-        .filter(([, count]) => count > 10) // Only include words with count > 10
+        .filter(([, count]) => count > 15) // Only include words with count > 10
         .map(([word, count]) => ({
           "Name Words": word,
           "Store Count": count,
@@ -264,10 +265,11 @@ export default {
 
 <style>
 .word-container {
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
-  align-items: self-start;
+  align-items: self-end;
 }
 
 .word {

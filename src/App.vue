@@ -44,6 +44,22 @@ export default {
     this.jsonData = await this.loadJSON();
     this.geojsonData = await this.loadGeoJSON();
     this.demographicData = await this.loadDemographicData();
+
+    // Add ResizeObserver logic
+    let resizeTimeout;
+    const observer = new ResizeObserver(() => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        console.log("Resize event handled");
+      }, 100); // Debounce by 100ms
+    });
+
+    // Ensure this.$el is a valid element
+    if (this.$el instanceof HTMLElement) {
+      observer.observe(this.$el);
+    } else {
+      console.error("this.$el is not a valid HTMLElement");
+    }
   },
   methods: {
     async loadJSON() {
@@ -94,7 +110,11 @@ export default {
 
 <style>
 #app {
-  font-family: Helvetica, sans-serif;
+  font-family: "obviously", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  src: url("https://use.typekit.net/zik1lgr.css") format("woff2");
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -103,15 +123,17 @@ export default {
 }
 
 .textbox {
-  font-size: 16px;
+  font-size: 24px;
   line-height: 1.5;
+  text-align: left;
   margin: 200px auto 400px auto;
-  width: 400px;
+  width: 60%;
   background-color: #eee;
 }
 
 h1 {
   font-size: 56px;
+  margin: 0;
 }
 
 .subhead {
@@ -124,26 +146,30 @@ h1 {
 }
 
 .split-layout {
-  display: flex;
+  position: relative;
   height: 100vh;
   overflow: hidden;
 }
 
 .sticky-left {
-  position: sticky;
-  top: 0;
-  background: white;
-  padding: 1em;
-  width: 70vw;
-  height: 100vh;
-  overflow-y: auto;
+  position: relative;
+  padding: 4em;
+  width: 90vw;
+  height: 100%;
+  z-index: 1;
 }
 
 .scroll-right {
+  position: absolute;
+  top: 0;
+  right: 0;
   width: 30vw;
   height: 100vh;
   overflow-y: scroll;
   padding: 2rem;
+  padding-top: 50%;
+  background: transparent;
+  z-index: 2;
 }
 
 .highlight {
