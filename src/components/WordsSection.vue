@@ -25,6 +25,13 @@
           {{ word["Name Words"] }}
         </span>
       </div>
+      <ImageCluster
+        :jsonData="jsonData"
+        :selectedWord="selectedWord"
+        :selectedColor="selectedColor"
+        :selectedFont="selectedFont"
+        :selectedNeighborhood="selectedNeighborhood"
+      />
     </div>
 
     <!-- right section: text -->
@@ -92,9 +99,11 @@
 </template>
 
 <script>
+import ImageCluster from "./ImageCluster.vue";
 import scrollama from "scrollama";
 import { RiTa } from "rita";
 export default {
+  components: { ImageCluster },
   name: "WordsSection",
   props: {
     jsonData: {
@@ -106,6 +115,10 @@ export default {
     return {
       activeWords: [],
       scroller: null,
+      selectedWord: "organic",
+      // selectedColor: null,
+      // selectedFont: null,
+      // selectedNeighborhood: "Greenpoint",
     };
   },
   watch: {
