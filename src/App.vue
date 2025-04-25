@@ -44,22 +44,6 @@ export default {
     this.jsonData = await this.loadJSON();
     this.geojsonData = await this.loadGeoJSON();
     this.demographicData = await this.loadDemographicData();
-
-    // Add ResizeObserver logic
-    let resizeTimeout;
-    const observer = new ResizeObserver(() => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        console.log("Resize event handled");
-      }, 100); // Debounce by 100ms
-    });
-
-    // Ensure this.$el is a valid element
-    if (this.$el instanceof HTMLElement) {
-      observer.observe(this.$el);
-    } else {
-      console.error("this.$el is not a valid HTMLElement");
-    }
   },
   methods: {
     async loadJSON() {

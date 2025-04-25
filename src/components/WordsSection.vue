@@ -1,13 +1,6 @@
 <template>
   <div class="split-layout">
-    <!-- left section: words -->
     <div class="sticky-left">
-      <h1>TEXTUAL</h1>
-      <p>
-        What we see in the words when we split all names that not generic like
-        store, market, deli etc. The size show how repeated the word is in the
-        dataset. The bigger the word, the more common it is.
-      </p>
       <div class="word-container">
         <span
           v-for="word in filteredWords"
@@ -15,27 +8,46 @@
           :class="[
             'word',
             {
-              wordhighlight: (activeWords || []).includes(
-                word['Name Words'].toLowerCase()
+              wordhighlight: (activeWords || []).some(
+                (activeWord) =>
+                  activeWord.toLowerCase() === word['Name Words'].toLowerCase()
               ),
             },
           ]"
-          :style="{ fontSize: `${word['Store Count'] * 0.2}px` }"
+          :style="{ fontSize: `${word['Store Count'] * 0.3}px` }"
         >
           {{ word["Name Words"] }}
         </span>
       </div>
-      <ImageCluster
-        :jsonData="jsonData"
-        :selectedWord="selectedWord"
-        :selectedColor="selectedColor"
-        :selectedFont="selectedFont"
-        :selectedNeighborhood="selectedNeighborhood"
-      />
+      <div>
+        <ImageCluster :jsonData="jsonData" :selectedWord="selectedWord" />
+        <p>ImageCluster is rendered</p>
+      </div>
+      <div style="height: 100vh; position: sticky; top: 0">
+        <img
+          src="img/basket.svg"
+          width="100%"
+          style="
+            position: absolute;
+            transform: translate(-50%, 0%);
+            bottom: 0;
+            left: 50%;
+            z-index: -1;
+          "
+        />
+      </div>
     </div>
 
-    <!-- right section: text -->
     <div class="scroll-right">
+      <div class="highlight">
+        <h1>TEXTUAL</h1>
+        <p>
+          What we see in the words when we split all names that not generic like
+          store, market, deli etc. The size show how repeated the word is in the
+          dataset. The bigger the word, the more common it is.
+        </p>
+      </div>
+
       <div class="highlight">
         <h2>NEW</h2>
         <p>
@@ -102,6 +114,7 @@
 import ImageCluster from "./ImageCluster.vue";
 import scrollama from "scrollama";
 import { RiTa } from "rita";
+
 export default {
   components: { ImageCluster },
   name: "WordsSection",
@@ -111,22 +124,31 @@ export default {
       required: false, // Optional if jsonData might be null initially
     },
   },
-  data() {
-    return {
-      activeWords: [],
-      scroller: null,
-      selectedWord: "organic",
-      // selectedColor: null,
-      // selectedFont: null,
-      // selectedNeighborhood: "Greenpoint",
-    };
-  },
+
   watch: {
     jsonData(newVal) {
       if (newVal && newVal.length > 0) {
         this.initScrollama();
       }
     },
+    activeWords(newVal) {
+      if (newVal && newVal.length > 0) {
+        this.selectedWord = newVal[0]; // Set the first active word as the selected word
+        console.log(
+          "Updated selectedWord based on activeWords:",
+          this.selectedWord
+        );
+      } else {
+        this.selectedWord = null; // Clear selectedWord if no active words
+      }
+    },
+  },
+  data() {
+    return {
+      activeWords: [],
+      scroller: null,
+      selectedWord: "new",
+    };
   },
   methods: {
     initScrollama() {
@@ -142,6 +164,10 @@ export default {
             .querySelector("h2")
             ?.textContent?.toLowerCase()
             .trim();
+          if (!title) {
+            console.warn("Title is undefined or empty");
+            return;
+          }
 
           // Define custom word groups
           const wordGroups = {
@@ -203,7 +229,18 @@ export default {
     filteredWords() {
       // Extract words and their counts from main_df.json
       const wordCounts = {};
-      const excludedWords = ["store", "market", "deli", "shop", "place"];
+      const excludedWords = [
+        "grill",
+        "la",
+        "el",
+        "ave",
+        "st",
+        "street",
+        "deligrocery",
+        "mrkt",
+        "mtk",
+        "grcy",
+      ];
 
       this.jsonData?.forEach((item) => {
         if (item.words) {
@@ -214,7 +251,8 @@ export default {
             // Exclude stop words using RiTa
             if (
               !RiTa.isStopWord(word) &&
-              !excludedWords.includes(word.toLowerCase())
+              !excludedWords.includes(word) &&
+              !(word.length === 1 && isNaN(word)) // Exclude single alphabets
             ) {
               if (isChain) {
                 // Count the word only once if it's a chain
@@ -254,11 +292,9 @@ export default {
 
       this.jsonData?.forEach((item) => {
         if (item.words) {
-          const newIndex = item.words.findIndex(
-            (word) => word.toLowerCase() === "new"
-          );
+          const newIndex = item.words.findIndex((word) => word === "new");
           if (newIndex !== -1 && newIndex + 1 < item.words.length) {
-            const nextWord = item.words[newIndex + 1].toLowerCase();
+            const nextWord = item.words[newIndex + 1];
             wordCounts[nextWord] = (wordCounts[nextWord] || 0) + 1;
           }
         }

@@ -7,6 +7,12 @@
         <h2>Colors and Fonts Chart</h2>
         <div id="stacked-bar-chart"></div>
       </div>
+      <ImageCluster
+        :jsonData="jsonData"
+        :selectedColor="selectedColor"
+        :selectedFont="selectedFont"
+        :selectedNeighborhood="selectedNeighborhood"
+      />
     </div>
 
     <!-- right section: text -->
@@ -25,15 +31,25 @@
 </template>
 
 <script>
+import ImageCluster from "./ImageCluster.vue";
 // import scrollama from "scrollama";
 import * as d3 from "d3";
 export default {
+  components: { ImageCluster },
   name: "VisualSection",
   props: {
     jsonData: {
       type: Array,
       required: true,
     },
+  },
+  data() {
+    return {
+      scroller: null,
+      selectedColor: "red",
+      selectedFont: "script",
+      // selectedNeighborhood: "Greenpoint",
+    };
   },
   mounted() {
     if (this.jsonData && this.jsonData.length > 0) {
