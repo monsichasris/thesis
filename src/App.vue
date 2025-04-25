@@ -1,7 +1,7 @@
 <template>
   <link rel="stylesheet" href="https://use.typekit.net/zik1lgr.css" />
   <section><Intro /></section>
-  <section><WordsSection :jsonData="jsonData" /></section>
+  <!-- <section><WordsSection :jsonData="jsonData" /></section>
   <section><VisualSection :jsonData="jsonData" /></section>
   <section>
     <DemographicSection
@@ -9,7 +9,8 @@
       :jsonData="jsonData"
     />
   </section>
-  <MapSection :jsonData="jsonData" :geojsonData="geojsonData" />
+  <MapSection :jsonData="jsonData" :geojsonData="geojsonData" /> -->
+  <section><OverView :jsonData="jsonData" /></section>
   <section><Outro /></section>
   <footer></footer>
 </template>
@@ -17,33 +18,35 @@
 <script>
 import * as d3 from "d3";
 import Intro from "./components/Intro.vue";
-import WordsSection from "./components/WordsSection.vue";
-import VisualSection from "./components/VisualSection.vue";
-import DemographicSection from "./components/DemographicSection.vue";
-import MapSection from "./components/MapSection.vue";
+import OverView from "./components/OverView.vue";
+// import WordsSection from "./components/WordsSection.vue";
+// import VisualSection from "./components/VisualSection.vue";
+// import DemographicSection from "./components/DemographicSection.vue";
+// import MapSection from "./components/MapSection.vue";
 import Outro from "./components/Outro.vue";
 
 export default {
   name: "App",
   components: {
     Intro,
-    WordsSection,
-    VisualSection,
-    DemographicSection,
-    MapSection,
+    OverView,
+    // WordsSection,
+    // VisualSection,
+    // DemographicSection,
+    // MapSection,
     Outro,
   },
   data() {
     return {
       jsonData: [],
-      geojsonData: [],
-      demographicData: [],
+      // geojsonData: [],
+      // demographicData: [],
     };
   },
   async mounted() {
     this.jsonData = await this.loadJSON();
-    this.geojsonData = await this.loadGeoJSON();
-    this.demographicData = await this.loadDemographicData();
+    // this.geojsonData = await this.loadGeoJSON();
+    // this.demographicData = await this.loadDemographicData();
   },
   methods: {
     async loadJSON() {
@@ -129,7 +132,7 @@ h1 {
   font-variation-settings: "wght" 300;
 }
 
-.split-layout {
+/* .split-layout {
   position: relative;
   height: 100vh;
   overflow: hidden;
@@ -154,13 +157,13 @@ h1 {
   padding-top: 50%;
   background: transparent;
   z-index: 2;
-}
+} */
 
-.highlight {
+/* .highlight {
   margin: 0 auto;
   padding: 20px;
   margin-bottom: 60vh;
   background-color: white;
   z-index: 1;
-}
+} */
 </style>

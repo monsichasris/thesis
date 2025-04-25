@@ -58,6 +58,7 @@ export default {
     },
   },
   mounted() {
+    console.log("jsonData in ImageCluster:", this.jsonData);
     console.log("selectedWord in ImageCluster:", this.selectedWord);
     this.createForceSimulation();
   },
