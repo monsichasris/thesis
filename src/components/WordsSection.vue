@@ -10,7 +10,8 @@
             {
               wordhighlight: (activeWords || []).some(
                 (activeWord) =>
-                  activeWord.toLowerCase() === word['Name Words'].toLowerCase()
+                  activeWord?.toLowerCase() ===
+                  word['Name Words']?.toLowerCase()
               ),
             },
           ]"
@@ -19,10 +20,7 @@
           {{ word["Name Words"] }}
         </span>
       </div>
-      <div>
-        <ImageCluster :jsonData="jsonData" :selectedWord="selectedWord" />
-        <p>ImageCluster is rendered</p>
-      </div>
+      <ImageCluster :jsonData="jsonData" :selectedWord="selectedWord" />
       <div style="height: 100vh; position: sticky; top: 0">
         <img
           src="img/basket.svg"

@@ -1,6 +1,7 @@
 <template>
   <div class="image-cluster">
     <svg ref="svg" class="image-svg"></svg>
+    <div ref="tooltip" class="tooltip"></div>
   </div>
 </template>
 
@@ -79,8 +80,13 @@ export default {
         .attr("width", width)
         .attr("height", height);
 
+      const tooltip = d3.select(this.$refs.tooltip);
+
       const nodes = this.filteredStores.map((store) => ({
         id: store.id,
+        name: store.names,
+        neighborhood: store.neighborhood,
+        borough: store.borough,
         image: this.getImagePath(store),
         x: Math.random() * width,
         y: Math.random() * height,
@@ -102,7 +108,33 @@ export default {
             .attr("y", (d) => d.y - 20)
             .attr("width", 80)
             .attr("height", 40)
-            .attr("loading", "lazy");
+            .attr("loading", "lazy")
+            .attr("cursor", "pointer")
+            .on("mouseover", (event, d) => {
+              tooltip
+                .style("display", "block")
+                .style("left", `${event.clientX + 4}px`)
+                .style("top", `${event.clientY + 4}px`)
+                .html(
+                  `<strong>${d.name}</strong><br>Neighborhood: ${d.neighborhood}<br>Borough: ${d.borough}`
+                );
+
+              d3.select(event.target)
+                .attr("width", 100) // Increase width on hover
+                .attr("height", 60); // Increase height on hover
+            })
+            .on("mouseout", function () {
+              tooltip.style("display", "none");
+
+              d3.select(this) // Reset the image size
+                .attr("width", 80)
+                .attr("height", 40);
+            })
+            .on("mousemove", (event) => {
+              tooltip
+                .style("left", `${event.clientX + 4}px`)
+                .style("top", `${event.clientY + 4}px`);
+            });
         });
     },
   },
@@ -110,12 +142,25 @@ export default {
 </script>
 
 <style scoped>
+.tooltip {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  font-size: 12px;
+  z-index: 10;
+  text-align: left;
+}
 .image-cluster {
   padding: 1rem;
 }
 
 .image-svg {
-  display: block;
+  width: auto;
+  height: auto;
   margin: 0 auto;
 }
 </style>

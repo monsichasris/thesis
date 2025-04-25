@@ -152,7 +152,7 @@ export default {
             .attr(
               "fill",
               group.category === "Colors"
-                ? d.name.toLowerCase()
+                ? d.name?.toLowerCase()
                 : d3.schemeCategory10[group.data.indexOf(d) % 10]
             ); // Use the color name for "Colors" or a color scheme for "Fonts"
           cumulative += d.value;
