@@ -19,11 +19,13 @@
           containerId="stacked-bar-chart-fonts"
           type="fonts"
           :jsonData="jsonData"
+          :activeTitle="activeTitle"
         />
         <VisualChart
           containerId="stacked-bar-chart-colors"
           type="colors"
           :jsonData="jsonData"
+          :activeTitle="activeTitle"
         />
       </div>
       <ImageCluster :jsonData="jsonData" :selectedWord="selectedWord" />

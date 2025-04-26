@@ -21,16 +21,24 @@ export default {
       type: Array,
       required: true,
     },
+    activeTitle: {
+      type: String,
+      required: true, // Add activeTitle as a required prop
+    },
   },
   mounted() {
     this.createStackedBarChart();
   },
+  watch: {
+    activeTitle: {
+      immediate: true, // Run the watcher immediately when the component is mounted
+      handler() {
+        this.createStackedBarChart(); // Recreate the chart when activeTitle changes
+      },
+    },
+  },
   methods: {
     createStackedBarChart() {
-      console.log(
-        `Creating chart for ${this.type} in container ${this.containerId}`
-      );
-
       // Clear any existing chart
       d3.select(`#${this.containerId}`).selectAll("*").remove();
 
@@ -48,7 +56,6 @@ export default {
         name: key,
         value,
       }));
-      console.log("Chart data:", chartData);
 
       const width = 800;
       const height = 50;
@@ -70,6 +77,7 @@ export default {
       // Render the stacked bar
       let cumulative = 0;
       chartData.forEach((d) => {
+        console.log(`Bar name: ${d.name}, Active title: ${this.activeTitle}`);
         const barWidth = x(d.value);
 
         // Append the rectangle (bar)
@@ -81,10 +89,22 @@ export default {
           .attr("height", height - 10)
           .attr(
             "fill",
-            this.type === "colors" ? d.name?.toLowerCase() : "white" // Use color name for "colors" type, otherwise use gray
+            this.type === "colors"
+              ? d.name?.toLowerCase()
+              : d.name?.toLowerCase() === this.activeTitle
+              ? "yellow" // Highlight matching bar with yellow
+              : "white" // Default color for non-matching bars
           )
-          .attr("stroke", this.type !== "colors" ? "#000" : "none") // Add border if not "colors"
-          .attr("stroke-width", this.type !== "colors" ? 1 : 0);
+          .attr(
+            "stroke",
+            d.name?.toLowerCase() === this.activeTitle.toLowerCase()
+              ? "#000"
+              : "none"
+          ) // Add border for the matching bar
+          .attr(
+            "stroke-width",
+            d.name?.toLowerCase() === this.activeTitle.toLowerCase() ? 2 : 0
+          ); // Thicker border for the matching bar
 
         // Append the text (name/key) if the type is not "colors"
         if (this.type !== "colors") {
@@ -95,7 +115,12 @@ export default {
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
             .text(d.name)
-            .style("fill", "black")
+            .style(
+              "fill",
+              d.name?.toLowerCase() === this.activeTitle.toLowerCase()
+                ? "red"
+                : "black"
+            )
             .style("font-size", "12px")
             .style("pointer-events", "none"); // Prevent text from interfering with mouse events
         }
