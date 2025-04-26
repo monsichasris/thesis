@@ -131,39 +131,4 @@ h1 {
   font-family: "skew-variable", sans-serif;
   font-variation-settings: "wght" 300;
 }
-
-/* .split-layout {
-  position: relative;
-  height: 100vh;
-  overflow: hidden;
-}
-
-.sticky-left {
-  position: relative;
-  padding: 4em;
-  width: 90vw;
-  height: 100%;
-  z-index: 1;
-}
-
-.scroll-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30vw;
-  height: 100vh;
-  overflow-y: scroll;
-  padding: 2rem;
-  padding-top: 50%;
-  background: transparent;
-  z-index: 2;
-} */
-
-/* .highlight {
-  margin: 0 auto;
-  padding: 20px;
-  margin-bottom: 60vh;
-  background-color: white;
-  z-index: 1;
-} */
 </style>

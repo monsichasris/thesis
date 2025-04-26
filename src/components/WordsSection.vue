@@ -29,7 +29,7 @@ export default {
       type: Array,
       required: true,
     },
-    activeWords: {
+    activeTitle: {
       type: Array,
       required: true,
     },
@@ -75,6 +75,50 @@ export default {
           "Store Count": count,
         }))
         .sort((a, b) => b["Store Count"] - a["Store Count"]);
+    },
+    activeWords() {
+      const wordGroups = {
+        new: ["new", "york"],
+        fresh: [
+          "fresh",
+          "green",
+          "organic",
+          "natural",
+          "farm",
+          "healthy",
+          "health",
+          "farmer",
+          "farmers",
+          "garden",
+        ],
+        stop: ["stop", "express", "fast", "convenient", "quick", "go", "grab"],
+        star: ["star", "super", "best", "top", "great"],
+        lucky: ["lucky", "happy", "famous"],
+        nationality: [
+          "halal",
+          "kosher",
+          "islamic",
+          "jewish",
+          "chinese",
+          "korean",
+          "italian",
+          "american",
+          "latin",
+          "mexican",
+          "mexicana",
+          "caribbean",
+          "indian",
+          "international",
+          "african",
+          "usa",
+        ],
+        mr: ["brothers", "bro", "brother", "bros", "son", "mr"],
+      };
+
+      return wordGroups[this.activeTitle?.toLowerCase()] || [this.activeTitle]; // Fallback to single-word array
+    },
+    selectedWord() {
+      return this.activeTitle;
     },
   },
 };

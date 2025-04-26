@@ -12,7 +12,7 @@ export default {
   name: "ImageCluster",
   props: {
     jsonData: {
-      type: Array,
+      type: [String, Array],
       required: true,
     },
     selectedWord: {
@@ -34,27 +34,39 @@ export default {
   },
   computed: {
     filteredStores() {
-      const stores = this.jsonData.filter((store) => {
+      return this.jsonData.filter((store) => {
+        // Ensure selectedWord is always an array
+        const selectedWords = Array.isArray(this.selectedWord)
+          ? this.selectedWord
+          : [this.selectedWord];
+
+        // Match conditions
         const matchesWord = this.selectedWord
-          ? store.words?.includes(this.selectedWord)
-          : true;
-        const matchesColor = this.selectedColor
-          ? store.colors?.includes(this.selectedColor)
-          : true;
-        const matchesFont = this.selectedFont
-          ? store.fonts?.includes(this.selectedFont)
-          : true;
+          ? selectedWords.some((word) => store.words?.includes(word))
+          : false; // Match any word in the selectedWord array
+
+        const matchesColor = this.selectedWord
+          ? selectedWords.some((word) => store.colors?.includes(word))
+          : false; // Match any color in the selectedWord array
+
+        const matchesFont = this.selectedWord
+          ? selectedWords.some((word) => store.fonts?.includes(word))
+          : false; // Match any font in the selectedWord array
+
         const matchesNeighborhood = this.selectedNeighborhood
           ? store.neighborhood === this.selectedNeighborhood
-          : true;
+          : true; // Neighborhood is optional
 
+        const hasSign = store.has_sign === "Yes"; // Only include stores with "has_sign": "Yes"
+
+        // Only return stores that match the selectedWord in any category and have a sign
         return (
-          matchesWord && matchesColor && matchesFont && matchesNeighborhood
+          hasSign &&
+          this.selectedWord &&
+          (matchesWord || matchesColor || matchesFont) &&
+          matchesNeighborhood
         );
       });
-
-      console.log("Filtered stores in ImageCluster:", stores); // Debugging log
-      return stores;
     },
   },
   mounted() {

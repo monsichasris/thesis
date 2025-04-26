@@ -5,7 +5,9 @@
       v-for="highlight in highlights"
       :key="highlight.title"
     >
-      <h2>{{ highlight.title }}</h2>
+      <!-- Render <h1> or <h2> based on the isH1 property -->
+      <h1 v-if="highlight.isH1">{{ highlight.title }}</h1>
+      <h2 v-else>{{ highlight.title }}</h2>
       <p>{{ highlight.content }}</p>
     </div>
   </div>
@@ -39,10 +41,8 @@ export default {
           debug: false,
         })
         .onStepEnter(({ element }) => {
-          const title = element
-            .querySelector("h2")
-            ?.textContent?.toLowerCase()
-            .trim();
+          const titleElement = element.querySelector("h1, h2"); // Select both <h1> and <h2>
+          const title = titleElement?.textContent?.toLowerCase()?.trim();
           if (!title) {
             console.warn("Title is undefined or empty");
             return;
@@ -58,16 +58,16 @@ export default {
 
 <style scoped>
 .highlights-container {
-  position: absolute;
-  overflow-y: scroll;
-  height: 100vh;
-  width: 30vw;
+  position: absolute; /* Overlay on the left */
+  top: 0;
+  right: 0;
+  width: 30vw; /* Take up 30% of the viewport width */
+  height: 100vh; /* Full viewport height */
+  overflow-y: scroll; /* Allow scrolling within the highlights */
   padding: 1rem;
   padding-top: 50%;
   background: transparent;
-  z-index: 2;
-  top: 0;
-  right: 0;
+  z-index: 10; /* Ensure it overlays other elements */
 }
 
 .highlight {
