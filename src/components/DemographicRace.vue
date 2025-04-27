@@ -108,6 +108,14 @@ export default {
   name: "DemographicRace",
   components: { WordsSection, VisualChart },
   props: {
+    containerId: {
+      type: String,
+      required: true,
+    },
+    type: {
+      type: String,
+      required: true,
+    },
     demographicData: {
       type: Array,
       required: true,
@@ -118,14 +126,6 @@ export default {
       required: true,
       default: () => [],
     },
-    containerId: {
-      type: String,
-      required: true,
-    },
-    // type: {
-    //   type: String,
-    //   required: true,
-    // },
   },
 
   methods: {

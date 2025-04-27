@@ -32,14 +32,27 @@
     <div id="neighborhood-map">
       <svg ref="svg" style="width: 100%; height: 100%"></svg>
     </div>
+
+    <!-- Modal Component -->
+    <MapModal
+      v-if="modalVisible"
+      :isVisible="modalVisible"
+      :title="modalTitle"
+      :content="modalContent"
+      @close="modalVisible = false"
+    />
   </div>
 </template>
 
 <script>
 import * as d3 from "d3";
+import MapModal from "./MapModal.vue";
 
 export default {
   name: "MapSection",
+  components: {
+    MapModal,
+  },
   props: {
     geojsonData: {
       type: Object,
@@ -64,6 +77,9 @@ export default {
         "White",
         "Black",
       ],
+      modalVisible: false,
+      modalTitle: "",
+      modalContent: "",
     };
   },
   mounted() {
@@ -121,12 +137,24 @@ export default {
         .attr("fill", "#ccc") // Default fill color
         .attr("stroke", "#333") // Border color
         .attr("stroke-width", 0.5)
+        .attr("cursor", "pointer")
         .on("mouseover", function () {
           d3.select(this).attr("fill", "#fdae61"); // Highlight on hover
         })
         .on("mouseout", function () {
           d3.select(this).attr("fill", "#ccc"); // Reset fill on mouseout
+        })
+        .on("click", (event, d) => {
+          this.showModal(
+            d.properties.NTA2020,
+            "Additional information about this neighborhood."
+          );
         });
+    },
+    showModal(title, content) {
+      this.modalTitle = title;
+      this.modalContent = content;
+      this.modalVisible = true;
     },
     highlightByFont(font) {
       if (!this.jsonData || !this.geojsonData) return;
