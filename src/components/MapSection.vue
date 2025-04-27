@@ -13,16 +13,19 @@
           v-for="font in fonts"
           :key="font"
           @click="highlightByFont(font)"
+          :class="{ selected: selectedFilter === font }"
         >
           {{ font }}
         </button>
       </div>
+
       <h3>Filter by Colors</h3>
       <div class="filter-buttons">
         <button
           v-for="color in colors"
           :key="color"
           @click="highlightByColor(color)"
+          :class="{ selected: selectedFilter === color }"
         >
           {{ color }}
         </button>
@@ -89,6 +92,7 @@ export default {
       filteredNeighborhoodData: [],
       filteredDemographicData: null,
       selectedNTA: null,
+      selectedFilter: null,
     };
   },
   mounted() {
@@ -162,6 +166,32 @@ export default {
           );
         });
     },
+    renderFilteredCircles(filteredData) {
+      const svg = d3.select(this.$refs.svg);
+      const projection = d3
+        .geoMercator()
+        .fitSize(
+          [
+            svg.node().getBoundingClientRect().width,
+            svg.node().getBoundingClientRect().height,
+          ],
+          this.geojsonData
+        );
+
+      // Remove existing circles
+      svg.selectAll("circle").remove();
+
+      // Add filtered circles
+      svg
+        .selectAll("circle")
+        .data(filteredData)
+        .enter()
+        .append("circle")
+        .attr("cx", (d) => projection([d.lon, d.lat])[0])
+        .attr("cy", (d) => projection([d.lon, d.lat])[1])
+        .attr("r", 2)
+        .attr("fill", "black");
+    },
     showSidebar(nta2020, neighborhood, additionalInfo) {
       const svg = d3.select(this.$refs.svg);
 
@@ -215,16 +245,27 @@ export default {
     },
     highlightByFont(font) {
       if (!this.jsonData || !this.geojsonData) return;
-      const matchingNTA = this.jsonData
-        .filter((item) => {
-          return item.fonts && item.fonts.includes(font);
-        })
-        .map((item) => item.NTA2020);
+      this.selectedFilter = font;
+      // const matchingNTA = this.jsonData
+      //   .filter((item) => {
+      //     return item.fonts && item.fonts.includes(font);
+      //   })
+      //   .map((item) => item.NTA2020);
 
-      this.highlightPolygons(matchingNTA, "#fdae61");
+      // this.highlightPolygons(matchingNTA, "#fdae61");
+
+      // Filter data by font
+      const filteredData = this.jsonData.filter(
+        (item) => item.fonts && item.fonts.includes(font)
+      );
+
+      // Render filtered circles
+      this.renderFilteredCircles(filteredData);
     },
     highlightByColor(color) {
       if (!this.jsonData || !this.geojsonData) return;
+      this.selectedFilter = color;
+
       const matchingNTA = this.jsonData
         .filter((item) => {
           return item.colors && item.colors.includes(color);
@@ -232,6 +273,14 @@ export default {
         .map((item) => item.NTA2020);
 
       this.highlightPolygons(matchingNTA, color);
+
+      // Filter data by color
+      const filteredData = this.jsonData.filter(
+        (item) => item.colors && item.colors.includes(color)
+      );
+
+      // Render filtered circles
+      this.renderFilteredCircles(filteredData);
     },
     highlightPolygons(matchingNTA, highlightColor) {
       const svg = d3.select(this.$refs.svg);
@@ -286,7 +335,7 @@ export default {
 }
 
 button {
-  background-color: #f0f0f0;
+  background-color: transparent;
   border: 1px solid #ccc;
   border-radius: 5px;
   cursor: pointer;
@@ -303,9 +352,16 @@ button:active {
   background-color: #d0d0d0;
 }
 
+button.selected {
+  background-color: #f0f0f0;
+  color: black;
+  border: 2px solid #000;
+  font-weight: bold;
+}
+
 #neighborhood-map {
   width: 100%;
-  height: 600px;
+  height: 800px;
 }
 
 svg {
