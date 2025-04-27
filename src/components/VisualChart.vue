@@ -52,10 +52,12 @@ export default {
         return acc;
       }, {});
 
-      const chartData = Object.entries(aggregatedData).map(([key, value]) => ({
-        name: key,
-        value,
-      }));
+      const chartData = Object.entries(aggregatedData)
+        .map(([key, value]) => ({
+          name: key,
+          value,
+        }))
+        .sort((a, b) => b.value - a.value); // Sort in descending order
 
       const width = 800;
       const height = 50;
@@ -99,11 +101,11 @@ export default {
             "stroke",
             d.name?.toLowerCase() === this.activeTitle?.toLowerCase()
               ? "#000"
-              : "none"
+              : "#ccc"
           ) // Add border for the matching bar
           .attr(
             "stroke-width",
-            d.name?.toLowerCase() === this.activeTitle?.toLowerCase() ? 2 : 0
+            d.name?.toLowerCase() === this.activeTitle?.toLowerCase() ? 2 : 1
           ); // Thicker border for the matching bar
 
         // Append the text (name/key) if the type is not "colors"

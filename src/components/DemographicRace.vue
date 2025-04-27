@@ -41,29 +41,60 @@
   </p>
   <h2>Hispanic</h2>
   <VisualChart
-    containerId="stacked-bar-chart-fonts"
+    containerId="stacked-bar-chart-fonts-hp"
     type="fonts"
     :jsonData="getFilteredData('Hsp_P')"
   />
 
   <h2>Black</h2>
   <VisualChart
-    containerId="stacked-bar-chart-fonts"
+    containerId="stacked-bar-chart-fonts-bl"
     type="fonts"
     :jsonData="getFilteredData('Bl_P')"
   />
 
   <h2>White</h2>
   <VisualChart
-    containerId="stacked-bar-chart-fonts"
+    containerId="stacked-bar-chart-fonts-wt"
     type="fonts"
     :jsonData="getFilteredData('Wt_P')"
   />
 
   <h2>Asian</h2>
   <VisualChart
-    containerId="stacked-bar-chart-fonts"
+    containerId="stacked-bar-chart-fonts-as"
     type="fonts"
+    :jsonData="getFilteredData('Asn_P')"
+  />
+
+  <p class="textbox">
+    what about the visual? the colors in these group of neighborhood
+  </p>
+  <h2>Hispanic</h2>
+  <VisualChart
+    containerId="stacked-bar-chart-colors-hp"
+    type="colors"
+    :jsonData="getFilteredData('Hsp_P')"
+  />
+
+  <h2>Black</h2>
+  <VisualChart
+    containerId="stacked-bar-chart-colors-bl"
+    type="colors"
+    :jsonData="getFilteredData('Bl_P')"
+  />
+
+  <h2>White</h2>
+  <VisualChart
+    containerId="stacked-bar-chart-colors-wt"
+    type="colors"
+    :jsonData="getFilteredData('Wt_P')"
+  />
+
+  <h2>Asian</h2>
+  <VisualChart
+    containerId="stacked-bar-chart-colors-as"
+    type="colors"
     :jsonData="getFilteredData('Asn_P')"
   />
 </template>
