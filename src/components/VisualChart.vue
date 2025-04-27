@@ -1,4 +1,3 @@
-<!-- filepath: /Users/monsichasris/Documents/MS/msdv/thesis/src/components/StackedBarChart.vue -->
 <template>
   <div :id="containerId" class="stacked-bar-chart"></div>
 </template>
@@ -23,7 +22,8 @@ export default {
     },
     activeTitle: {
       type: String,
-      required: true, // Add activeTitle as a required prop
+      required: false, // Make it optional
+      default: null,
     },
   },
   mounted() {
@@ -97,13 +97,13 @@ export default {
           )
           .attr(
             "stroke",
-            d.name?.toLowerCase() === this.activeTitle.toLowerCase()
+            d.name?.toLowerCase() === this.activeTitle?.toLowerCase()
               ? "#000"
               : "none"
           ) // Add border for the matching bar
           .attr(
             "stroke-width",
-            d.name?.toLowerCase() === this.activeTitle.toLowerCase() ? 2 : 0
+            d.name?.toLowerCase() === this.activeTitle?.toLowerCase() ? 2 : 0
           ); // Thicker border for the matching bar
 
         // Append the text (name/key) if the type is not "colors"
@@ -117,7 +117,7 @@ export default {
             .text(d.name)
             .style(
               "fill",
-              d.name?.toLowerCase() === this.activeTitle.toLowerCase()
+              d.name?.toLowerCase() === this.activeTitle?.toLowerCase()
                 ? "red"
                 : "black"
             )

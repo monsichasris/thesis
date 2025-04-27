@@ -12,7 +12,7 @@
           ),
         },
       ]"
-      :style="{ fontSize: `${word['Store Count'] * 0.3}px` }"
+      :style="{ fontSize: `${word['Store Count'] * fontSizeMultiplier}px` }"
     >
       {{ word["Name Words"] }}
     </span>
@@ -31,7 +31,18 @@ export default {
     },
     activeTitle: {
       type: Array,
-      required: true,
+      required: false, // Make it optional
+      default: null,
+    },
+    fontSizeMultiplier: {
+      type: Number,
+      required: false,
+      default: 0.5,
+    },
+    minStoreCount: {
+      type: Number,
+      required: false,
+      default: 10,
     },
   },
   computed: {
@@ -39,9 +50,9 @@ export default {
       const wordCounts = {};
       const excludedWords = [
         "grill",
-        "la",
-        "el",
         "ave",
+        "avenue",
+        "minimarket",
         "st",
         "street",
         "deligrocery",
@@ -69,7 +80,7 @@ export default {
       });
 
       return Object.entries(wordCounts)
-        .filter(([, count]) => count > 15)
+        .filter(([, count]) => count >= this.minStoreCount)
         .map(([word, count]) => ({
           "Name Words": word,
           "Store Count": count,
@@ -77,6 +88,9 @@ export default {
         .sort((a, b) => b["Store Count"] - a["Store Count"]);
     },
     activeWords() {
+      if (!this.activeTitle) {
+        return []; // Return an empty array if activeTitle is not provided
+      }
       const wordGroups = {
         new: ["new", "york"],
         fresh: [

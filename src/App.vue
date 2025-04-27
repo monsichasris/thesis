@@ -11,6 +11,9 @@
   </section>
   <MapSection :jsonData="jsonData" :geojsonData="geojsonData" /> -->
   <section><OverView :jsonData="jsonData" /></section>
+  <section>
+    <DemographicRace :jsonData="jsonData" :demographicData="demographicData" />
+  </section>
   <section><Outro /></section>
   <footer></footer>
 </template>
@@ -19,8 +22,7 @@
 import * as d3 from "d3";
 import Intro from "./components/Intro.vue";
 import OverView from "./components/OverView.vue";
-// import WordsSection from "./components/WordsSection.vue";
-// import VisualSection from "./components/VisualSection.vue";
+import DemographicRace from "./components/DemographicRace.vue";
 // import DemographicSection from "./components/DemographicSection.vue";
 // import MapSection from "./components/MapSection.vue";
 import Outro from "./components/Outro.vue";
@@ -30,6 +32,7 @@ export default {
   components: {
     Intro,
     OverView,
+    DemographicRace,
     // WordsSection,
     // VisualSection,
     // DemographicSection,
@@ -40,13 +43,13 @@ export default {
     return {
       jsonData: [],
       // geojsonData: [],
-      // demographicData: [],
+      demographicData: [],
     };
   },
   async mounted() {
     this.jsonData = await this.loadJSON();
     // this.geojsonData = await this.loadGeoJSON();
-    // this.demographicData = await this.loadDemographicData();
+    this.demographicData = await this.loadDemographicData();
   },
   methods: {
     async loadJSON() {
