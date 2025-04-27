@@ -6,7 +6,11 @@
     <DemographicRace :jsonData="jsonData" :demographicData="demographicData" />
   </section>
   <section>
-    <MapSection :jsonData="jsonData" :geojsonData="geojsonData" />
+    <MapSection
+      :jsonData="jsonData"
+      :geojsonData="geojsonData"
+      :demographicData="demographicData"
+    />
   </section>
   <section><Outro /></section>
   <footer></footer>

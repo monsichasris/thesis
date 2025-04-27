@@ -30,17 +30,24 @@ export default {
       default: 800, // Default width if not provided
     },
   },
-  mounted() {
-    this.createStackedBarChart();
-  },
   watch: {
+    jsonData: {
+      handler(newData) {
+        this.createStackedBarChart(newData);
+      },
+      immediate: true,
+    },
     activeTitle: {
-      immediate: true, // Run the watcher immediately when the component is mounted
+      immediate: true,
       handler() {
-        this.createStackedBarChart(); // Recreate the chart when activeTitle changes
+        this.createStackedBarChart();
       },
     },
   },
+  mounted() {
+    this.createStackedBarChart();
+  },
+
   methods: {
     createStackedBarChart() {
       // Clear any existing chart
@@ -83,7 +90,6 @@ export default {
       // Render the stacked bar
       let cumulative = 0;
       chartData.forEach((d) => {
-        console.log(`Bar name: ${d.name}, Active title: ${this.activeTitle}`);
         const barWidth = x(d.value);
 
         // Append the rectangle (bar)

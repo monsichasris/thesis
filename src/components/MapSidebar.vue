@@ -3,6 +3,7 @@
     <button class="close-button" @click="closeSidebar">×</button>
     <h3>{{ title }}</h3>
     <p>{{ content }}</p>
+    <p><strong>Store Count:</strong> {{ storeCount }}</p>
 
     <!-- WordsSection -->
     <WordsSection
@@ -24,6 +25,35 @@
       :jsonData="filteredData"
       :width="sidebarWidth"
     />
+
+    <!-- Demographic Data -->
+    <div v-if="demographicData" class="demographic-data">
+      <h4>Demographics</h4>
+      <p><strong>Population:</strong> {{ demographicData.Pop }}</p>
+      <p><strong>Median Age:</strong> {{ demographicData.MdAge }}</p>
+      <p><strong>Under 18:</strong> {{ demographicData.PopU18 }}</p>
+      <p><strong>65 and Older:</strong> {{ demographicData.Pop65pl }}</p>
+      <p>
+        <strong>Hispanic Population:</strong> {{ demographicData.Hsp_E }} ({{
+          demographicData.Hsp_P
+        }}%)
+      </p>
+      <p>
+        <strong>White Population:</strong> {{ demographicData.Wt_E }} ({{
+          demographicData.Wt_P
+        }}%)
+      </p>
+      <p>
+        <strong>Black Population:</strong> {{ demographicData.Bl_E }} ({{
+          demographicData.Bl_P
+        }}%)
+      </p>
+      <p>
+        <strong>Asian Population:</strong> {{ demographicData.Asn_E }} ({{
+          demographicData.Asn_P
+        }}%)
+      </p>
+    </div>
   </div>
 </template>
 
@@ -53,10 +83,17 @@ export default {
       type: Array,
       required: true,
     },
+    demographicData: {
+      type: Object,
+      required: false,
+    },
   },
   computed: {
     sidebarWidth() {
-      return 300; // Match the width of the sidebar (in pixels)
+      return 320;
+    },
+    storeCount() {
+      return this.filteredData.length;
     },
   },
   methods: {

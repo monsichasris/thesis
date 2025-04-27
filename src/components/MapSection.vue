@@ -40,6 +40,7 @@
       :title="sidebarTitle"
       :content="sidebarContent"
       :filteredData="filteredNeighborhoodData"
+      :demographicData="filteredDemographicData"
       @close="closeSidebar"
     />
   </div>
@@ -62,6 +63,10 @@ export default {
     jsonData: {
       type: Array,
       required: true,
+    },
+    demographicData: {
+      type: Array,
+      required: false,
     },
   },
   data() {
@@ -161,17 +166,22 @@ export default {
       );
 
       const neighborhoodName = neighborhoodData
-        ? neighborhoodData.neighborhood // Replace 'name' with the actual key for the neighborhood name in your JSON
+        ? neighborhoodData.neighborhood
         : "Unknown Neighborhood";
 
       const boroughName = neighborhoodData
-        ? neighborhoodData.borough // Replace 'borough' with the actual key for the borough name in your JSON
+        ? neighborhoodData.borough
         : "Unknown Borough";
 
       // Filter data for the selected neighborhood
       this.filteredNeighborhoodData = this.jsonData.filter(
         (item) => item.NTA2020 === nta2020
       );
+
+      // Filter demographic data for the selected neighborhood
+      this.filteredDemographicData = this.demographicData
+        ? this.demographicData.find((item) => item.GeoID === nta2020)
+        : null;
 
       // Set the sidebar content
       this.sidebarTitle = `${neighborhoodName}`;
