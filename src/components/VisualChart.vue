@@ -25,6 +25,10 @@ export default {
       required: false, // Make it optional
       default: null,
     },
+    width: {
+      type: Number,
+      default: 800, // Default width if not provided
+    },
   },
   mounted() {
     this.createStackedBarChart();
@@ -59,9 +63,9 @@ export default {
         }))
         .sort((a, b) => b.value - a.value); // Sort in descending order
 
-      const width = 800;
+      const width = this.width;
       const height = 50;
-      const margin = { top: 10, right: 10, bottom: 10, left: 50 };
+      const margin = { top: 10, right: 10, bottom: 10, left: 0 };
 
       const svg = d3
         .select(`#${this.containerId}`)

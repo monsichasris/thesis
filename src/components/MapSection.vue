@@ -33,25 +33,26 @@
       <svg ref="svg" style="width: 100%; height: 100%"></svg>
     </div>
 
-    <!-- Modal Component -->
-    <MapModal
-      v-if="modalVisible"
-      :isVisible="modalVisible"
-      :title="modalTitle"
-      :content="modalContent"
-      @close="modalVisible = false"
+    <!-- Sidebar Component -->
+    <MapSidebar
+      v-if="sidebarVisible"
+      :isVisible="sidebarVisible"
+      :title="sidebarTitle"
+      :content="sidebarContent"
+      :filteredData="filteredNeighborhoodData"
+      @close="closeSidebar"
     />
   </div>
 </template>
 
 <script>
 import * as d3 from "d3";
-import MapModal from "./MapModal.vue";
+import MapSidebar from "./MapSidebar.vue";
 
 export default {
   name: "MapSection",
   components: {
-    MapModal,
+    MapSidebar,
   },
   props: {
     geojsonData: {
@@ -77,9 +78,10 @@ export default {
         "White",
         "Black",
       ],
-      modalVisible: false,
-      modalTitle: "",
-      modalContent: "",
+      sidebarVisible: false,
+      sidebarTitle: "",
+      sidebarContent: "",
+      filteredNeighborhoodData: [],
     };
   },
   mounted() {
@@ -139,22 +141,45 @@ export default {
         .attr("stroke-width", 0.5)
         .attr("cursor", "pointer")
         .on("mouseover", function () {
-          d3.select(this).attr("fill", "#fdae61"); // Highlight on hover
+          d3.select(this).attr("stroke-width", 2);
         })
         .on("mouseout", function () {
-          d3.select(this).attr("fill", "#ccc"); // Reset fill on mouseout
+          d3.select(this).attr("stroke-width", 0.5);
         })
         .on("click", (event, d) => {
-          this.showModal(
+          this.showSidebar(
             d.properties.NTA2020,
+            d.properties.neighborhood,
             "Additional information about this neighborhood."
           );
         });
     },
-    showModal(title, content) {
-      this.modalTitle = title;
-      this.modalContent = content;
-      this.modalVisible = true;
+    showSidebar(nta2020, neighborhood, additionalInfo) {
+      // Find the neighborhood name from jsonData
+      const neighborhoodData = this.jsonData.find(
+        (item) => item.NTA2020 === nta2020
+      );
+
+      const neighborhoodName = neighborhoodData
+        ? neighborhoodData.neighborhood // Replace 'name' with the actual key for the neighborhood name in your JSON
+        : "Unknown Neighborhood";
+
+      const boroughName = neighborhoodData
+        ? neighborhoodData.borough // Replace 'borough' with the actual key for the borough name in your JSON
+        : "Unknown Borough";
+
+      // Filter data for the selected neighborhood
+      this.filteredNeighborhoodData = this.jsonData.filter(
+        (item) => item.NTA2020 === nta2020
+      );
+
+      // Set the sidebar content
+      this.sidebarTitle = `${neighborhoodName}`;
+      this.sidebarContent = `${boroughName} <br> ${additionalInfo}`;
+      this.sidebarVisible = true;
+    },
+    closeSidebar() {
+      this.sidebarVisible = false;
     },
     highlightByFont(font) {
       if (!this.jsonData || !this.geojsonData) return;
