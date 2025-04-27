@@ -30,7 +30,7 @@ export default {
       required: true,
     },
     activeTitle: {
-      type: Array,
+      type: [String, Array],
       required: false, // Make it optional
       default: null,
     },
@@ -91,6 +91,12 @@ export default {
       if (!this.activeTitle) {
         return []; // Return an empty array if activeTitle is not provided
       }
+
+      // Normalize activeTitle to an array
+      const activeTitles = Array.isArray(this.activeTitle)
+        ? this.activeTitle
+        : [this.activeTitle];
+
       const wordGroups = {
         new: ["new", "york"],
         fresh: [
@@ -129,7 +135,14 @@ export default {
         mr: ["brothers", "bro", "brother", "bros", "son", "mr"],
       };
 
-      return wordGroups[this.activeTitle?.toLowerCase()] || [this.activeTitle]; // Fallback to single-word array
+      // Check if activeTitle matches a key in wordGroups
+      const groupWords = wordGroups[this.activeTitle?.toLowerCase()];
+      if (groupWords) {
+        return groupWords; // Return the group of words if it exists
+      }
+
+      // Otherwise, return the normalized activeTitles
+      return activeTitles.map((title) => title.toLowerCase());
     },
     selectedWord() {
       return this.activeTitle;

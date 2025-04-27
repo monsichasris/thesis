@@ -1,18 +1,12 @@
 <template>
   <link rel="stylesheet" href="https://use.typekit.net/zik1lgr.css" />
   <section><Intro /></section>
-  <!-- <section><WordsSection :jsonData="jsonData" /></section>
-  <section><VisualSection :jsonData="jsonData" /></section>
-  <section>
-    <DemographicSection
-      :demographicData="demographicData"
-      :jsonData="jsonData"
-    />
-  </section>
-  <MapSection :jsonData="jsonData" :geojsonData="geojsonData" /> -->
   <section><OverView :jsonData="jsonData" /></section>
   <section>
     <DemographicRace :jsonData="jsonData" :demographicData="demographicData" />
+  </section>
+  <section>
+    <MapSection :jsonData="jsonData" :geojsonData="geojsonData" />
   </section>
   <section><Outro /></section>
   <footer></footer>
@@ -23,8 +17,7 @@ import * as d3 from "d3";
 import Intro from "./components/Intro.vue";
 import OverView from "./components/OverView.vue";
 import DemographicRace from "./components/DemographicRace.vue";
-// import DemographicSection from "./components/DemographicSection.vue";
-// import MapSection from "./components/MapSection.vue";
+import MapSection from "./components/MapSection.vue";
 import Outro from "./components/Outro.vue";
 
 export default {
@@ -33,22 +26,19 @@ export default {
     Intro,
     OverView,
     DemographicRace,
-    // WordsSection,
-    // VisualSection,
-    // DemographicSection,
-    // MapSection,
+    MapSection,
     Outro,
   },
   data() {
     return {
       jsonData: [],
-      // geojsonData: [],
+      geojsonData: [],
       demographicData: [],
     };
   },
   async mounted() {
     this.jsonData = await this.loadJSON();
-    // this.geojsonData = await this.loadGeoJSON();
+    this.geojsonData = await this.loadGeoJSON();
     this.demographicData = await this.loadDemographicData();
   },
   methods: {

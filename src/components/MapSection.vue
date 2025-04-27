@@ -1,9 +1,14 @@
 <template>
-  <div>
-    <h1>Map</h1>
-    <div>
+  <p class="textbox">
+    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore beatae
+    obcaecati recusandae sapiente sunt dolorum, illum praesentium quisquam
+    voluptas nihil voluptate officia aut nobis veniam libero dolorem rerum? Ab,
+    animi.
+  </p>
+  <div class="map-section">
+    <div id="map-controller">
       <h3>Filter by Fonts</h3>
-      <div>
+      <div class="filter-buttons">
         <button
           v-for="font in fonts"
           :key="font"
@@ -13,7 +18,7 @@
         </button>
       </div>
       <h3>Filter by Colors</h3>
-      <div>
+      <div class="filter-buttons">
         <button
           v-for="color in colors"
           :key="color"
@@ -23,6 +28,7 @@
         </button>
       </div>
     </div>
+
     <div id="neighborhood-map">
       <svg ref="svg" style="width: 100%; height: 100%"></svg>
     </div>
@@ -90,6 +96,10 @@ export default {
         return;
       }
       const svg = d3.select(this.$refs.svg);
+      if (!svg.node()) {
+        console.error("SVG element is not available.");
+        return;
+      }
       svg.selectAll("*").remove();
 
       const width = svg.node().getBoundingClientRect().width;
@@ -159,6 +169,37 @@ export default {
 </script>
 
 <style scoped>
+.map-section {
+  position: relative; /* Set the parent container to relative */
+  width: 100%; /* Ensure it spans the full width */
+  height: 100%; /* Ensure it spans the full height */
+}
+
+#map-controller {
+  position: absolute; /* Make it absolute */
+  width: 240px;
+  top: 20px; /* Adjust the vertical position */
+  left: 20px; /* Adjust the horizontal position */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.9
+  ); /* Add a semi-transparent background */
+  border: 1px solid #ccc; /* Add a border */
+  border-radius: 10px; /* Add rounded corners */
+  padding: 15px; /* Add padding inside the box */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  margin-bottom: 10px;
+}
+
 button {
   background-color: #f0f0f0;
   border: 1px solid #ccc;
