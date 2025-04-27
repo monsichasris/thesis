@@ -87,6 +87,8 @@ export default {
       sidebarTitle: "",
       sidebarContent: "",
       filteredNeighborhoodData: [],
+      filteredDemographicData: null,
+      selectedNTA: null,
     };
   },
   mounted() {
@@ -119,10 +121,6 @@ export default {
         return;
       }
       const svg = d3.select(this.$refs.svg);
-      if (!svg.node()) {
-        console.error("SVG element is not available.");
-        return;
-      }
       svg.selectAll("*").remove();
 
       const width = svg.node().getBoundingClientRect().width;
@@ -141,15 +139,20 @@ export default {
         .enter()
         .append("path")
         .attr("d", path)
-        .attr("fill", "#ccc") // Default fill color
-        .attr("stroke", "#333") // Border color
-        .attr("stroke-width", 0.5)
+        .attr("fill", "#ccc")
+        .attr("stroke", "#333")
+        .attr("stroke-width", 0.5) // Default stroke width
+        .attr("data-nta", (d) => d.properties.NTA2020)
         .attr("cursor", "pointer")
-        .on("mouseover", function () {
-          d3.select(this).attr("stroke-width", 2);
+        .on("mouseover", (event) => {
+          d3.select(event.currentTarget).attr("stroke-width", 2);
         })
-        .on("mouseout", function () {
-          d3.select(this).attr("stroke-width", 0.5);
+        .on("mouseout", (event) => {
+          if (
+            d3.select(event.currentTarget).attr("data-nta") !== this.selectedNTA
+          ) {
+            d3.select(event.currentTarget).attr("stroke-width", 0.5);
+          }
         })
         .on("click", (event, d) => {
           this.showSidebar(
@@ -160,6 +163,23 @@ export default {
         });
     },
     showSidebar(nta2020, neighborhood, additionalInfo) {
+      const svg = d3.select(this.$refs.svg);
+
+      // Reset the stroke-width of the previously selected polygon
+      svg
+        .selectAll("path")
+        .filter((d) => d.properties.NTA2020 === this.selectedNTA)
+        .attr("stroke-width", 0.5);
+
+      // Highlight the newly selected polygon
+      svg
+        .selectAll("path")
+        .filter((d) => d.properties.NTA2020 === nta2020)
+        .attr("stroke-width", 2);
+
+      // Update the selected neighborhood
+      this.selectedNTA = nta2020;
+
       // Find the neighborhood name from jsonData
       const neighborhoodData = this.jsonData.find(
         (item) => item.NTA2020 === nta2020
@@ -190,6 +210,8 @@ export default {
     },
     closeSidebar() {
       this.sidebarVisible = false;
+      this.selectedNTA = null; // Reset the selected neighborhood
+      this.renderGeoJSON();
     },
     highlightByFont(font) {
       if (!this.jsonData || !this.geojsonData) return;

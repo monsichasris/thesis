@@ -90,7 +90,7 @@ export default {
   },
   computed: {
     sidebarWidth() {
-      return 320;
+      return 400;
     },
     storeCount() {
       return this.filteredData.length;
@@ -109,7 +109,7 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  width: 320px;
+  width: 400px;
   height: 100%;
   background-color: white;
   box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
