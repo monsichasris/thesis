@@ -38,6 +38,7 @@
 
     <!-- Sidebar Component -->
     <MapSidebar
+      ref="mapSidebar"
       v-show="sidebarVisible"
       :isVisible="sidebarVisible"
       :title="sidebarTitle"
@@ -240,8 +241,7 @@ export default {
       this.sidebarTitle = `${neighborhoodName}`;
       this.sidebarContent = `${boroughName} <br> ${additionalInfo}`;
       this.sidebarVisible = true;
-
-      console.log("sidebarVisible:", this.sidebarVisible);
+      this.$refs.mapSidebar.zoomToNeighborhood();
     },
     closeSidebar() {
       this.sidebarVisible = false;

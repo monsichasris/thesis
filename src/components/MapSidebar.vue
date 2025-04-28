@@ -119,6 +119,10 @@ export default {
         this.initializeMap();
       }
     },
+    filteredData(newVal) {
+      console.log("filteredData updated:", newVal);
+      this.zoomToNeighborhood();
+    },
   },
 
   methods: {
@@ -170,17 +174,34 @@ export default {
       });
     },
     zoomToNeighborhood() {
-      if (!this.filteredData || this.filteredData.length === 0) return;
+      if (!this.map) {
+        console.error("Map instance is not initialized.");
+        return;
+      }
 
-      const nta2020 = this.filteredData[0].NTA2020; // Get the selected neighborhood's NTA2020
+      if (!this.filteredData || this.filteredData.length === 0) {
+        console.log("No filtered data available.");
+        return;
+      }
+
+      const nta2020 = this.filteredData[0].NTA2020;
+      console.log("Selected NTA2020:", nta2020);
+
       const feature = this.geojsonData.features.find(
         (f) => f.properties.NTA2020 === nta2020
       );
+      console.log("Selected Feature:", feature);
 
       if (feature) {
         const coordinates = feature.geometry.coordinates[0]; // Assuming a Polygon
+        console.log("Feature Coordinates:", coordinates);
+
         const bounds = coordinates.reduce(
           (bbox, coord) => {
+            if (!Array.isArray(coord) || coord.length !== 2) {
+              console.error("Invalid coordinate:", coord);
+              return bbox;
+            }
             return [
               Math.min(bbox[0], coord[0]), // Min longitude
               Math.min(bbox[1], coord[1]), // Min latitude
@@ -190,8 +211,67 @@ export default {
           },
           [Infinity, Infinity, -Infinity, -Infinity]
         );
+        if (bounds.includes(Infinity) || bounds.includes(-Infinity)) {
+          console.error("Invalid bounds calculated:", bounds);
+          return;
+        }
 
         this.map.fitBounds(bounds, { padding: 20 });
+
+        // Add store locations
+        this.addStoreLocations();
+      } else {
+        console.log("Feature not found for NTA2020:", nta2020);
+      }
+    },
+    addStoreLocations() {
+      if (!this.map) {
+        console.error("Map instance is not initialized.");
+        return;
+      }
+
+      if (!this.filteredData || this.filteredData.length === 0) {
+        console.log("No filtered data available for stores.");
+        return;
+      }
+
+      // Create GeoJSON features for store locations
+      const storeFeatures = this.filteredData.map((store) => ({
+        type: "Feature",
+        geometry: {
+          type: "Point",
+          coordinates: [store.lon, store.lat], // Longitude and Latitude
+        },
+        properties: {
+          name: store.name || "Unknown Store", // Add store name if available
+        },
+      }));
+
+      // Update or add the store-locations source
+      if (this.map.getSource("store-locations")) {
+        this.map.getSource("store-locations").setData({
+          type: "FeatureCollection",
+          features: storeFeatures,
+        });
+      } else {
+        this.map.addSource("store-locations", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: storeFeatures,
+          },
+        });
+
+        // Add a layer to display store locations as dots
+        this.map.addLayer({
+          id: "store-locations-layer",
+          type: "circle",
+          source: "store-locations",
+          paint: {
+            "circle-radius": 4,
+            "circle-color": "#000",
+          },
+        });
       }
     },
   },
