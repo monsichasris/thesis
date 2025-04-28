@@ -1,9 +1,12 @@
 <template>
-  <div v-if="isVisible" class="sidebar">
-    <button class="close-button" @click="closeSidebar">×</button>
+  <div v-show="isVisible" class="sidebar">
+    <button class="close-button" @click="$emit('close')">×</button>
     <h3>{{ title }}</h3>
     <p>{{ content }}</p>
     <p><strong>Store Count:</strong> {{ storeCount }}</p>
+
+    <!-- Mapbox Map -->
+    <div id="mapbox-sidebar" class="mapbox-sidebar"></div>
 
     <!-- WordsSection -->
     <WordsSection
@@ -60,6 +63,9 @@
 <script>
 import WordsSection from "./WordsSection.vue";
 import VisualChart from "./VisualChart.vue";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+
 export default {
   name: "MapSidebar",
   components: {
@@ -87,7 +93,17 @@ export default {
       type: Object,
       required: false,
     },
+    geojsonData: {
+      type: Object,
+      required: true, // Pass GeoJSON data for polygons
+    },
   },
+  data() {
+    return {
+      map: null, // Mapbox map instance
+    };
+  },
+
   computed: {
     sidebarWidth() {
       return 400;
@@ -96,9 +112,87 @@ export default {
       return this.filteredData.length;
     },
   },
+  watch: {
+    isVisible(newVal) {
+      console.log("isVisible changed:", newVal); // Debugging
+      if (newVal) {
+        this.initializeMap();
+      }
+    },
+  },
+
   methods: {
-    closeSidebar() {
-      this.$emit("close");
+    initializeMap() {
+      if (this.map) return; // Prevent reinitializing the map
+
+      mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_TOKEN;
+
+      // Initialize the Mapbox map
+      this.map = new mapboxgl.Map({
+        container: "mapbox-sidebar", // ID of the map container
+        style: "mapbox://styles/mapbox/light-v11", // Mapbox style
+        center: [-74.006, 40.7128], // Default center (New York City)
+        zoom: 20, // Default zoom level
+      });
+
+      this.map.on("load", () => {
+        console.log("Map loaded");
+        // Add GeoJSON data as a source
+        this.map.addSource("neighborhoods", {
+          type: "geojson",
+          data: this.geojsonData,
+        });
+
+        // Add a layer to display the polygons
+        this.map.addLayer({
+          id: "neighborhoods-layer",
+          type: "fill",
+          source: "neighborhoods",
+          paint: {
+            "fill-color": "#888888",
+            "fill-opacity": 0.4,
+          },
+        });
+
+        // Add a border for the polygons
+        this.map.addLayer({
+          id: "neighborhoods-border",
+          type: "line",
+          source: "neighborhoods",
+          paint: {
+            "line-color": "#000",
+            "line-width": 1,
+          },
+        });
+
+        // Zoom to the selected neighborhood
+        this.zoomToNeighborhood();
+      });
+    },
+    zoomToNeighborhood() {
+      if (!this.filteredData || this.filteredData.length === 0) return;
+
+      const nta2020 = this.filteredData[0].NTA2020; // Get the selected neighborhood's NTA2020
+      const feature = this.geojsonData.features.find(
+        (f) => f.properties.NTA2020 === nta2020
+      );
+
+      if (feature) {
+        const coordinates = feature.geometry.coordinates[0]; // Assuming a Polygon
+        const bounds = coordinates.reduce(
+          (bbox, coord) => {
+            return [
+              Math.min(bbox[0], coord[0]), // Min longitude
+              Math.min(bbox[1], coord[1]), // Min latitude
+              Math.max(bbox[2], coord[0]), // Max longitude
+              Math.max(bbox[3], coord[1]), // Max latitude
+            ];
+          },
+          [Infinity, Infinity, -Infinity, -Infinity]
+        );
+
+        this.map.fitBounds(bounds, { padding: 20 });
+      }
     },
   },
 };
@@ -120,6 +214,12 @@ export default {
 
 .sidebar h3 {
   margin-top: 0;
+}
+
+.mapbox-sidebar {
+  width: 100%;
+  height: 300px; /* Adjust height as needed */
+  margin-bottom: 20px;
 }
 
 .close-button {

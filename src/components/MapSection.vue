@@ -38,12 +38,13 @@
 
     <!-- Sidebar Component -->
     <MapSidebar
-      v-if="sidebarVisible"
+      v-show="sidebarVisible"
       :isVisible="sidebarVisible"
       :title="sidebarTitle"
       :content="sidebarContent"
       :filteredData="filteredNeighborhoodData"
       :demographicData="filteredDemographicData"
+      :geojsonData="geojsonData"
       @close="closeSidebar"
     />
   </div>
@@ -96,11 +97,7 @@ export default {
     };
   },
   mounted() {
-    if (this.geojsonData && this.geojsonData.features) {
-      this.renderGeoJSON();
-    } else {
-      console.error("GeoJSON data is not available or invalid.");
-    }
+    console.log("isVisible prop in MapSidebar (on mount):", this.isVisible);
   },
   watch: {
     geojsonData: {
@@ -115,6 +112,12 @@ export default {
       handler() {
         this.renderGeoJSON();
       },
+    },
+    isVisible(newVal) {
+      console.log("isVisible changed:", newVal);
+      if (newVal) {
+        this.initializeMap();
+      }
     },
   },
 
@@ -237,11 +240,15 @@ export default {
       this.sidebarTitle = `${neighborhoodName}`;
       this.sidebarContent = `${boroughName} <br> ${additionalInfo}`;
       this.sidebarVisible = true;
+
+      console.log("sidebarVisible:", this.sidebarVisible);
     },
     closeSidebar() {
       this.sidebarVisible = false;
       this.selectedNTA = null; // Reset the selected neighborhood
       this.renderGeoJSON();
+
+      console.log("sidebarVisible:", this.sidebarVisible);
     },
     highlightByFont(font) {
       if (!this.jsonData || !this.geojsonData) return;
@@ -325,6 +332,12 @@ export default {
   padding: 15px; /* Add padding inside the box */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
   z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.mapbox-sidebar {
+  width: 100%;
+  height: 300px; /* Adjust height as needed */
+  margin-bottom: 20px;
 }
 
 .filter-buttons {
