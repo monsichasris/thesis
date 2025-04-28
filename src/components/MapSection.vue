@@ -36,6 +36,9 @@
       <svg ref="svg" style="width: 100%; height: 100%"></svg>
     </div>
 
+    <!-- Tooltip -->
+    <div ref="tooltip" class="tooltip" style="display: none"></div>
+
     <!-- Sidebar Component -->
     <MapSidebar
       ref="mapSidebar"
@@ -152,15 +155,20 @@ export default {
         .attr("stroke-width", 0.5) // Default stroke width
         .attr("data-nta", (d) => d.properties.NTA2020)
         .attr("cursor", "pointer")
-        .on("mouseover", (event) => {
+        .on("mouseover", (event, d) => {
           d3.select(event.currentTarget).attr("stroke-width", 2);
+          this.handleTooltip(event, d);
         })
-        .on("mouseout", (event) => {
+        .on("mousemove", (event, d) => {
+          this.handleTooltip(event, d);
+        })
+        .on("mouseout", (event, d) => {
           if (
             d3.select(event.currentTarget).attr("data-nta") !== this.selectedNTA
           ) {
             d3.select(event.currentTarget).attr("stroke-width", 0.5);
           }
+          this.handleTooltip(event, d);
         })
         .on("click", (event, d) => {
           this.showSidebar(
@@ -250,6 +258,20 @@ export default {
 
       console.log("sidebarVisible:", this.sidebarVisible);
     },
+    handleTooltip(event, d) {
+      const tooltip = d3.select(this.$refs.tooltip);
+      if (event.type === "mouseover") {
+        tooltip
+          .style("display", "block")
+          .html(`<strong>${d.properties.NTAName}</strong>`);
+      } else if (event.type === "mousemove") {
+        tooltip
+          .style("left", `${event.clientX + 2}px`)
+          .style("top", `${event.clientY + 2}px`);
+      } else if (event.type === "mouseout") {
+        tooltip.style("display", "none");
+      }
+    },
     highlightByFont(font) {
       if (!this.jsonData || !this.geojsonData) return;
       this.selectedFilter = font;
@@ -311,32 +333,27 @@ export default {
 
 <style scoped>
 .map-section {
-  position: relative; /* Set the parent container to relative */
-  width: 100%; /* Ensure it spans the full width */
-  height: 100%; /* Ensure it spans the full height */
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 #map-controller {
-  position: absolute; /* Make it absolute */
+  position: absolute;
   width: 240px;
-  top: 20px; /* Adjust the vertical position */
-  left: 20px; /* Adjust the horizontal position */
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.9
-  ); /* Add a semi-transparent background */
-  border: 1px solid #ccc; /* Add a border */
-  border-radius: 10px; /* Add rounded corners */
-  padding: 15px; /* Add padding inside the box */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
-  z-index: 1000; /* Ensure it appears above other elements */
+  top: 20px;
+  left: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .mapbox-sidebar {
   width: 100%;
-  height: 300px; /* Adjust height as needed */
+  height: 300px;
   margin-bottom: 20px;
 }
 
@@ -381,5 +398,17 @@ svg {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  pointer-events: none; /* Prevent the tooltip from interfering with mouse events */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 </style>
