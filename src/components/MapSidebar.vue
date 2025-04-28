@@ -243,7 +243,9 @@ export default {
           coordinates: [store.lon, store.lat], // Longitude and Latitude
         },
         properties: {
-          name: store.name || "Unknown Store", // Add store name if available
+          id: store.id, // Store ID
+          borough: store.borough, // Borough for image folder
+          name: store.names || "Unknown Store", // Store name
         },
       }));
 
@@ -271,6 +273,48 @@ export default {
             "circle-radius": 4,
             "circle-color": "#000",
           },
+        });
+
+        let popup = null; // Store the popup instance
+        let popupTimeout = null; // Store the timeout ID
+
+        // Add interactivity for store dots
+        this.map.on("mouseenter", "store-locations-layer", (e) => {
+          const coordinates = e.features[0].geometry.coordinates.slice();
+          const { id, borough, name } = e.features[0].properties;
+
+          // Construct the image path
+          const imagePath = `/street_view_images/${borough}/${id}.jpg`;
+
+          // Clear any existing timeout to prevent premature popup removal
+          if (popupTimeout) {
+            clearTimeout(popupTimeout);
+            popupTimeout = null;
+          }
+
+          // Display a popup with the image
+          popup = new mapboxgl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(
+              `
+          <div style="text-align: center;">
+            <strong>${name}</strong>
+            <br />
+            <img src="${imagePath}" alt="${name}" style="width: 200px; height: auto;" />
+          </div>
+        `
+            )
+            .addTo(this.map);
+        });
+
+        this.map.on("mouseleave", "store-locations-layer", () => {
+          // Set a timeout to remove the popup
+          popupTimeout = setTimeout(() => {
+            if (popup) {
+              popup.remove();
+              popup = null;
+            }
+          }, 1000);
         });
       }
     },
