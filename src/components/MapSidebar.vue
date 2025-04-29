@@ -95,12 +95,12 @@ export default {
     },
     geojsonData: {
       type: Object,
-      required: true, // Pass GeoJSON data for polygons
+      required: true,
     },
   },
   data() {
     return {
-      map: null, // Mapbox map instance
+      map: null,
     };
   },
 
@@ -114,7 +114,7 @@ export default {
   },
   watch: {
     isVisible(newVal) {
-      console.log("isVisible changed:", newVal); // Debugging
+      console.log("isVisible changed:", newVal);
       if (newVal) {
         this.initializeMap();
       }
@@ -131,12 +131,11 @@ export default {
 
       mapboxgl.accessToken = process.env.VUE_APP_MAPBOX_TOKEN;
 
-      // Initialize the Mapbox map
       this.map = new mapboxgl.Map({
-        container: "mapbox-sidebar", // ID of the map container
-        style: "mapbox://styles/mapbox/light-v11", // Mapbox style
-        center: [-74.006, 40.7128], // Default center (New York City)
-        zoom: 20, // Default zoom level
+        container: "mapbox-sidebar",
+        style: "mapbox://styles/mapbox/light-v11",
+        center: [-74.006, 40.7128], // Default center NYC
+        zoom: 20,
       });
 
       this.map.on("load", () => {
@@ -218,7 +217,6 @@ export default {
 
         this.map.fitBounds(bounds, { padding: 20 });
 
-        // Add store locations
         this.addStoreLocations();
       } else {
         console.log("Feature not found for NTA2020:", nta2020);
@@ -240,12 +238,12 @@ export default {
         type: "Feature",
         geometry: {
           type: "Point",
-          coordinates: [store.lon, store.lat], // Longitude and Latitude
+          coordinates: [store.lon, store.lat],
         },
         properties: {
-          id: store.id, // Store ID
-          borough: store.borough, // Borough for image folder
-          name: store.names || "Unknown Store", // Store name
+          id: store.id,
+          borough: store.borough,
+          name: store.names || "Unknown Store",
         },
       }));
 
@@ -275,15 +273,14 @@ export default {
           },
         });
 
-        let popup = null; // Store the popup instance
-        let popupTimeout = null; // Store the timeout ID
+        let popup = null;
+        let popupTimeout = null;
 
         // Add interactivity for store dots
         this.map.on("mouseenter", "store-locations-layer", (e) => {
           const coordinates = e.features[0].geometry.coordinates.slice();
           const { id, borough, name } = e.features[0].properties;
 
-          // Construct the image path
           const imagePath = `/street_view_images/${borough}/${id}.jpg`;
 
           // Clear any existing timeout to prevent premature popup removal

@@ -1,9 +1,13 @@
 <template>
   <div style="display: flex; flex-direction: column; height: 100vh">
-    <div style="flex-grow: 1"></div>
-    <div>
-      <img src="img/stores.png" width="100%" style="margin: auto" />
+    <div class="textbox">
+      Each neighborhood has its own identity, shaped by the people who live
+      there. You can see it in the grocery stores they visit, the food they eat,
+      the design of their storefronts featured in this project, and the everyday
+      details of life. Grocery store signs are just one piece of the
+      puzzle—there are more stories waiting to be discovered out there.
     </div>
+    <img src="img/stores.png" width="100%" style="margin: auto" />
   </div>
 </template>
 
@@ -16,8 +20,4 @@ export default {
 };
 </script>
 
-<style scoped>
-div {
-  height: 100vh;
-}
-</style>
+<style scoped></style>

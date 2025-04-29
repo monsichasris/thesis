@@ -5,6 +5,7 @@
       :highlights="highlights"
       @update-active-word="handleActiveWord"
     />
+
     <!-- Key Elements at the top -->
     <div class="key-elements">
       <WordsSection
@@ -55,7 +56,8 @@ export default {
       highlights: [
         {
           title: "TEXTUAL",
-          content: "What we see in the words...",
+          content:
+            "From the 8,000 names (count once if is chain store), broke down thousands of grocery store names into individual words—removing common ones like store, market, and deli to focus on words with more meaning. You might see some values, lifestyles. You can also see cultural clues— some names reference family, nationality, religion, or languages that reflect the surrounding community.",
           isH1: true,
         },
         { title: "NEW", content: "Of course it's in New York...", isH1: false },
@@ -109,21 +111,21 @@ export default {
   },
   methods: {
     handleActiveWord(newTitle) {
-      this.activeTitle = newTitle.toLowerCase(); // Normalize the title to lowercase
+      this.activeTitle = newTitle.toLowerCase();
 
       // Set selectedWord based on the activeTitle
       if (this.isVisualOrAfter) {
         if (newTitle.toLowerCase() === "visual") {
-          this.selectedWord = "default-font"; // Replace with a default font value
+          this.selectedWord = "default-font";
         } else if (newTitle.toLowerCase() === "green") {
-          this.selectedWord = "Green"; // Replace with a default color value
+          this.selectedWord = "Green";
         } else if (newTitle.toLowerCase() === "script") {
-          this.selectedWord = "Script"; // Replace with a default font value
+          this.selectedWord = "Script";
         } else {
-          this.selectedWord = null; // Reset if no specific value is needed
+          this.selectedWord = null;
         }
       } else {
-        this.selectedWord = newTitle; // Use the word as the selectedWord
+        this.selectedWord = newTitle;
       }
 
       console.log(`Active title updated to: ${this.activeTitle}`);
@@ -152,12 +154,11 @@ export default {
   overflow: hidden;
 }
 
-/* Sticky key elements */
 .key-elements {
   position: sticky;
-  top: 0; /* Stick to the top of the viewport */
-  height: 100vh; /* Full viewport height */
-  overflow-y: auto; /* Allow scrolling within the key elements */
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
   padding: 1rem;
 }
 

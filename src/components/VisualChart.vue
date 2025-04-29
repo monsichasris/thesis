@@ -27,7 +27,7 @@ export default {
     },
     width: {
       type: Number,
-      default: 800, // Default width if not provided
+      default: 800,
     },
   },
   watch: {
@@ -68,7 +68,7 @@ export default {
           name: key,
           value,
         }))
-        .sort((a, b) => b.value - a.value); // Sort in descending order
+        .sort((a, b) => b.value - a.value);
 
       const width = this.width;
       const height = 50;
@@ -92,7 +92,6 @@ export default {
       chartData.forEach((d) => {
         const barWidth = x(d.value);
 
-        // Append the rectangle (bar)
         svg
           .append("rect")
           .attr("x", x(cumulative))
@@ -104,7 +103,7 @@ export default {
             this.type === "colors"
               ? d.name?.toLowerCase()
               : d.name?.toLowerCase() === this.activeTitle
-              ? "yellow" // Highlight matching bar with yellow
+              ? "yellow" // Highlight matching bar
               : "white" // Default color for non-matching bars
           )
           .attr(
@@ -112,18 +111,18 @@ export default {
             d.name?.toLowerCase() === this.activeTitle?.toLowerCase()
               ? "#000"
               : "#ccc"
-          ) // Add border for the matching bar
+          )
           .attr(
             "stroke-width",
             d.name?.toLowerCase() === this.activeTitle?.toLowerCase() ? 2 : 1
-          ); // Thicker border for the matching bar
+          );
 
         // Append the text (name/key) if the type is not "colors"
         if (this.type !== "colors") {
           svg
             .append("text")
-            .attr("x", x(cumulative) + barWidth / 2) // Center the text in the bar
-            .attr("y", (height - 10) / 2) // Vertically center the text
+            .attr("x", x(cumulative) + barWidth / 2)
+            .attr("y", (height - 10) / 2)
             .attr("dy", ".35em")
             .attr("text-anchor", "middle")
             .text(d.name)

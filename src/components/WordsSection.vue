@@ -63,7 +63,7 @@ export default {
 
       this.jsonData?.forEach((item) => {
         if (item.words) {
-          const isChain = item.chain; // Check if the store is a chain
+          const isChain = item.chain;
           const uniqueWords = new Set(item.words); // Use a Set to ensure unique words for chains
 
           uniqueWords.forEach((word) => {
@@ -89,7 +89,7 @@ export default {
     },
     activeWords() {
       if (!this.activeTitle) {
-        return []; // Return an empty array if activeTitle is not provided
+        return [];
       }
 
       // Normalize activeTitle to an array
@@ -138,7 +138,7 @@ export default {
       // Check if activeTitle matches a key in wordGroups
       const groupWords = wordGroups[this.activeTitle?.toLowerCase()];
       if (groupWords) {
-        return groupWords; // Return the group of words if it exists
+        return groupWords;
       }
 
       // Otherwise, return the normalized activeTitles

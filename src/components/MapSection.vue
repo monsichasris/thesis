@@ -137,13 +137,11 @@ export default {
       const width = svg.node().getBoundingClientRect().width;
       const height = svg.node().getBoundingClientRect().height;
 
-      // Define the projection and path generator
       const projection = d3
         .geoMercator()
         .fitSize([width, height], this.geojsonData);
       const path = d3.geoPath().projection(projection);
 
-      // Render the GeoJSON features
       svg
         .selectAll("path")
         .data(this.geojsonData.features)
@@ -152,7 +150,7 @@ export default {
         .attr("d", path)
         .attr("fill", "#ccc")
         .attr("stroke", "#333")
-        .attr("stroke-width", 0.5) // Default stroke width
+        .attr("stroke-width", 0.5)
         .attr("data-nta", (d) => d.properties.NTA2020)
         .attr("cursor", "pointer")
         .on("mouseover", (event, d) => {
