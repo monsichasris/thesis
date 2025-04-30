@@ -57,7 +57,7 @@ export default {
           ? store.neighborhood === this.selectedNeighborhood
           : true; // Neighborhood is optional
 
-        const hasSign = store.has_sign === "Yes"; // Only include stores with "has_sign": "Yes"
+        const hasSign = store.has_sign === "Yes";
 
         // Only return stores that match the selectedWord in any category and have a sign
         return (
@@ -132,9 +132,7 @@ export default {
                   `<strong>${d.name}</strong><br>Neighborhood: ${d.neighborhood}<br>Borough: ${d.borough}`
                 );
 
-              d3.select(event.target)
-                .attr("width", 100) // Increase width on hover
-                .attr("height", 60); // Increase height on hover
+              d3.select(event.target).attr("width", 200).attr("height", 120);
             })
             .on("mouseout", function () {
               tooltip.style("display", "none");

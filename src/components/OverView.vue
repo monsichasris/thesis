@@ -57,46 +57,85 @@ export default {
         {
           title: "TEXTUAL",
           content:
-            "From the 8,000 names (count once if is chain store), broke down thousands of grocery store names into individual words—removing common ones like store, market, and deli to focus on words with more meaning. You might see some values, lifestyles. You can also see cultural clues— some names reference family, nationality, religion, or languages that reflect the surrounding community.",
+            "From over the 8,000 doing business names (count once if is chain store), broke down thousands of grocery store names into individual words—removing common ones like store, market, and deli to focus on words with more meaning. You might see some values, lifestyles. You can also see cultural clues— some names reference family, nationality, religion, or languages that reflect the surrounding community.",
           isH1: true,
         },
-        { title: "NEW", content: "Of course it's in New York...", isH1: false },
+        {
+          title: "LA",
+          content:
+            "From the registered doing business name in English and removing stop words. The word from other languages especially spanish play a big part. We start seeing some demopgraphic clues here",
+          isH1: false,
+        },
+        {
+          title: "NEW",
+          content:
+            '"New" came to the second place. even if here is New York - Only 18 store use full name of New York other might name NY, NYC or word that represent New York like Big apple."New" also came with the name of other cities in the the world or represent something new.',
+          isH1: false,
+        },
         {
           title: "FRESH",
-          content: "Even if Americans are not...",
+          content:
+            "Fresh from the farm, green, organic, natural... come with the grocery store value and trend for people in the city. Even if we have fastfood next around the corner.",
           isH1: false,
         },
-        { title: "STOP", content: "Another group of words...", isH1: false },
-        { title: "STAR", content: "Star, Super, Best, Top...", isH1: false },
         {
-          title: "Lucky",
-          content: "The word lucky has been used...",
+          title: "STOP",
+          content:
+            "Another group of words that could reflect lifestyle of fast walking people in this city. Just stop by or grab and go what they need from the grocey",
           isH1: false,
         },
-        { title: "Mr", content: "Bro, Brother, Bros, Son, Mr...", isH1: false },
         {
-          title: "Nationality",
-          content: "Besides the street name...",
+          title: "STAR",
+          content:
+            "Star, Super, Best, Top... We can see some competition here we want to be best in this city. another interesting thing, star is used over the moon or the sun here.",
           isH1: false,
         },
+        {
+          title: "HALAL",
+          content:
+            "Religion term or Nationality of food also reflect identity of people in this city from different culture around the world.",
+          isH1: false,
+        },
+        {
+          title: "Family",
+          content:
+            "Family related words are used in the stores, but mostly are men in the the family or the prefix of men like Mr., only few store name sister or daughter.",
+          isH1: false,
+        },
+        // {
+        //   title: "Lucky",
+        //   content: "The word lucky has been used...",
+        //   isH1: false,
+        // },
+
         {
           title: "VISUAL",
-          content: "What we see in the colors...",
+          content:
+            "Then, looked at the visuals. What fonts do these stores use? What colors show up again and again? each sign speaks its own visual language.",
           isH1: true,
         },
         {
           title: "Green",
-          content: "The colors used in the stores...",
+          content:
+            "Even if the word green poppular than other colors to represent the freshness of the fodd, when it come to color, it's not the most used color.",
           isH1: false,
         },
         {
-          title: "Script",
-          content: "The fonts used in the stores...",
+          title: "Red and White",
+          content:
+            "Red and white are the most use combination of colors in the stores to grab customer attention like a stop sign on the street",
           isH1: false,
         },
         {
-          title: "Complimentary",
-          content: "The complimentary colors...",
+          title: "Decorative",
+          content:
+            "Even decorative font design for display, it's the least use among other font. It's quite difficult to read compare the san-serif that use everywhere, but it give a feeling of local handwritten style even if some of them are the chain store that want the customer to feel like a local one.",
+          isH1: false,
+        },
+        {
+          title: "Font combination",
+          content:
+            "We can see combination of san-serif with other decorative font use together A lot of stores use both San-serif and script or decorative together to make it more unique but still easy to read.",
           isH1: false,
         },
       ],
@@ -119,8 +158,12 @@ export default {
           this.selectedWord = "default-font";
         } else if (newTitle.toLowerCase() === "green") {
           this.selectedWord = "Green";
+        } else if (newTitle.toLowerCase() === "pink") {
+          this.selectedWord = "Pink";
         } else if (newTitle.toLowerCase() === "script") {
           this.selectedWord = "Script";
+        } else if (newTitle.toLowerCase() === "decorative") {
+          this.selectedWord = "Decorative";
         } else {
           this.selectedWord = null;
         }

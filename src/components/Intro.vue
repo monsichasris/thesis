@@ -27,16 +27,20 @@
   </div>
   <div class="scroll">
     <p class="textbox">
-      If you live in the city, going to the grocery store is a part of
-      life—whether you enjoy it or not. But have you ever really looked at the
-      signs? Noticed something unusual? Felt drawn to one in particular? These
-      signs tell a story more than you think.
+      If you live in the city, going to the grocery store is a part of life,
+      whether you enjoy it or not. <br /><br />
+      Exploring grocery stores is one of the ways to understand a place and the
+      people who live there. <br /><br />
+      In NYC, there are almost 10,000 grocery stores, each reflecting different
+      foods, cuisines, and cultures
     </p>
     <!-- <img src="img/samples-img.png" style="transform: scale(0.8)" /> -->
     <p class="textbox">
-      For me, exploring grocery stores is a way to understand a place, what
-      people eat and how they live. In NYC, there are almost 10,000 grocery
-      stores, each reflecting different foods, cuisines, and cultures. <br />
+      . <br />
+      But before you ever walk in... <br />
+      have you ever really looked at the
+      <b>signs</b>?<br />
+      They might say something more than you think<br /><br />
       Let’s take a closer look.
     </p>
     <p class="textbox">What we will explore on grocery store signs</p>
@@ -51,8 +55,8 @@
       "
     />
     <p class="textbox">
-      These are the key elements of brand identity that shape how a store, But
-      beyond branding, do these signs also reflect the anything else?
+      These are the key elements of brand identity that shape how a store look,
+      But beyond branding, these signs also reflect identity in the community.
     </p>
   </div>
 </template>
