@@ -1,12 +1,13 @@
 <template>
   <p class="textbox">
-    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempore beatae
-    obcaecati recusandae sapiente sunt dolorum, illum praesentium quisquam
-    voluptas nihil voluptate officia aut nobis veniam libero dolorem rerum? Ab,
-    animi.
+    Explore more through this map.
+    <br />
+    Every area offers a different glimpse, a different piece of the city’s
+    visual and cultural landscape.
   </p>
   <div class="map-section">
     <div id="map-controller">
+      <p>Click on the neighborhoods to see the details</p>
       <h3>Filter by Fonts</h3>
       <div class="filter-buttons">
         <button
@@ -169,11 +170,7 @@ export default {
           this.handleTooltip(event, d);
         })
         .on("click", (event, d) => {
-          this.showSidebar(
-            d.properties.NTA2020,
-            d.properties.neighborhood,
-            "Additional information about this neighborhood."
-          );
+          this.showSidebar(d.properties.NTA2020, d.properties.neighborhood);
         });
     },
     renderFilteredCircles(filteredData) {
@@ -202,7 +199,7 @@ export default {
         .attr("r", 2)
         .attr("fill", "black");
     },
-    showSidebar(nta2020, neighborhood, additionalInfo) {
+    showSidebar(nta2020) {
       const svg = d3.select(this.$refs.svg);
 
       // Reset the stroke-width of the previously selected polygon
@@ -245,7 +242,7 @@ export default {
 
       // Set the sidebar content
       this.sidebarTitle = `${neighborhoodName}`;
-      this.sidebarContent = `${boroughName} <br> ${additionalInfo}`;
+      this.sidebarContent = `${boroughName}`;
       this.sidebarVisible = true;
       this.$refs.mapSidebar.zoomToNeighborhood();
     },

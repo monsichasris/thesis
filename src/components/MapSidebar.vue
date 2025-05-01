@@ -20,13 +20,13 @@
       containerId="sidebar-visual-chart-fonts"
       type="fonts"
       :jsonData="filteredData"
-      :width="sidebarWidth"
+      :width="sidebarWidth - 20"
     />
     <VisualChart
       containerId="sidebar-visual-chart-colors"
       type="colors"
       :jsonData="filteredData"
-      :width="sidebarWidth"
+      :width="sidebarWidth - 20"
     />
 
     <!-- Demographic Data -->

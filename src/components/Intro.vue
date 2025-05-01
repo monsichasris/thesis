@@ -1,8 +1,13 @@
 <template>
-  <!-- temporary img - animate later -->
   <div>
-    <img src="img/title_img.png" width="80%" />
+    <img
+      src="img/title_basket.svg"
+      width="80%"
+      style="position: absolute; top: 0; left: 50%; transform: translateX(-50%)"
+    />
   </div>
+
+  <MatterAnimation :basketSvg="'img/baseline.svg'" :images="images" />
   <!-- <div class="title">
     <img alt="grocery signery" src="img/title.svg" width="50%" />
     <img alt="stores" src="img/stores.png" width="100%" />
@@ -62,10 +67,28 @@
 </template>
 
 <script>
+import MatterAnimation from "./MatterAnimation.vue";
 export default {
   name: "IntroSection",
+  components: { MatterAnimation },
   props: {
     text: String,
+  },
+  data() {
+    return {
+      images: this.loadImages(),
+    };
+  },
+  methods: {
+    loadImages() {
+      // Dynamically load all images from the img/objects folder
+      const context = require.context(
+        "/public/img/objects",
+        false,
+        /\.(png|jpe?g|svg)$/
+      );
+      return context.keys().map((key) => context(key));
+    },
   },
 };
 </script>
