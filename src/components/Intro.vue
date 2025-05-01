@@ -1,6 +1,18 @@
 <template>
   <div>
     <img
+      src="img/title.svg"
+      width="50%"
+      style="
+        position: absolute;
+        top: 0;
+        left: 50%;
+        top: 30%;
+        transform: translateX(-50%);
+        z-index: 2;
+      "
+    />
+    <img
       src="img/title_basket.svg"
       width="80%"
       style="position: absolute; top: 0; left: 50%; transform: translateX(-50%)"

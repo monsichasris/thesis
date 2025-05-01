@@ -22,16 +22,7 @@ export default {
   },
   methods: {
     initMatter() {
-      const {
-        Engine,
-        Render,
-        Runner,
-        Bodies,
-        Composite,
-        Composites,
-        Common,
-        Body,
-      } = Matter;
+      const { Engine, Render, Runner, Bodies, Composite } = Matter;
 
       // Get the full screen dimensions
       const width = window.innerWidth;
@@ -63,29 +54,35 @@ export default {
       const leftWall = Bodies.rectangle(
         280,
         height / 1.2,
-        1,
+        50,
         height, // Length of the wall,
         {
           isStatic: true,
           angle: Math.atan2(height / 2 - 0, width / 3 - height * 2), // Calculate the angle of the left wall
           render: {
-            fillStyle: "#000", // Optional: color for the wall
+            fillStyle: "transparent", // Optional: color for the wall
           },
         }
       );
 
-      const rightWall = Bodies.rectangle(width - 280, height / 1.2, 1, height, {
-        isStatic: true,
-        angle: Math.atan2(0 - height / 2, width / 3 - height * 2), // Calculate the angle of the right wall
-        render: {
-          fillStyle: "#000", // Optional: color for the wall
-        },
-      });
+      const rightWall = Bodies.rectangle(
+        width - 280,
+        height / 1.2,
+        50,
+        height,
+        {
+          isStatic: true,
+          angle: Math.atan2(0 - height / 2, width / 3 - height * 2), // Calculate the angle of the right wall
+          render: {
+            fillStyle: "transparent", // Optional: color for the wall
+          },
+        }
+      );
 
-      const bottomWall = Bodies.rectangle(width / 2, height, width, 50, {
+      const bottomWall = Bodies.rectangle(width / 2, height, width, 100, {
         isStatic: true,
         render: {
-          fillStyle: "#000", // Optional: color for the wall
+          fillStyle: "transparent", // Make the wall transparent
         },
       });
 
@@ -94,47 +91,30 @@ export default {
       // Use all images in order
       const allImages = [...this.images];
 
-      // Keep track of the current image index
-      let imageIndex = 0;
+      // Define the new size for the objects
+      const objectWidth = 40; // Width of the objects
+      const objectHeight = 40; // Height of the objects
 
-      // Add falling objects in the middle of the screen using Composites.stack
-      const stack = Composites.stack(
-        width / 2 - 40,
-        -600,
-        1,
-        allImages.length,
-        0,
-        60,
-        (x, y) => {
-          // Get the current image and increment the index
-          const texture = allImages[imageIndex];
-          imageIndex = (imageIndex + 1) % allImages.length; // Cycle through the array
+      // Add objects randomly
+      allImages.forEach((texture) => {
+        // Generate random positions above the canvas
+        const x = Math.random() * (width - objectWidth * 0.7) + objectWidth / 2; // Random horizontal position
+        const y = Math.random() * -500; // Random vertical position above the canvas
 
-          return Bodies.rectangle(x, y, 50, 50, {
-            restitution: 0.5, // Bounciness
-            friction: 0.2, // Friction
-            render: {
-              sprite: {
-                texture: texture, // Use the current image
-                xScale: 0.5,
-                yScale: 0.5,
-              },
+        const body = Bodies.rectangle(x, y, objectWidth, objectHeight, {
+          restitution: 0.6, // Bounciness
+          friction: 0.2, // Friction
+          render: {
+            sprite: {
+              texture: texture, // Use the current image
+              xScale: 0.7, // Scale the image to match the new size
+              yScale: 0.7,
             },
-          });
-        }
-      );
+          },
+        });
 
-      // Add the stack to the world
-      Composite.add(world, stack);
-
-      // Apply random horizontal forces to scatter objects
-      stack.bodies.forEach((body) => {
-        const randomForce = Common.random(-0.02, 0.02); // Random horizontal force
-        Body.applyForce(
-          body,
-          { x: body.position.x, y: body.position.y },
-          { x: randomForce, y: 0 }
-        );
+        // Add the body to the world
+        Composite.add(world, body);
       });
 
       // Handle window resize
@@ -181,7 +161,7 @@ export default {
       const mouseConstraint = Matter.MouseConstraint.create(engine, {
         mouse: mouse,
         constraint: {
-          stiffness: 0.5, // How "stiff" the dragging is
+          stiffness: 0.2, // How "stiff" the dragging is
           render: {
             visible: false, // Set to true if you want to see the mouse constraint
           },
