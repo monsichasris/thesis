@@ -8,7 +8,7 @@
       <h2>Race</h2>
       <div class="textbox">
         These are grouped by the percentage of race in each neighborhood that
-        has more than 50% of the population.
+        has more than 50% of the population that share the same background.
       </div>
       <div class="demographic-column">
         <div class="demographic-item">
@@ -100,49 +100,91 @@
     <div class="demographic-group" id="demo-age">
       <h2>Age</h2>
       <div class="textbox">
-        These are grouped by the percentage of age in each neighborhood that has
-        more than 50% of the population.
+        These are estimate number of population more than 10,000 in each
+        neighborhood grouped by age range (data in 2022).
       </div>
       <div class="demographic-column">
         <div class="demographic-item">
-          <h3>Under 18</h3>
+          <h3>Gen Z</h3>
           <WordsSection
-            :jsonData="getFilteredData('PopU18')"
+            :jsonData="getFilteredData('PopZ')"
             :minStoreCount="20"
             :fontSizeMultiplier="0.5"
           />
           <VisualChart
-            containerId="stacked-bar-chart-fonts-u18"
+            containerId="stacked-bar-chart-fonts-genZ"
             type="fonts"
-            :jsonData="getFilteredData('PopU18')"
+            :jsonData="getFilteredData('PopZ')"
             :width="sidebarWidth"
           />
 
           <VisualChart
-            containerId="stacked-bar-chart-colors-u18"
+            containerId="stacked-bar-chart-colors-genZ"
             type="colors"
-            :jsonData="getFilteredData('PopU18')"
+            :jsonData="getFilteredData('PopZ')"
             :width="sidebarWidth"
           />
         </div>
         <div class="demographic-item">
-          <h3>65 and Older</h3>
+          <h3>Gen Y</h3>
           <WordsSection
-            :jsonData="getFilteredData('Pop65pl')"
-            :minStoreCount="10"
+            :jsonData="getFilteredData('PopY')"
+            :minStoreCount="20"
             :fontSizeMultiplier="0.5"
           />
           <VisualChart
-            containerId="stacked-bar-chart-fonts-65pl"
+            containerId="stacked-bar-chart-fonts-genY"
             type="fonts"
-            :jsonData="getFilteredData('Pop65pl')"
+            :jsonData="getFilteredData('PopY')"
             :width="sidebarWidth"
           />
 
           <VisualChart
-            containerId="stacked-bar-chart-colors-65pl"
+            containerId="stacked-bar-chart-colors-genY"
             type="colors"
-            :jsonData="getFilteredData('Pop65pl')"
+            :jsonData="getFilteredData('PopY')"
+            :width="sidebarWidth"
+          />
+        </div>
+        <div class="demographic-item">
+          <h3>Gen X</h3>
+          <WordsSection
+            :jsonData="getFilteredData('PopX')"
+            :minStoreCount="20"
+            :fontSizeMultiplier="0.5"
+          />
+          <VisualChart
+            containerId="stacked-bar-chart-fonts-genX"
+            type="fonts"
+            :jsonData="getFilteredData('PopX')"
+            :width="sidebarWidth"
+          />
+
+          <VisualChart
+            containerId="stacked-bar-chart-colors-genX"
+            type="colors"
+            :jsonData="getFilteredData('PopX')"
+            :width="sidebarWidth"
+          />
+        </div>
+        <div class="demographic-item">
+          <h3>Baby Boomer</h3>
+          <WordsSection
+            :jsonData="getFilteredData('PopBB')"
+            :minStoreCount="10"
+            :fontSizeMultiplier="1"
+          />
+          <VisualChart
+            containerId="stacked-bar-chart-fonts-boomer"
+            type="fonts"
+            :jsonData="getFilteredData('PopBB')"
+            :width="sidebarWidth"
+          />
+
+          <VisualChart
+            containerId="stacked-bar-chart-colors-boomer"
+            type="colors"
+            :jsonData="getFilteredData('PopBB')"
             :width="sidebarWidth"
           />
         </div>
@@ -151,16 +193,15 @@
     <div class="demographic-group" id="demo-income">
       <h2>Income</h2>
       <div class="textbox">
-        These are grouped by the percentage of income in each neighborhood that
-        has more than 50% of the population.
+        These are grouped by medium household income in each neighborhood.
       </div>
       <div class="demographic-column">
         <div class="demographic-item">
           <h3>Under 30k</h3>
           <WordsSection
             :jsonData="getFilteredData('under_30k')"
-            :minStoreCount="2"
-            :fontSizeMultiplier="2"
+            :minStoreCount="5"
+            :fontSizeMultiplier="1"
           />
           <VisualChart
             containerId="stacked-bar-chart-fonts-u30k"
@@ -177,65 +218,44 @@
           />
         </div>
         <div class="demographic-item">
-          <h3>30k to 44k</h3>
+          <h3>30k to 59k</h3>
           <WordsSection
-            :jsonData="getFilteredData('30k_to_44k')"
+            :jsonData="getFilteredData('30k_to_59k')"
             :minStoreCount="10"
-            :fontSizeMultiplier="1.2"
+            :fontSizeMultiplier="1"
           />
           <VisualChart
-            containerId="stacked-bar-chart-fonts-44k"
+            containerId="stacked-bar-chart-fonts-59k"
             type="fonts"
-            :jsonData="getFilteredData('30k_to_44k')"
+            :jsonData="getFilteredData('30k_to_59k')"
             :width="sidebarWidth"
           />
 
           <VisualChart
-            containerId="stacked-bar-chart-colors-44k"
+            containerId="stacked-bar-chart-colors-59k"
             type="colors"
-            :jsonData="getFilteredData('30k_to_44k')"
+            :jsonData="getFilteredData('30k_to_59k')"
             :width="sidebarWidth"
           />
         </div>
         <div class="demographic-item">
-          <h3>45k to 64k</h3>
+          <h3>60k to 99k</h3>
           <WordsSection
-            :jsonData="getFilteredData('45k_to_64k')"
-            :minStoreCount="20"
-            :fontSizeMultiplier="1.2"
-          />
-          <VisualChart
-            containerId="stacked-bar-chart-fonts-64k"
-            type="fonts"
-            :jsonData="getFilteredData('45k_to_64k')"
-            :width="sidebarWidth"
-          />
-
-          <VisualChart
-            containerId="stacked-bar-chart-colors-64k"
-            type="colors"
-            :jsonData="getFilteredData('45k_to_64k')"
-            :width="sidebarWidth"
-          />
-        </div>
-        <div class="demographic-item">
-          <h3>65k to 99k</h3>
-          <WordsSection
-            :jsonData="getFilteredData('65k_to_99k')"
-            :minStoreCount="25"
-            :fontSizeMultiplier="0.8"
+            :jsonData="getFilteredData('60k_to_99k')"
+            :minStoreCount="30"
+            :fontSizeMultiplier="1"
           />
           <VisualChart
             containerId="stacked-bar-chart-fonts-99k"
             type="fonts"
-            :jsonData="getFilteredData('65k_to_99k')"
+            :jsonData="getFilteredData('60k_to_99k')"
             :width="sidebarWidth"
           />
 
           <VisualChart
             containerId="stacked-bar-chart-colors-99k"
             type="colors"
-            :jsonData="getFilteredData('65k_to_99k')"
+            :jsonData="getFilteredData('60k_to_99k')"
             :width="sidebarWidth"
           />
         </div>
@@ -243,8 +263,8 @@
           <h3>100k or more</h3>
           <WordsSection
             :jsonData="getFilteredData('100k_or_more')"
-            :minStoreCount="15"
-            :fontSizeMultiplier="1.2"
+            :minStoreCount="10"
+            :fontSizeMultiplier="1"
           />
           <VisualChart
             containerId="stacked-bar-chart-fonts-100kpl"
@@ -308,33 +328,30 @@ export default {
       // Logic for race columns (percentage > 50%)
       if (["Hsp_P", "Bl_P", "Wt_P", "Asn_P"].includes(column)) {
         const filteredNeighborhoods = this.demographicData
-          .filter((row) => parseFloat(row[column]) > 50) // Race percentage > 50%
+          .filter((row) => parseFloat(row[column]) > 50)
           .map((row) => row.GeoID);
 
-        // Filter jsonData to include only matching neighborhoods
         return this.jsonData.filter((item) =>
           filteredNeighborhoods.includes(item.NTA2020)
         );
       }
 
       // Logic for population columns with population > 10,000
-      if (["PopU18", "Pop65pl"].includes(column)) {
+      if (["PopZ", "PopY", "PopX", "PopBB"].includes(column)) {
         const filteredNeighborhoods = this.demographicData
-          .filter((row) => parseFloat(row[column]) > 10000) // Population > 10,000
+          .filter((row) => parseFloat(row[column]) > 10000)
           .map((row) => row.GeoID);
 
-        // Filter jsonData to include only matching neighborhoods
         return this.jsonData.filter((item) =>
           filteredNeighborhoods.includes(item.NTA2020)
         );
       }
 
-      // Logic for income groups (under_30k, 30k_to_44k, etc.)
+      // Logic for income groups
       const incomeGroups = {
         "100k_or_more": (value) => value >= 100000,
-        "65k_to_99k": (value) => value >= 65000 && value < 100000,
-        "45k_to_64k": (value) => value >= 45000 && value < 65000,
-        "30k_to_44k": (value) => value >= 30000 && value < 45000,
+        "60k_to_99k": (value) => value >= 60000 && value < 100000,
+        "30k_to_59k": (value) => value >= 30000 && value < 60000,
         under_30k: (value) => value < 30000,
       };
 
@@ -362,7 +379,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 .demographic-column {
@@ -377,6 +394,6 @@ export default {
   width: 20%;
 }
 .textbox {
-  margin: 80px auto;
+  margin: 8px auto;
 }
 </style>
