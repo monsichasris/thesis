@@ -54,6 +54,21 @@ export default {
       // Clear any existing chart
       d3.select(`#${this.containerId}`).selectAll("*").remove();
 
+      // Create a tooltip element
+      const tooltip = d3
+        .select(`#${this.containerId}`)
+        .append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background-color", "white")
+        .style("border", "1px solid #ccc")
+        .style("padding", "8px")
+        .style("border-radius", "4px")
+        .style("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.2)")
+        .style("font-size", "12px")
+        .style("pointer-events", "none")
+        .style("opacity", 0); // Initially hidden
+
       // Aggregate data for the specified type
       const aggregatedData = this.jsonData.reduce((acc, item) => {
         if (item[this.type]) {
@@ -72,16 +87,12 @@ export default {
         .sort((a, b) => b.value - a.value);
 
       const width = this.width;
-      const height = 50;
-      const margin = { top: 10, right: 10, bottom: 10, left: 0 };
-
+      const height = 80;
       const svg = d3
         .select(`#${this.containerId}`)
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform", `translate(${margin.left},${margin.top})`);
+        .attr("width", width)
+        .attr("height", height);
 
       const x = d3
         .scaleLinear()
@@ -91,14 +102,18 @@ export default {
       // Render the stacked bar
       let cumulative = 0;
       chartData.forEach((d) => {
-        const barWidth = x(d.value);
+        let barWidth = x(d.value);
+        // Ensure the bar width is not negative
+        barWidth = Math.max(barWidth - 4, 0);
 
         svg
           .append("rect")
-          .attr("x", x(cumulative))
+          .attr("x", x(cumulative) + 2) // Add space between bars
           .attr("y", 0)
-          .attr("width", barWidth)
-          .attr("height", height - 10)
+          .attr("width", barWidth - 4) // Adjust width to account for spacing
+          .attr("height", height)
+          .attr("rx", 4)
+          .attr("ry", 4)
           .attr(
             "fill",
             this.type === "colors"
@@ -107,7 +122,6 @@ export default {
               ? "yellow" // Highlight matching bar
               : "white" // Default color for non-matching bars
           )
-          .style("z-index", 100) // Set z-index for the SVG element
           .attr(
             "stroke",
             d.name?.toLowerCase() === this.activeTitle?.toLowerCase()
@@ -117,7 +131,22 @@ export default {
           .attr(
             "stroke-width",
             d.name?.toLowerCase() === this.activeTitle?.toLowerCase() ? 2 : 1
-          );
+          )
+          .on("mouseover", () => {
+            tooltip
+              .style("opacity", 1) // Show the tooltip
+              .html(`<strong>${d.name}</strong>: ${d.value}`); // Set tooltip content
+          })
+          .on("mousemove", (event) => {
+            const container = document.querySelector(`#${this.containerId}`);
+            const containerRect = container.getBoundingClientRect();
+            tooltip
+              .style("left", `${event.clientX - containerRect.left + 2}px`)
+              .style("top", `${event.clientY - containerRect.top + 2}px`);
+          })
+          .on("mouseout", () => {
+            tooltip.style("opacity", 0); // Hide the tooltip
+          });
 
         // Append the text (name/key) if the type is not "colors"
         if (this.type !== "colors") {
@@ -150,5 +179,19 @@ export default {
   position: relative;
   width: 100%;
   z-index: 100;
+}
+
+.tooltip {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 12px;
+  pointer-events: none;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.2s ease-in-out;
+  z-index: 10;
 }
 </style>
