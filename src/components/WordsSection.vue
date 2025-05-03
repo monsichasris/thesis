@@ -12,10 +12,14 @@
           ),
         },
       ]"
-      :style="{ fontSize: `${word['Store Count'] * fontSizeMultiplier}px` }"
+      :style="{
+        fontSize: `${word['Store Count'] * fontSizeMultiplier}px`,
+        zIndex: 1,
+      }"
     >
       {{ word["Name Words"] }}
     </span>
+    <img src="img/shelf.svg" width="100%" style="margin-top: -4%; z-index: 0" />
   </div>
 </template>
 
@@ -238,12 +242,11 @@ export default {
 
 <style scoped>
 .word-container {
-  width: 90%;
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin: auto;
   align-items: self-end;
-  border-bottom: 4px solid black;
 }
 
 .word {

@@ -57,49 +57,49 @@ export default {
         {
           title: "TEXTUAL",
           content:
-            "From over the 8,000 doing business names (count once if is chain store), broke down thousands of grocery store names into individual words—removing common ones like store, market, and deli to focus on words with more meaning. You might see some values, lifestyles. You can also see cultural clues— some names reference family, nationality, religion, or languages that reflect the surrounding community.",
+            "From over 8,000 business names (counting each chain store only once), thousands of grocery store names were broken down into individual words—removing common ones like 'store,' 'market,' and 'deli' to focus on words with more meaning. You might notice values and lifestyles reflected in these names. Additionally, cultural clues emerge—some names reference family, nationality, religion, or languages that reflect the surrounding community.",
           isH1: true,
         },
         {
           title: "LA",
           content:
-            "From the registered doing business name in English and removing stop words. The word from other languages especially spanish play a big part. We start seeing some demopgraphic clues here",
+            "From the registered business names in English, after removing stop words, words from other languages—especially Spanish—play a significant role. Here, we start to see some demographic clues.",
           isH1: false,
         },
         {
           title: "NEW",
           content:
-            '"New" came to the second place. even if here is New York - Only 18 store use full name of New York other might name NY, NYC or word that represent New York like Big apple."New" also came with the name of other cities in the the world or represent something new.',
+            "'New' came in second place. Even though this is New York, only 18 stores use the full name 'New York.' Others might use abbreviations like 'NY,' 'NYC,' or words that represent New York, such as 'Big Apple.' 'New' is also used in the names of other cities around the world or to represent something new in this city.",
           isH1: false,
         },
         {
           title: "FRESH",
           content:
-            "Fresh from the farm, green, organic, natural... come with the grocery store value and trend for people in the city. Even if we have fastfood next around the corner.",
+            "'Fresh from the farm,' 'green,' 'organic,' 'natural'—these words reflect grocery store values and trends for urban consumers. Even with fast food just around the corner, these words emphasize a healthier lifestyle.",
           isH1: false,
         },
         {
           title: "STOP",
           content:
-            "Another group of words that could reflect lifestyle of fast walking people in this city. Just stop by or grab and go what they need from the grocey",
+            "Another group of words reflects the fast-paced lifestyle of city dwellers. Words like 'stop by' or 'grab and go' suggest convenience and efficiency for people picking up groceries quickly.",
           isH1: false,
         },
         {
           title: "STAR",
           content:
-            "Star, Super, Best, Top... We can see some competition here we want to be best in this city. another interesting thing, star is used over the moon or the sun here.",
+            "'Star,' 'Super,' 'Best,' 'Top'—these words suggest competition, with stores aiming to be the best in the city. Interestingly, 'star' is used more often than celestial terms like 'moon' or 'sun.'",
           isH1: false,
         },
         {
           title: "HALAL",
           content:
-            "Religion term or Nationality of food also reflect identity of people in this city from different culture around the world.",
+            "Religious terms or references to the nationality of food reflect the cultural identities of people in this city, showcasing its diversity.",
           isH1: false,
         },
         {
           title: "Family",
           content:
-            "Family related words are used in the stores, but mostly are men in the the family or the prefix of men like Mr., only few store name sister or daughter.",
+            "Family-related words are used in store names, but they mostly reference men in the family or male prefixes like 'Mr.' Only a few stores use names like 'sister' or 'daughter.'",
           isH1: false,
         },
         // {
@@ -111,31 +111,31 @@ export default {
         {
           title: "VISUAL",
           content:
-            "Then, looked at the visuals. What fonts do these stores use? What colors show up again and again? each sign speaks its own visual language.",
+            "Next, we looked at the visuals. What fonts do these stores use? What colors appear repeatedly? Each sign speaks its own visual language.",
           isH1: true,
         },
         {
           title: "Green",
           content:
-            "Even if the word green poppular than other colors to represent the freshness of the fodd, when it come to color, it's not the most used color.",
+            "Even though the word 'green' is popular for representing freshness, when it comes to actual colors, green is not the most used color.",
           isH1: false,
         },
         {
           title: "Red and White",
           content:
-            "Red and white are the most use combination of colors in the stores to grab customer attention like a stop sign on the street",
+            "Red and white are the most commonly used color combinations in store signage. They grab customer attention, much like a stop sign on the street.",
           isH1: false,
         },
         {
           title: "Decorative",
           content:
-            "Even decorative font design for display, it's the least use among other font. It's quite difficult to read compare the san-serif that use everywhere, but it give a feeling of local handwritten style even if some of them are the chain store that want the customer to feel like a local one.",
+            "Decorative fonts, designed for display, are the least used among all font types. While they are harder to read compared to the widely used sans-serif fonts, they give a local, handwritten feel—even for chain stores that aim to appear more personal and community-focused.",
           isH1: false,
         },
         {
           title: "Font combination",
           content:
-            "We can see combination of san-serif with other decorative font use together A lot of stores use both San-serif and script or decorative together to make it more unique but still easy to read.",
+            "We often see a combination of sans-serif fonts with other decorative fonts. Many stores use both sans-serif and script or decorative fonts together to create a unique yet readable design.",
           isH1: false,
         },
       ],
@@ -192,17 +192,19 @@ export default {
 <style scoped>
 .overview-layout {
   position: relative;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .key-elements {
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow-y: auto;
-  padding: 1rem;
+  overflow-y: hidden;
+  padding: 40px;
 }
 
 #stacked-bar-chart-fonts,

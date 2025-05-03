@@ -28,9 +28,6 @@ export default {
       scroller: null,
     };
   },
-  mounted() {
-    this.initScrollama();
-  },
   methods: {
     initScrollama() {
       this.scroller = scrollama();
@@ -52,6 +49,32 @@ export default {
           this.$emit("update-active-word", title);
         });
     },
+    handleScroll() {
+      const highlights = document.querySelector(".highlights-container");
+      const keyElements = document.querySelector(".key-elements");
+
+      const highlightsBottom = highlights.getBoundingClientRect().bottom;
+      const viewportHeight = window.innerHeight;
+
+      if (highlightsBottom <= viewportHeight) {
+        // If the bottom of HighLights is visible, stop sticking
+        keyElements.style.position = "absolute";
+        keyElements.style.top = `${
+          highlights.offsetHeight - keyElements.offsetHeight
+        }px`;
+      } else {
+        // Otherwise, keep it sticky
+        keyElements.style.position = "sticky";
+        keyElements.style.top = "0";
+      }
+    },
+  },
+  mounted() {
+    this.initScrollama();
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.handleScroll);
   },
 };
 </script>

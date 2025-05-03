@@ -1,5 +1,6 @@
 <template>
   <div :id="containerId" class="stacked-bar-chart"></div>
+  <img src="img/shelf.svg" width="100%" style="margin-top: -4%; z-index: -1" />
 </template>
 
 <script>
@@ -106,6 +107,7 @@ export default {
               ? "yellow" // Highlight matching bar
               : "white" // Default color for non-matching bars
           )
+          .style("z-index", 100) // Set z-index for the SVG element
           .attr(
             "stroke",
             d.name?.toLowerCase() === this.activeTitle?.toLowerCase()
@@ -145,6 +147,8 @@ export default {
 
 <style scoped>
 .stacked-bar-chart {
+  position: relative;
   width: 100%;
+  z-index: 100;
 }
 </style>

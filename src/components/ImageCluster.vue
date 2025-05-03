@@ -3,6 +3,17 @@
     <svg ref="svg" class="image-svg"></svg>
     <div ref="tooltip" class="tooltip"></div>
   </div>
+  <img
+    src="img/basket.svg"
+    width="80%"
+    style="
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: -1;
+    "
+  />
 </template>
 
 <script>

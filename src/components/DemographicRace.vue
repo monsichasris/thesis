@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="textbox">
-      If we look into the demographic in each neighborhood, some words, fonts,
-      and colors appear more often in different communities.
+      When we examine the demographics of each neighborhood, certain words,
+      fonts, and colors appear more frequently in specific communities.
     </div>
     <div class="demographic-group" id="demo-race">
       <h2>Race</h2>
       <div class="textbox">
-        These are grouped by the percentage of race in each neighborhood that
-        has more than 50% of the population that share the same background.
+        These groups are based on neighborhoods where more than 50% of the
+        population shares the same racial background.
       </div>
       <div class="demographic-column">
         <div class="demographic-item">
@@ -100,8 +100,8 @@
     <div class="demographic-group" id="demo-age">
       <h2>Age</h2>
       <div class="textbox">
-        These are estimate number of population more than 10,000 in each
-        neighborhood grouped by age range (data in 2022).
+        These groups represent neighborhoods with an estimated population of
+        over 10,000, categorized by age range (data from 2022).
       </div>
       <div class="demographic-column">
         <div class="demographic-item">
@@ -193,7 +193,8 @@
     <div class="demographic-group" id="demo-income">
       <h2>Income</h2>
       <div class="textbox">
-        These are grouped by medium household income in each neighborhood.
+        These groups are based on the median household income in each
+        neighborhood.
       </div>
       <div class="demographic-column">
         <div class="demographic-item">

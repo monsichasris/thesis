@@ -1,18 +1,14 @@
 <template>
   <link rel="stylesheet" href="https://use.typekit.net/zik1lgr.css" />
   <section><Intro /></section>
-  <section><OverView :jsonData="jsonData" /></section>
-  <section>
-    <DemographicRace :jsonData="jsonData" :demographicData="demographicData" />
-  </section>
-  <section>
-    <MapSection
-      :jsonData="jsonData"
-      :geojsonData="geojsonData"
-      :demographicData="demographicData"
-    />
-  </section>
-  <section><Outro /></section>
+  <OverView :jsonData="jsonData" />
+  <DemographicRace :jsonData="jsonData" :demographicData="demographicData" />
+  <MapSection
+    :jsonData="jsonData"
+    :geojsonData="geojsonData"
+    :demographicData="demographicData"
+  />
+  <Outro />
   <footer></footer>
 </template>
 

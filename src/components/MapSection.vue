@@ -1,14 +1,14 @@
 <template>
   <p class="textbox">
-    Explore more through this map.
+    Explore the city through this map.
     <br />
-    Every area offers a different glimpse, a different piece of the city’s
-    visual and cultural landscape.
+    Each area provides a unique glimpse into the city’s visual and cultural
+    landscape.
   </p>
   <div class="map-section">
     <div id="map-controller">
-      <p>Click on the neighborhoods to see the details</p>
-      <h3>Filter by Fonts</h3>
+      <p>Click on the neighborhoods to view the details</p>
+      <h3>Filter by Font Style</h3>
       <div class="filter-buttons">
         <button
           v-for="font in fonts"
@@ -20,7 +20,7 @@
         </button>
       </div>
 
-      <h3>Filter by Colors</h3>
+      <h3>Filter by Color</h3>
       <div class="filter-buttons">
         <button
           v-for="color in colors"

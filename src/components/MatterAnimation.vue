@@ -74,15 +74,15 @@ export default {
           isStatic: true,
           angle: Math.atan2(0 - height / 2, width / 3 - height * 2), // Calculate the angle of the right wall
           render: {
-            fillStyle: "transparent", // Optional: color for the wall
+            fillStyle: "transparent",
           },
         }
       );
 
-      const bottomWall = Bodies.rectangle(width / 2, height, width, 100, {
+      const bottomWall = Bodies.rectangle(width / 2, height, width / 2, 100, {
         isStatic: true,
         render: {
-          fillStyle: "transparent", // Make the wall transparent
+          fillStyle: "transparent",
         },
       });
 
@@ -107,7 +107,7 @@ export default {
           render: {
             sprite: {
               texture: texture, // Use the current image
-              xScale: 0.7, // Scale the image to match the new size
+              xScale: 0.7,
               yScale: 0.7,
             },
           },
@@ -180,7 +180,7 @@ export default {
 
 <style scoped>
 .matter-container {
-  width: 100vw;
+  width: 90vw;
   height: 100vh;
   overflow: hidden;
   position: relative;

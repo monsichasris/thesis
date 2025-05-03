@@ -53,7 +53,6 @@
     </p>
     <!-- <img src="img/samples-img.png" style="transform: scale(0.8)" /> -->
     <p class="textbox">
-      . <br />
       But before you ever walk in... <br />
       have you ever really looked at the
       <b>signs</b>?<br />
