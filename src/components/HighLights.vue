@@ -81,16 +81,16 @@ export default {
 
 <style scoped>
 .highlights-container {
-  position: absolute; /* Overlay on the left */
+  position: absolute;
   top: 0;
   right: 0;
-  width: 30vw; /* Take up 30% of the viewport width */
-  height: 100vh; /* Full viewport height */
-  overflow-y: scroll; /* Allow scrolling within the highlights */
+  width: 30vw;
   padding: 1rem;
   padding-top: 50%;
+  padding-bottom: 50%;
   background: transparent;
-  z-index: 10; /* Ensure it overlays other elements */
+  z-index: 10;
+  pointer-events: none;
 }
 
 .highlight {
@@ -99,6 +99,7 @@ export default {
   border: 1px solid #ccc;
   border-radius: 4px;
   background-color: #f9f9f9;
+  pointer-events: auto;
 }
 
 .highlight h2 {

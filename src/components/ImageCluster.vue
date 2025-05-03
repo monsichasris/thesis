@@ -27,7 +27,7 @@ export default {
       required: true,
     },
     selectedWord: {
-      type: String,
+      type: Array,
       default: null,
     },
     selectedColor: {
@@ -53,15 +53,15 @@ export default {
 
         // Match conditions
         const matchesWord = this.selectedWord
-          ? selectedWords.some((word) => store.words?.includes(word))
+          ? selectedWords.every((word) => store.words?.includes(word))
           : false; // Match any word in the selectedWord array
 
         const matchesColor = this.selectedWord
-          ? selectedWords.some((word) => store.colors?.includes(word))
+          ? selectedWords.every((word) => store.colors?.includes(word))
           : false; // Match any color in the selectedWord array
 
         const matchesFont = this.selectedWord
-          ? selectedWords.some((word) => store.fonts?.includes(word))
+          ? selectedWords.every((word) => store.fonts?.includes(word))
           : false; // Match any font in the selectedWord array
 
         const matchesNeighborhood = this.selectedNeighborhood
@@ -73,7 +73,7 @@ export default {
         // Only return stores that match the selectedWord in any category and have a sign
         return (
           hasSign &&
-          this.selectedWord &&
+          selectedWords.length > 0 &&
           (matchesWord || matchesColor || matchesFont) &&
           matchesNeighborhood
         );

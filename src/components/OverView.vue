@@ -1,5 +1,5 @@
 <template>
-  <div class="overview-layout">
+  <div class="overview-layout" @scroll="handleScroll">
     <!-- Highlights Section -->
     <HighLights
       :highlights="highlights"
@@ -133,7 +133,7 @@ export default {
           isH1: false,
         },
         {
-          title: "Font combination",
+          title: "Combination",
           content:
             "We often see a combination of sans-serif fonts with other decorative fonts. Many stores use both sans-serif and script or decorative fonts together to create a unique yet readable design.",
           isH1: false,
@@ -149,21 +149,40 @@ export default {
     },
   },
   methods: {
+    handleScroll() {
+      const highlights = document.querySelector(".highlights-container");
+      const keyElements = document.querySelector(".key-elements");
+
+      const highlightsBottom = highlights.getBoundingClientRect().bottom;
+      const viewportHeight = window.innerHeight;
+
+      if (highlightsBottom <= viewportHeight) {
+        // If the bottom of HighLights is visible, stop sticking
+        keyElements.style.position = "absolute";
+        keyElements.style.top = `${
+          highlights.offsetHeight - keyElements.offsetHeight
+        }px`;
+      } else {
+        // Otherwise, keep it sticky
+        keyElements.style.position = "sticky";
+        keyElements.style.top = "0";
+      }
+    },
     handleActiveWord(newTitle) {
       this.activeTitle = newTitle.toLowerCase();
 
       // Set selectedWord based on the activeTitle
       if (this.isVisualOrAfter) {
-        if (newTitle.toLowerCase() === "visual") {
-          this.selectedWord = "default-font";
-        } else if (newTitle.toLowerCase() === "green") {
-          this.selectedWord = "Green";
-        } else if (newTitle.toLowerCase() === "pink") {
-          this.selectedWord = "Pink";
+        if (newTitle.toLowerCase() === "green") {
+          this.selectedWord = ["Green"];
+        } else if (newTitle.toLowerCase() === "red and white") {
+          this.selectedWord = ["Red", "White"];
         } else if (newTitle.toLowerCase() === "script") {
-          this.selectedWord = "Script";
+          this.selectedWord = ["Script"];
         } else if (newTitle.toLowerCase() === "decorative") {
-          this.selectedWord = "Decorative";
+          this.selectedWord = ["Decorative"];
+        } else if (newTitle.toLowerCase() === "combination") {
+          this.selectedWord = ["Script", "Sans-serif"];
         } else {
           this.selectedWord = null;
         }
@@ -192,9 +211,9 @@ export default {
 <style scoped>
 .overview-layout {
   position: relative;
-  height: 100%;
+  height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  overflow-y: scroll;
   display: flex;
   flex-direction: column;
 }
