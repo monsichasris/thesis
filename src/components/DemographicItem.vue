@@ -7,13 +7,13 @@
       :fontSizeMultiplier="fontSizeMultiplier"
       :containerHeight="containerHeight"
     />
-    <VisualChart
+    <VisualShelf
       :containerId="`${containerId}-fonts`"
       type="fonts"
       :jsonData="jsonData"
       :width="chartWidth"
     />
-    <VisualChart
+    <VisualShelf
       :containerId="`${containerId}-colors`"
       type="colors"
       :jsonData="jsonData"
@@ -24,11 +24,11 @@
 
 <script>
 import TextualShelf from "./TextualShelf.vue";
-import VisualChart from "./VisualChart.vue";
+import VisualShelf from "./VisualShelf.vue";
 
 export default {
   name: "DemographicItem",
-  components: { TextualShelf, VisualChart },
+  components: { TextualShelf, VisualShelf },
   props: {
     title: {
       type: String,

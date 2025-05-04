@@ -15,13 +15,13 @@
       />
 
       <div v-else style="display: flex; flex-direction: column; gap: 2rem">
-        <VisualChart
+        <VisualShelf
           containerId="stacked-bar-chart-fonts"
           type="fonts"
           :jsonData="jsonData"
           :activeTitle="activeTitle"
         />
-        <VisualChart
+        <VisualShelf
           containerId="stacked-bar-chart-colors"
           type="colors"
           :jsonData="jsonData"
@@ -37,11 +37,11 @@
 import TextualShelf from "./TextualShelf.vue";
 import ImageCluster from "./ImageCluster.vue";
 import HighLights from "./HighLights.vue";
-import VisualChart from "./VisualChart.vue";
+import VisualShelf from "./VisualShelf.vue";
 
 export default {
   name: "OverView",
-  components: { TextualShelf, ImageCluster, HighLights, VisualChart },
+  components: { TextualShelf, ImageCluster, HighLights, VisualShelf },
   props: {
     jsonData: {
       type: Array,

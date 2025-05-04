@@ -69,8 +69,6 @@
 
 <script>
 import DemographicItem from "./DemographicItem.vue";
-// import WordsSection from "./WordsSection.vue";
-// import VisualChart from "./VisualChart.vue";
 
 export default {
   name: "DemographicSection",

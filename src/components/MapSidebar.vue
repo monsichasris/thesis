@@ -16,14 +16,14 @@
       :containerHeight="'200px'"
     />
 
-    <!-- VisualChart -->
-    <VisualChart
+    <!-- VisualShelf -->
+    <VisualShelf
       containerId="sidebar-visual-chart-fonts"
       type="fonts"
       :jsonData="filteredData"
       :width="sidebarWidth - 20"
     />
-    <VisualChart
+    <VisualShelf
       containerId="sidebar-visual-chart-colors"
       type="colors"
       :jsonData="filteredData"
@@ -63,7 +63,7 @@
 
 <script>
 import TextualShelf from "./TextualShelf.vue";
-import VisualChart from "./VisualChart.vue";
+import VisualShelf from "./VisualShelf.vue";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
@@ -71,7 +71,7 @@ export default {
   name: "MapSidebar",
   components: {
     TextualShelf,
-    VisualChart,
+    VisualShelf,
   },
   props: {
     isVisible: {
