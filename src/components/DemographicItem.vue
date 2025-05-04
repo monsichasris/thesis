@@ -60,7 +60,7 @@ export default {
     chartWidth: {
       type: Number,
       required: false,
-      default: 240,
+      default: window.innerWidth * 0.9,
     },
   },
 };

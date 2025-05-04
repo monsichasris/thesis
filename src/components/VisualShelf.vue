@@ -39,9 +39,10 @@ export default {
     },
     width: {
       type: Number,
-      default: () => window.innerWidth * 0.8,
+      default: () => window.innerWidth * 0.9,
     },
   },
+  inject: ["colorMapping"],
   watch: {
     jsonData: {
       handler(newData) {
@@ -61,6 +62,9 @@ export default {
   },
 
   methods: {
+    getColorForName(name) {
+      return this.colorMapping[name?.toLowerCase()] || "#000";
+    },
     createStackedBarChart() {
       // Clear any existing chart
       const container = d3.select(`#${this.containerId}`);
@@ -210,24 +214,6 @@ export default {
       };
 
       return fontImages[fontType] || "img/default.svg"; // Fallback to a default image if the font type is not found
-    },
-
-    getColorForName(name) {
-      const colorMapping = {
-        red: "#FF272B",
-        blue: "#442CFF",
-        green: "#44C3A7",
-        yellow: "#FFD94E",
-        orange: "#FF7B3D",
-        purple: "#9A5CF0",
-        pink: "#F894FF",
-        brown: "#4A2E16",
-        black: "#000000",
-        white: "#FFFFFF",
-      };
-
-      // Return the color for the name, or a default color if not found
-      return colorMapping[name.toLowerCase()] || "#CCCCCC"; // Default to light gray
     },
   },
 };

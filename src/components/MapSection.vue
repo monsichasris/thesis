@@ -7,30 +7,74 @@
   </p>
   <div class="map-section">
     <div id="map-controller">
+      <div id="map-controller-title">
+        <h2>Neighborhood Map</h2>
+      </div>
       <p>Click on the neighborhoods to view the details</p>
-      <h3>Filter by Font Style</h3>
-      <div class="filter-buttons">
-        <button
-          v-for="font in fonts"
-          :key="font"
-          @click="highlightByFont(font)"
-          :class="{ selected: selectedFilter === font }"
-        >
-          {{ font }}
-        </button>
+
+      <div class="map-filter">
+        <div class="chart-label">Fonts</div>
+        <div class="chart-label-shadow">Fonts</div>
+        <div class="filter-buttons">
+          <button
+            v-for="font in fonts"
+            :key="font"
+            @click="highlightByFont(font)"
+            :class="{ selected: selectedFont === font }"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              width="20"
+              height="20"
+              max-width="20"
+              style="vertical-align: middle; margin-right: 8px"
+            >
+              <path
+                :d="getShapeForFont(font)"
+                fill="white"
+                stroke="black"
+                stroke-width="1"
+              />
+            </svg>
+            {{ font }}
+          </button>
+        </div>
+        <img src="img/shelf.svg" width="100%" style="margin-top: -2%" />
       </div>
 
-      <h3>Filter by Color</h3>
-      <div class="filter-buttons">
-        <button
-          v-for="color in colors"
-          :key="color"
-          @click="highlightByColor(color)"
-          :class="{ selected: selectedFilter === color }"
-        >
-          {{ color }}
-        </button>
+      <div class="map-filter">
+        <div class="chart-label">Colors</div>
+        <div class="chart-label-shadow">Colors</div>
+        <div class="filter-buttons">
+          <button
+            v-for="color in colors"
+            :key="color"
+            @click="highlightByColor(color)"
+            :class="{ selected: selectedColor === color }"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              width="20"
+              height="20"
+              style="vertical-align: middle; margin-right: 8px"
+            >
+              <circle
+                cx="10"
+                cy="10"
+                r="8"
+                :fill="getColorForName(color)"
+                stroke="black"
+                stroke-width="1"
+              />
+            </svg>
+            {{ color }}
+          </button>
+        </div>
+        <img src="img/shelf.svg" width="100%" style="margin-top: -2%" />
       </div>
+      <button @click="resetFilters">Reset Filters</button>
     </div>
 
     <div id="neighborhood-map">
@@ -64,6 +108,7 @@ export default {
   components: {
     MapSidebar,
   },
+  inject: ["colorMapping"],
   props: {
     geojsonData: {
       type: Object,
@@ -99,6 +144,8 @@ export default {
       filteredDemographicData: null,
       selectedNTA: null,
       selectedFilter: null,
+      selectedFont: null, // Track the selected font
+      selectedColor: null, // Track the selected color
     };
   },
   mounted() {
@@ -127,13 +174,38 @@ export default {
   },
 
   methods: {
+    getColorForName(name) {
+      if (!name) {
+        console.warn("Invalid color name:", name);
+        return "#CCCCCC"; // Default to light gray for invalid names
+      }
+
+      const color = this.colorMapping[name.toLowerCase()] || "#CCCCCC"; // Default to light gray
+      console.log("Getting color for:", name, "Color found:", color);
+      return color;
+    },
+
+    getShapeForFont(font) {
+      const shapes = {
+        Script:
+          "M12.2676 0L12.3659 1.06079C12.8993 6.81267 17.4549 11.3683 23.2068 11.9016L24.2676 12L23.2068 12.0984C17.4549 12.6317 12.8993 17.1873 12.3659 22.9392L12.2676 24L12.1692 22.9392C11.6359 17.1873 7.08025 12.6317 1.32837 12.0984L0.267578 12L1.32837 11.9016C7.08025 11.3683 11.6359 6.81267 12.1692 1.06079L12.2676 0Z",
+        Decorative:
+          "M10.6732 2.86997C11.2381 0.543343 14.547 0.543343 15.1119 2.86997L15.6893 5.24805L17.7792 3.97478C19.8238 2.72905 22.1635 5.06879 20.9178 7.11341L19.6445 9.20325L22.0226 9.78065C24.3492 10.3456 24.3492 13.6544 22.0226 14.2193L19.6445 14.7967L20.9178 16.8866C22.1635 18.9312 19.8238 21.2709 17.7792 20.0252L15.6893 18.7519L15.1119 21.13C14.547 23.4567 11.2381 23.4567 10.6732 21.13L10.0958 18.7519L8.00599 20.0252C5.96136 21.2709 3.62163 18.9312 4.86735 16.8866L6.14063 14.7967L3.76255 14.2193C1.43592 13.6544 1.43592 10.3456 3.76255 9.78065L6.14063 9.20325L4.86735 7.11341C3.62163 5.06879 5.96137 2.72905 8.00599 3.97478L10.0958 5.24805L10.6732 2.86997Z",
+        Serif:
+          "M23.7676 2C20.0161 3.5202 17.3333 7.56315 17.3333 12.3125C17.3333 17.0616 20.0157 21.1046 23.7668 22.625H2.01831C5.76939 21.1046 8.4519 17.0615 8.4519 12.3125C8.45189 7.56319 5.76899 3.52024 2.01758 2H23.7676Z",
+        "Sans-serif": "M3.01758 2.25H22.5176V21.75H3.01758V2.25Z",
+      };
+
+      return shapes[font] || "M 0,0 A 10,10 0 1,1 0.1,0 Z"; // Default to circle
+    },
+
     renderGeoJSON() {
       if (!this.geojsonData || !this.geojsonData.features) {
         console.error("GeoJSON data is not available or invalid.");
         return;
       }
       const svg = d3.select(this.$refs.svg);
-      svg.selectAll("*").remove();
+      svg.selectAll(".geojson-path").remove();
 
       const width = svg.node().getBoundingClientRect().width;
       const height = svg.node().getBoundingClientRect().height;
@@ -144,10 +216,11 @@ export default {
       const path = d3.geoPath().projection(projection);
 
       svg
-        .selectAll("path")
+        .selectAll(".geojson-path")
         .data(this.geojsonData.features)
         .enter()
         .append("path")
+        .attr("class", "geojson-path")
         .attr("d", path)
         .attr("fill", "#ccc")
         .attr("stroke", "#333")
@@ -185,19 +258,48 @@ export default {
           this.geojsonData
         );
 
-      // Remove existing circles
-      svg.selectAll("circle").remove();
-
-      // Add filtered circles
+      svg.selectAll(".filtered-shape").remove();
       svg
-        .selectAll("circle")
+        .selectAll(".filtered-shape")
         .data(filteredData)
         .enter()
-        .append("circle")
-        .attr("cx", (d) => projection([d.lon, d.lat])[0])
-        .attr("cy", (d) => projection([d.lon, d.lat])[1])
-        .attr("r", 2)
-        .attr("fill", "black");
+        .append("path")
+        .attr("class", "filtered-shape")
+        .attr("d", (d) => {
+          if (!d.fonts || d.fonts.length === 0) {
+            console.warn(`No fonts found for item:`, d);
+            return "M 0,0 A 10,10 0 1,1 0.1,0 Z"; // Default to circle
+          }
+
+          // Prioritize the selected font if it exists in the array
+          const font =
+            this.selectedFont && d.fonts.includes(this.selectedFont)
+              ? this.selectedFont
+              : d.fonts[0]; // Fallback to the first font in the array
+          console.log(`Using font for shape: ${font}`);
+          return this.getShapeForFont(font);
+        })
+        .attr("transform", (d) => {
+          const [x, y] = projection([d.lon, d.lat]);
+          return `translate(${x}, ${y}) scale(1)`; // Position and scale the shape
+        })
+        .attr("fill", (d) => {
+          if (!d.colors || d.colors.length === 0) {
+            console.warn(`No colors found for item:`, d);
+            return "#aaaaaa"; // Default color if no colors are found
+          }
+
+          // Prioritize the selected color if it exists in the array
+          const colorName =
+            this.selectedColor && d.colors.includes(this.selectedColor)
+              ? this.selectedColor
+              : d.colors[0]; // Fallback to the first color in the array
+          const color = this.getColorForName(colorName);
+          console.log(`Setting color for ${colorName}: ${color}`);
+          return color;
+        })
+        .attr("stroke", "#eee")
+        .attr("stroke-width", 0.5);
     },
     showSidebar(nta2020) {
       const svg = d3.select(this.$refs.svg);
@@ -267,66 +369,51 @@ export default {
         tooltip.style("display", "none");
       }
     },
+    applyFilters() {
+      if (!this.jsonData || !this.geojsonData) return;
+
+      // Filter data based on both selectedFont and selectedColor
+      const filteredData = this.jsonData.filter((item) => {
+        const matchesFont = this.selectedFont
+          ? item.fonts && item.fonts.includes(this.selectedFont)
+          : true; // If no font is selected, match all
+        const matchesColor = this.selectedColor
+          ? item.colors && item.colors.includes(this.selectedColor)
+          : true; // If no color is selected, match all
+        return matchesFont && matchesColor; // Both conditions must be true
+      });
+
+      console.log("Filtered Data:", filteredData);
+
+      // Render the filtered data
+      this.renderFilteredCircles(filteredData);
+    },
     highlightByFont(font) {
-      if (!this.jsonData || !this.geojsonData) return;
-      this.selectedFilter = font;
-      // const matchingNTA = this.jsonData
-      //   .filter((item) => {
-      //     return item.fonts && item.fonts.includes(font);
-      //   })
-      //   .map((item) => item.NTA2020);
-
-      // this.highlightPolygons(matchingNTA, "#fdae61");
-
-      // Filter data by font
-      const filteredData = this.jsonData.filter(
-        (item) => item.fonts && item.fonts.includes(font)
-      );
-
-      // Render filtered circles
-      this.renderFilteredCircles(filteredData);
+      this.selectedFont = font; // Update the selected font
+      this.applyFilters(); // Apply the combined filters
     },
+
     highlightByColor(color) {
-      if (!this.jsonData || !this.geojsonData) return;
-      this.selectedFilter = color;
-
-      const matchingNTA = this.jsonData
-        .filter((item) => {
-          return item.colors && item.colors.includes(color);
-        })
-        .map((item) => item.NTA2020);
-
-      this.highlightPolygons(matchingNTA, color);
-
-      // Filter data by color
-      const filteredData = this.jsonData.filter(
-        (item) => item.colors && item.colors.includes(color)
-      );
-
-      // Render filtered circles
-      this.renderFilteredCircles(filteredData);
+      this.selectedColor = color; // Update the selected color
+      this.applyFilters(); // Apply the combined filters
     },
-    highlightPolygons(matchingNTA, highlightColor) {
+    resetFilters() {
+      this.selectedFont = null;
+      this.selectedColor = null;
+
+      // Remove all existing filtered shapes
       const svg = d3.select(this.$refs.svg);
-      const normalizedMatchingNTA = matchingNTA.map((nta) => nta.toLowerCase());
-
-      // Reset all polygons to default color
-      svg.selectAll("path").attr("fill", "#ccc");
-
-      // Highlight matching polygons
-      svg
-        .selectAll("path")
-        .filter((d) => {
-          const nta2020 = d.properties.NTA2020?.toLowerCase();
-          return normalizedMatchingNTA.includes(nta2020);
-        })
-        .attr("fill", highlightColor);
+      svg.selectAll(".filtered-shape").remove();
     },
   },
 };
 </script>
 
 <style scoped>
+p {
+  text-align: left;
+  font-size: 12px;
+}
 .map-section {
   position: relative;
   width: 100%;
@@ -335,15 +422,20 @@ export default {
 
 #map-controller {
   position: absolute;
-  width: 240px;
-  top: 20px;
-  left: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 20vw;
+  top: 24px;
+  left: 24px;
   z-index: 1000;
+}
+
+#map-controller-title {
+  text-align: center;
+  padding: 16px;
+  border: 4px solid #000;
+  background-color: #fff;
 }
 
 .mapbox-sidebar {
@@ -355,18 +447,59 @@ export default {
 .filter-buttons {
   display: flex;
   flex-wrap: wrap;
-  justify-content: left;
-  margin-bottom: 10px;
+  justify-content: center;
+  z-index: 5;
+}
+
+.map-filter {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.chart-label,
+.chart-label-shadow {
+  position: absolute;
+  bottom: -8px;
+  text-align: center;
+  font-family: "Skew VF";
+  font-style: normal;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.chart-label {
+  z-index: 3;
+  color: white;
+}
+
+.chart-label-shadow {
+  z-index: 2;
+  color: black;
+  -webkit-text-stroke-width: 8px;
+  -webkit-text-stroke-color: black;
+  stroke-linejoin: round;
 }
 
 button {
-  background-color: transparent;
+  background-color: white;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 4px;
+  height: 40px;
   cursor: pointer;
   font-size: 14px;
-  margin: 5px;
-  padding: 10px;
+  margin: 4px;
+  padding: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  white-space: nowrap;
 }
 
 button:hover {
@@ -399,8 +532,8 @@ svg {
   position: absolute;
   background-color: white;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 5px 10px;
+  border-radius: 4px;
+  padding: 4px 8px;
   font-size: 12px;
   pointer-events: none; /* Prevent the tooltip from interfering with mouse events */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

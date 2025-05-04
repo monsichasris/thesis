@@ -36,6 +36,22 @@ export default {
       demographicData: [],
     };
   },
+  provide() {
+    return {
+      colorMapping: {
+        red: "#FF272B",
+        blue: "#442CFF",
+        green: "#44C3A7",
+        yellow: "#FFD94E",
+        orange: "#FF7B3D",
+        purple: "#9A5CF0",
+        pink: "#F894FF",
+        brown: "#4A2E16",
+        black: "#000000",
+        white: "#FFFFFF",
+      },
+    };
+  },
   async mounted() {
     this.jsonData = await this.loadJSON();
     this.geojsonData = await this.loadGeoJSON();
