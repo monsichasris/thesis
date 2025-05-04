@@ -76,12 +76,16 @@ export default {
         .append("div")
         .attr("class", "tooltip")
         .style("position", "absolute")
-        .style("background-color", "white")
-        .style("border", "1px solid #ccc")
+        .style("background-color", "black")
+        .style("color", "white")
         .style("padding", "8px")
         .style("border-radius", "4px")
         .style("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.2)")
-        .style("font-size", "12px")
+        .style("font-family", "Skew VF")
+        .style("font-style", "normal")
+        .style("font-weight", 700)
+        .style("font-size", "24px")
+        .style("z-index", 10)
         .style("pointer-events", "none")
         .style("opacity", 0);
 
@@ -198,10 +202,10 @@ export default {
 
     getFontImagePath(fontType) {
       const fontImages = {
-        "Sans-serif": "img/sans.svg",
+        "Sans-serif": "img/sans-serif.svg",
         Serif: "img/serif.svg",
         Script: "img/script.svg",
-        Decorative: "img/deco.svg",
+        Decorative: "img/decorative.svg",
       };
 
       return fontImages[fontType] || "img/default.svg"; // Fallback to a default image if the font type is not found
@@ -261,8 +265,8 @@ export default {
 
 .tooltip {
   position: absolute;
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: black;
+  color: white;
   padding: 8px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -271,5 +275,9 @@ export default {
   opacity: 0; /* Initially hidden */
   transition: opacity 0.2s ease-in-out;
   z-index: 10;
+  font-family: "Skew VF";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
 }
 </style>
