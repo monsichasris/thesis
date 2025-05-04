@@ -75,4 +75,12 @@ export default {
   flex-direction: column;
   gap: 24px;
 }
+
+h3 {
+  font-family: "Skew VF";
+  font-style: normal;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: normal;
+}
 </style>

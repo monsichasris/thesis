@@ -79,6 +79,7 @@ export default {
         .style("background-color", "black")
         .style("color", "white")
         .style("padding", "8px")
+        .style("align-items", "left")
         .style("border-radius", "4px")
         .style("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.2)")
         .style("font-family", "Skew VF")
@@ -133,7 +134,7 @@ export default {
 
         svg
           .append("rect")
-          .attr("x", x(cumulative) + 2) // Add space between bars
+          .attr("x", x(cumulative) + 1) // Add space between bars
           .attr("y", 0)
           .attr("width", barWidth) // Adjust width to account for spacing
           .attr("height", height - 4)
@@ -142,10 +143,10 @@ export default {
           .attr(
             "fill",
             this.type === "colors"
-              ? d.name?.toLowerCase()
+              ? this.getColorForName(d.name)
               : d.name?.toLowerCase() === this.activeTitle
-              ? "yellow" // Highlight matching bar
-              : "white" // Default color for non-matching bars
+              ? "lime" // Highlight matching bar
+              : "black" // Default color for non-matching bars
           )
           .attr(
             "stroke",
@@ -166,7 +167,7 @@ export default {
             } else if (this.type === "colors") {
               tooltip.style("opacity", 1) // Show the tooltip
                 .html(`
-                  <b>${d.name}</b>: ${d.value}
+                  <b>${d.name}</b>:<br>${d.value}
                 `); // Set tooltip content without the image
             }
           })
@@ -209,6 +210,24 @@ export default {
       };
 
       return fontImages[fontType] || "img/default.svg"; // Fallback to a default image if the font type is not found
+    },
+
+    getColorForName(name) {
+      const colorMapping = {
+        red: "#FF272B",
+        blue: "#442CFF",
+        green: "#44C3A7",
+        yellow: "#FFD94E",
+        orange: "#FF7B3D",
+        purple: "#9A5CF0",
+        pink: "#F894FF",
+        brown: "#4A2E16",
+        black: "#000000",
+        white: "#FFFFFF",
+      };
+
+      // Return the color for the name, or a default color if not found
+      return colorMapping[name.toLowerCase()] || "#CCCCCC"; // Default to light gray
     },
   },
 };
