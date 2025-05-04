@@ -8,11 +8,12 @@
     <!-- Mapbox Map -->
     <div id="mapbox-sidebar" class="mapbox-sidebar"></div>
 
-    <!-- WordsSection -->
-    <WordsSection
+    <!-- TextualShelf -->
+    <TextualShelf
       :jsonData="filteredData"
       :minStoreCount="1"
       :fontSizeMultiplier="10"
+      :containerHeight="'200px'"
     />
 
     <!-- VisualChart -->
@@ -61,7 +62,7 @@
 </template>
 
 <script>
-import WordsSection from "./WordsSection.vue";
+import TextualShelf from "./TextualShelf.vue";
 import VisualChart from "./VisualChart.vue";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -69,7 +70,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 export default {
   name: "MapSidebar",
   components: {
-    WordsSection,
+    TextualShelf,
     VisualChart,
   },
   props: {

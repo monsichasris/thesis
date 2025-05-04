@@ -2,7 +2,7 @@
   <link rel="stylesheet" href="https://use.typekit.net/zik1lgr.css" />
   <section><Intro /></section>
   <OverView :jsonData="jsonData" />
-  <DemographicRace :jsonData="jsonData" :demographicData="demographicData" />
+  <DemographicSection :jsonData="jsonData" :demographicData="demographicData" />
   <MapSection
     :jsonData="jsonData"
     :geojsonData="geojsonData"
@@ -16,7 +16,7 @@
 import * as d3 from "d3";
 import Intro from "./components/Intro.vue";
 import OverView from "./components/OverView.vue";
-import DemographicRace from "./components/DemographicRace.vue";
+import DemographicSection from "./components/DemographicSection.vue";
 import MapSection from "./components/MapSection.vue";
 import Outro from "./components/Outro.vue";
 
@@ -25,7 +25,7 @@ export default {
   components: {
     Intro,
     OverView,
-    DemographicRace,
+    DemographicSection,
     MapSection,
     Outro,
   },

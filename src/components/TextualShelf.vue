@@ -1,24 +1,32 @@
 <template>
   <div class="word-container">
-    <span
-      v-for="word in filteredWords"
-      :key="word['Name Words']"
-      :class="[
-        'word',
-        {
-          wordhighlight: (activeWords || []).some(
-            (activeWord) =>
-              activeWord?.toLowerCase() === word['Name Words']?.toLowerCase()
-          ),
-        },
-      ]"
+    <div
+      class="word-container-inner"
       :style="{
-        fontSize: `${word['Store Count'] * fontSizeMultiplier}px`,
-        zIndex: 1,
+        height: containerHeight,
+        overflowY: containerHeight !== 'auto' ? 'auto' : 'visible',
       }"
     >
-      {{ word["Name Words"] }}
-    </span>
+      <span
+        v-for="word in filteredWords"
+        :key="word['Name Words']"
+        :class="[
+          'word',
+          {
+            wordhighlight: (activeWords || []).some(
+              (activeWord) =>
+                activeWord?.toLowerCase() === word['Name Words']?.toLowerCase()
+            ),
+          },
+        ]"
+        :style="{
+          fontSize: `${word['Store Count'] * fontSizeMultiplier}px`,
+          zIndex: 1,
+        }"
+      >
+        {{ word["Name Words"] }}
+      </span>
+    </div>
     <img src="img/shelf.svg" width="100%" style="margin-top: -4%; z-index: 0" />
   </div>
 </template>
@@ -27,7 +35,7 @@
 import { RiTa } from "rita";
 
 export default {
-  name: "WordsSection",
+  name: "TextualShelf",
   props: {
     jsonData: {
       type: Array,
@@ -47,6 +55,11 @@ export default {
       type: Number,
       required: false,
       default: 10,
+    },
+    containerHeight: {
+      type: [String, Number],
+      required: false,
+      default: "auto",
     },
   },
   computed: {
@@ -241,11 +254,10 @@ export default {
 </script>
 
 <style scoped>
-.word-container {
-  width: 100%;
+.word-container,
+.word-container-inner {
   display: flex;
   flex-wrap: wrap;
-  margin: auto;
   align-items: self-end;
 }
 

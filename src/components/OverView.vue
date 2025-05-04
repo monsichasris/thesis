@@ -8,14 +8,13 @@
 
     <!-- Key Elements at the top -->
     <div class="key-elements">
-      <WordsSection
+      <TextualShelf
         v-if="!isVisualOrAfter"
         :jsonData="jsonData"
         :activeTitle="activeTitle"
       />
 
-      <!-- Show Chart if the activeTitle is "VISUAL" -->
-      <div v-else>
+      <div v-else style="display: flex; flex-direction: column; gap: 2rem">
         <VisualChart
           containerId="stacked-bar-chart-fonts"
           type="fonts"
@@ -35,14 +34,14 @@
 </template>
 
 <script>
-import WordsSection from "./WordsSection.vue";
+import TextualShelf from "./TextualShelf.vue";
 import ImageCluster from "./ImageCluster.vue";
 import HighLights from "./HighLights.vue";
 import VisualChart from "./VisualChart.vue";
 
 export default {
   name: "OverView",
-  components: { WordsSection, ImageCluster, HighLights, VisualChart },
+  components: { TextualShelf, ImageCluster, HighLights, VisualChart },
   props: {
     jsonData: {
       type: Array,
