@@ -177,7 +177,8 @@ export default {
   text-align: left;
 }
 .image-cluster {
-  padding: 1rem;
+  margin-top: 24px;
+  width: 100%;
 }
 
 .image-svg {

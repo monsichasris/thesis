@@ -23,9 +23,23 @@
           fontSize: `${word['Store Count'] * fontSizeMultiplier}px`,
           zIndex: 1,
         }"
+        @mouseover="showTooltip(word['Store Count'], $event)"
+        @mousemove="moveTooltip($event)"
+        @mouseleave="hideTooltip"
       >
         {{ word["Name Words"] }}
       </span>
+    </div>
+    <div
+      v-if="tooltipVisible"
+      class="tooltip"
+      :style="{
+        top: `${tooltipPosition.y}px`,
+        left: `${tooltipPosition.x}px`,
+        position: 'fixed',
+      }"
+    >
+      {{ tooltipContent }}
     </div>
     <img src="img/shelf.svg" width="100%" style="margin-top: -4%; z-index: 0" />
   </div>
@@ -60,6 +74,29 @@ export default {
       type: [String, Number],
       required: false,
       default: "auto",
+    },
+  },
+  data() {
+    return {
+      tooltipVisible: false,
+      tooltipContent: "",
+      tooltipPosition: { x: 0, y: 0 },
+    };
+  },
+  methods: {
+    showTooltip(content, event) {
+      this.tooltipContent = `${content}`;
+      this.tooltipVisible = true;
+      this.moveTooltip(event); // Update position immediately
+    },
+    moveTooltip(event) {
+      this.tooltipPosition = {
+        x: event.clientX + 10, // Add some offset to avoid overlapping
+        y: event.clientY + 10,
+      };
+    },
+    hideTooltip() {
+      this.tooltipVisible = false;
     },
   },
   computed: {
@@ -277,7 +314,22 @@ export default {
 .word:hover {
   font-weight: bold;
   border: 2px solid black;
-  cursor: pointer;
+}
+
+.tooltip {
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 0.4em 0.6em;
+  border-radius: 4px;
+  white-space: nowrap;
+  z-index: 1000;
+  pointer-events: none; /* Prevent tooltip from interfering with mouse events */
+  transition: opacity 0.2s ease-in-out;
+  font-family: "Skew VF";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
 }
 
 .wordhighlight {

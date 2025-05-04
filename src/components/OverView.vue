@@ -8,25 +8,27 @@
 
     <!-- Key Elements at the top -->
     <div class="key-elements">
-      <TextualShelf
-        v-if="!isVisualOrAfter"
-        :jsonData="jsonData"
-        :activeTitle="activeTitle"
-      />
+      <div class="key-shelf">
+        <TextualShelf
+          v-if="!isVisualOrAfter"
+          :jsonData="jsonData"
+          :activeTitle="activeTitle"
+        />
 
-      <div v-else style="display: flex; flex-direction: column; gap: 2rem">
-        <VisualShelf
-          containerId="stacked-bar-chart-fonts"
-          type="fonts"
-          :jsonData="jsonData"
-          :activeTitle="activeTitle"
-        />
-        <VisualShelf
-          containerId="stacked-bar-chart-colors"
-          type="colors"
-          :jsonData="jsonData"
-          :activeTitle="activeTitle"
-        />
+        <div v-else style="display: flex; flex-direction: column; gap: 2rem">
+          <VisualShelf
+            containerId="stacked-bar-chart-fonts"
+            type="fonts"
+            :jsonData="jsonData"
+            :activeTitle="activeTitle"
+          />
+          <VisualShelf
+            containerId="stacked-bar-chart-colors"
+            type="colors"
+            :jsonData="jsonData"
+            :activeTitle="activeTitle"
+          />
+        </div>
       </div>
       <ImageCluster :jsonData="jsonData" :selectedWord="selectedWord" />
     </div>
@@ -222,6 +224,9 @@ export default {
   top: 0;
   height: 100vh;
   overflow-y: hidden;
+}
+
+.key-shelf {
   padding: 40px;
 }
 
