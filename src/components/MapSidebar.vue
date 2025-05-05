@@ -400,6 +400,7 @@ h2 {
   z-index: 1000;
   overflow-y: auto;
   align-content: left;
+  border-left: 1px solid #ccc;
 }
 
 .sidebar-sticky {
@@ -414,7 +415,7 @@ h2 {
   justify-content: space-between;
   flex-direction: row;
   align-items: flex-start;
-  padding: 24px;
+  padding: 40px;
 }
 
 .sidebar-header-title {
@@ -443,7 +444,7 @@ h2 {
 }
 
 .sidebar-content {
-  padding: 0 24px;
+  padding: 0 40px;
   display: flex;
   flex-direction: column;
   align-items: left;

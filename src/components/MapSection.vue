@@ -77,25 +77,26 @@
       <button @click="resetFilters">Reset Filters</button>
     </div>
 
-    <div id="neighborhood-map">
-      <svg ref="svg" style="width: 100%; height: 100%"></svg>
-    </div>
-
-    <!-- Tooltip -->
     <div ref="tooltip" class="tooltip" style="display: none"></div>
 
-    <!-- Sidebar Component -->
-    <MapSidebar
-      ref="mapSidebar"
-      v-show="sidebarVisible"
-      :isVisible="sidebarVisible"
-      :title="sidebarTitle"
-      :content="sidebarContent"
-      :filteredData="filteredNeighborhoodData"
-      :demographicData="filteredDemographicData"
-      :geojsonData="geojsonData"
-      @close="closeSidebar"
-    />
+    <div class="map-container">
+      <div id="neighborhood-map" :class="{ 'with-sidebar': sidebarVisible }">
+        <svg ref="svg" style="width: 800px; height: 800px"></svg>
+      </div>
+
+      <!-- Sidebar Component -->
+      <MapSidebar
+        ref="mapSidebar"
+        v-show="sidebarVisible"
+        :isVisible="sidebarVisible"
+        :title="sidebarTitle"
+        :content="sidebarContent"
+        :filteredData="filteredNeighborhoodData"
+        :demographicData="filteredDemographicData"
+        :geojsonData="geojsonData"
+        @close="closeSidebar"
+      />
+    </div>
   </div>
 </template>
 
@@ -148,9 +149,6 @@ export default {
       selectedColor: null, // Track the selected color
     };
   },
-  mounted() {
-    console.log("isVisible prop in MapSidebar (on mount):", this.isVisible);
-  },
   watch: {
     geojsonData: {
       handler(newData) {
@@ -170,6 +168,12 @@ export default {
       if (newVal) {
         this.initializeMap();
       }
+    },
+    sidebarVisible(newVal) {
+      console.log("Sidebar visibility changed:", newVal);
+      this.$nextTick(() => {
+        this.renderGeoJSON(); // Re-render the GeoJSON to fit the new dimensions
+      });
     },
   },
 
@@ -205,10 +209,11 @@ export default {
         return;
       }
       const svg = d3.select(this.$refs.svg);
-      svg.selectAll(".geojson-path").remove();
+      svg.selectAll(".geojson-path").remove(); // Clear existing paths
 
-      const width = svg.node().getBoundingClientRect().width;
-      const height = svg.node().getBoundingClientRect().height;
+      // Use the fixed dimensions
+      const width = 800; // Locked width
+      const height = 800; // Locked height
 
       const projection = d3
         .geoMercator()
@@ -438,10 +443,40 @@ p {
   background-color: #fff;
 }
 
-.mapbox-sidebar {
+.map-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease;
+}
+
+#neighborhood-map {
+  flex: 1;
+  height: 800px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  transition: flex 0.3s ease;
+}
+
+#neighborhood-map.with-sidebar {
+  flex: 0.6;
+}
+
+/* .mapbox-sidebar {
   width: 100%;
   height: 300px;
   margin-bottom: 20px;
+} */
+
+.map-sidebar {
+  flex: 0.4; /* Sidebar takes up 40% of the container */
+  height: 100%;
+  background-color: white;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  transition: flex 0.3s ease; /* Smooth transition for resizing */
 }
 
 .filter-buttons {
@@ -515,11 +550,6 @@ button.selected {
   color: black;
   border: 2px solid #000;
   font-weight: bold;
-}
-
-#neighborhood-map {
-  width: 100%;
-  height: 800px;
 }
 
 svg {
