@@ -60,7 +60,6 @@ export default {
   mounted() {
     this.createStackedBarChart();
   },
-
   methods: {
     getColorForName(name) {
       return this.colorMapping[name?.toLowerCase()] || "#000";
@@ -111,12 +110,14 @@ export default {
         }))
         .sort((a, b) => b.value - a.value);
 
+      // Define the width and height for the viewBox
       const width = this.width;
       const height = 80;
       const svg = d3
         .select(`#${this.containerId}`)
         .append("svg")
-        .attr("width", width)
+        // .attr("viewBox", `0 0 ${width} 80`) // Use viewBox for responsiveness
+        .style("width", width)
         .attr("height", height);
 
       const x = d3
@@ -204,7 +205,6 @@ export default {
         cumulative += d.value;
       });
     },
-
     getFontImagePath(fontType) {
       const fontImages = {
         "Sans-serif": "img/sans-serif.svg",

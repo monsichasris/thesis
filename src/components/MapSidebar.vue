@@ -1,62 +1,91 @@
 <template>
   <div v-show="isVisible" class="sidebar">
     <button class="close-button" @click="$emit('close')">×</button>
-    <h3>{{ title }}</h3>
-    <p>{{ content }}</p>
-    <p><strong>Store Count:</strong> {{ storeCount }}</p>
 
     <!-- Mapbox Map -->
     <div id="mapbox-sidebar" class="mapbox-sidebar"></div>
 
-    <!-- TextualShelf -->
-    <TextualShelf
-      :jsonData="filteredData"
-      :minStoreCount="1"
-      :fontSizeMultiplier="10"
-      :containerHeight="'200px'"
-    />
+    <div class="sidebar-content">
+      <div class="sidebar-header">
+        <div class="sidebar-header-title">
+          <h2>{{ title }}</h2>
+          <p>{{ content }}</p>
+        </div>
+        <p>
+          <span class="skew">{{ storeCount }}</span> stores
+        </p>
+      </div>
 
-    <!-- VisualShelf -->
-    <VisualShelf
-      containerId="sidebar-visual-chart-fonts"
-      type="fonts"
-      :jsonData="filteredData"
-      :width="sidebarWidth - 20"
-    />
-    <VisualShelf
-      containerId="sidebar-visual-chart-colors"
-      type="colors"
-      :jsonData="filteredData"
-      :width="sidebarWidth - 20"
-    />
+      <div class="shelf">
+        <!-- TextualShelf -->
+        <TextualShelf
+          :jsonData="filteredData"
+          :minStoreCount="1"
+          :fontSizeMultiplier="10"
+          :containerHeight="'200px'"
+        />
 
-    <!-- Demographic Data -->
-    <div v-if="demographicData" class="demographic-data">
-      <h4>Demographics</h4>
-      <p><strong>Population:</strong> {{ demographicData.Pop }}</p>
-      <p><strong>Median Age:</strong> {{ demographicData.MdAge }}</p>
-      <p><strong>Under 18:</strong> {{ demographicData.PopU18 }}</p>
-      <p><strong>65 and Older:</strong> {{ demographicData.Pop65pl }}</p>
-      <p>
-        <strong>Hispanic Population:</strong> {{ demographicData.Hsp_E }} ({{
-          demographicData.Hsp_P
-        }}%)
-      </p>
-      <p>
-        <strong>White Population:</strong> {{ demographicData.Wt_E }} ({{
-          demographicData.Wt_P
-        }}%)
-      </p>
-      <p>
-        <strong>Black Population:</strong> {{ demographicData.Bl_E }} ({{
-          demographicData.Bl_P
-        }}%)
-      </p>
-      <p>
-        <strong>Asian Population:</strong> {{ demographicData.Asn_E }} ({{
-          demographicData.Asn_P
-        }}%)
-      </p>
+        <!-- VisualShelf -->
+        <VisualShelf
+          containerId="sidebar-visual-chart-fonts"
+          type="fonts"
+          :jsonData="filteredData"
+          :width="sidebarWidth - 20"
+        />
+        <VisualShelf
+          containerId="sidebar-visual-chart-colors"
+          type="colors"
+          :jsonData="filteredData"
+          :width="sidebarWidth - 20"
+        />
+      </div>
+
+      <!-- Demographic Data -->
+      <div v-if="demographicData" class="demographic-data">
+        <h3>Demographics</h3>
+        <div class="demographic-data-list">
+          <strong>Population:</strong> <span>{{ demographicData.Pop }}</span>
+        </div>
+        <h3>Age</h3>
+        <div class="demographic-data-list">
+          <strong>Gen Z</strong> <span>{{ demographicData.PopZ }}</span>
+        </div>
+        <div class="demographic-data-list">
+          <strong>Gen Y</strong> <span>{{ demographicData.PopY }}</span>
+        </div>
+        <div class="demographic-data-list">
+          <strong>Gen X</strong> <span>{{ demographicData.PopX }}</span>
+        </div>
+        <div class="demographic-data-list">
+          <strong>Baby Boomers</strong>
+          <span>{{ demographicData.PopBB }}</span>
+        </div>
+        <h3>Race</h3>
+        <div class="demographic-data-list">
+          <strong>Hispanic</strong>
+          <span
+            >{{ demographicData.Hsp_E }} ({{ demographicData.Hsp_P }}%)</span
+          >
+        </div>
+        <div class="demographic-data-list">
+          <strong>White</strong>
+          <span>{{ demographicData.Wt_E }} ({{ demographicData.Wt_P }}%)</span>
+        </div>
+        <div class="demographic-data-list">
+          <strong>Black</strong>
+          <span>{{ demographicData.Bl_E }} ({{ demographicData.Bl_P }}%)</span>
+        </div>
+        <div class="demographic-data-list">
+          <strong>Asian</strong>
+          <span
+            >{{ demographicData.Asn_E }} ({{ demographicData.Asn_P }}%)</span
+          >
+        </div>
+        <div class="demographic-data-list">
+          <strong>Medium Household Income:</strong>
+          <span>{{ demographicData.MdHHIncE }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -107,7 +136,7 @@ export default {
 
   computed: {
     sidebarWidth() {
-      return 400;
+      return 600;
     },
     storeCount() {
       return this.filteredData.length;
@@ -325,32 +354,80 @@ export default {
   position: fixed;
   top: 0;
   right: 0;
-  width: 400px;
+  width: 40vw;
   height: 100%;
   background-color: white;
   box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  z-index: 2000;
+  z-index: 1000;
   overflow-y: auto;
+  align-content: left;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.sidebar-header-title {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  align-content: left;
+  text-align: left;
 }
 
 .sidebar h3 {
-  margin-top: 0;
+  margin: 0;
+  text-transform: uppercase;
+}
+.sidebar p {
+  margin: 0;
+  align-items: left;
 }
 
 .mapbox-sidebar {
+  box-sizing: border-box;
+  flex: 0 0 auto;
   width: 100%;
-  height: 300px; /* Adjust height as needed */
-  margin-bottom: 20px;
+  height: 320px;
+}
+
+.sidebar-content {
+  padding: 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  align-content: left;
+}
+
+.shelf {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px 0;
+  width: 100%;
+}
+
+.demographic-data {
+  text-align: left;
+}
+
+.demographic-data-list {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
 }
 
 .close-button {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 16px;
+  right: 16px;
   background: none;
   border: none;
-  font-size: 20px;
+  font-size: 24px;
   cursor: pointer;
+  z-index: 100;
 }
 </style>

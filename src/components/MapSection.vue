@@ -1,10 +1,10 @@
 <template>
-  <p class="textbox">
+  <div class="textbox">
     Explore the city through this map.
     <br />
     Each area provides a unique glimpse into the city’s visual and cultural
     landscape.
-  </p>
+  </div>
   <div class="map-section">
     <div id="map-controller">
       <div id="map-controller-title">
@@ -306,13 +306,13 @@ export default {
 
       // Reset the stroke-width of the previously selected polygon
       svg
-        .selectAll("path")
+        .selectAll(".geojson-path")
         .filter((d) => d.properties.NTA2020 === this.selectedNTA)
         .attr("stroke-width", 0.5);
 
       // Highlight the newly selected polygon
       svg
-        .selectAll("path")
+        .selectAll(".geojson-path")
         .filter((d) => d.properties.NTA2020 === nta2020)
         .attr("stroke-width", 2);
 
@@ -497,7 +497,7 @@ button {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: nowrap;
   white-space: nowrap;
 }
@@ -507,7 +507,7 @@ button:hover {
 }
 
 button:active {
-  background-color: #d0d0d0;
+  background-color: #ffffff;
 }
 
 button.selected {

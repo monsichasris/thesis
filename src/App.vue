@@ -46,7 +46,7 @@ export default {
         orange: "#FF7B3D",
         purple: "#9A5CF0",
         pink: "#F894FF",
-        brown: "#4A2E16",
+        brown: "#7D5737",
         black: "#000000",
         white: "#FFFFFF",
       },
