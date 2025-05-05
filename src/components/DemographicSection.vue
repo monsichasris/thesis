@@ -1,14 +1,29 @@
 <template>
   <div>
-    <div class="textbox">
-      When we examine the demographics of each neighborhood, certain words,
-      fonts, and colors appear more frequently in specific communities.
-    </div>
-    <div class="demographic-group" id="demo-race">
-      <h2>Race</h2>
+    <div class="break-section">
       <div class="textbox">
-        These groups are based on neighborhoods where more than 50% of the
-        population shares the same racial background.
+        When we examine the demographics of each neighborhood, certain words,
+        fonts, and colors appear more frequently in specific communities.
+      </div>
+      <img
+        style="
+          position: absolute;
+          height: 90%;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        "
+        src="/img/paper.png"
+      />
+    </div>
+
+    <div class="demographic-group" id="demo-race">
+      <div class="demographic-group-header">
+        <h2>Race</h2>
+        <div class="textbox">
+          These groups are based on neighborhoods where more than 50% of the
+          population shares the same racial background.
+        </div>
       </div>
       <div class="demographic-column">
         <DemographicItem
@@ -25,10 +40,12 @@
       </div>
     </div>
     <div class="demographic-group" id="demo-age">
-      <h2>Age</h2>
-      <div class="textbox">
-        These groups represent neighborhoods with an estimated population of
-        over 10,000, categorized by age range (data from 2022).
+      <div class="demographic-group-header">
+        <h2>Age</h2>
+        <div class="textbox">
+          These groups represent neighborhoods with an estimated population of
+          over 10,000, categorized by age range (data from 2022).
+        </div>
       </div>
       <div class="demographic-column">
         <DemographicItem
@@ -45,10 +62,12 @@
       </div>
     </div>
     <div class="demographic-group" id="demo-income">
-      <h2>Income</h2>
-      <div class="textbox">
-        These groups are based on the median household income in each
-        neighborhood.
+      <div class="demographic-group-header">
+        <h2>Income</h2>
+        <div class="textbox">
+          These groups are based on the median household income in each
+          neighborhood.
+        </div>
       </div>
       <div class="demographic-column">
         <DemographicItem
@@ -256,11 +275,41 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  font-family: "Skew VF";
+  font-style: normal;
+  font-size: 48px;
+  font-weight: 700;
+  line-height: 100%;
+  text-transform: uppercase;
+  margin: 0;
+  text-align: left;
+}
 .demographic-group {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 40px 0;
   gap: 16px;
+}
+
+.demographic-group-header {
+  display: flex;
+  flex-direction: row;
+  align-items: lcenter;
+  align-content: center;
+  justify-content: left;
+  gap: 16px;
+}
+
+.demographic-group-header h2 {
+  position: relative;
+  z-index: 1; /* Ensure the text is above the background */
+  background-image: url("img/boom.svg"); /* Path to the SVG file */
+  background-size: contain; /* Adjust the size of the SVG */
+  background-repeat: no-repeat; /* Prevent the SVG from repeating */
+  background-position: center; /* Center the SVG */
+  padding: 20px; /* Add padding to create space for the background */
 }
 
 .demographic-column {
@@ -274,5 +323,20 @@ export default {
 
 .textbox {
   margin: 8px auto;
+  background-color: transparent;
+}
+
+.break-section .textbox {
+  width: 30%;
+  z-index: 5;
+}
+
+.break-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
