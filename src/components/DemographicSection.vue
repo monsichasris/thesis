@@ -289,27 +289,38 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 0;
+  padding: 80px 0;
   gap: 16px;
 }
 
 .demographic-group-header {
   display: flex;
   flex-direction: row;
-  align-items: lcenter;
+  align-items: center;
   align-content: center;
   justify-content: left;
-  gap: 16px;
+  padding: 0 64px;
+  gap: 24px;
 }
 
 .demographic-group-header h2 {
   position: relative;
   z-index: 1; /* Ensure the text is above the background */
-  background-image: url("img/boom.svg"); /* Path to the SVG file */
-  background-size: contain; /* Adjust the size of the SVG */
-  background-repeat: no-repeat; /* Prevent the SVG from repeating */
-  background-position: center; /* Center the SVG */
-  padding: 20px; /* Add padding to create space for the background */
+  background-image: url("/Users/monsichasris/Documents/MS/msdv/thesis/public/img/boom.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 24px;
+  height: 100px;
+  width: 25%;
+  text-align: center;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.demographic-group-header .textbox {
+  margin: 0;
 }
 
 .demographic-column {
