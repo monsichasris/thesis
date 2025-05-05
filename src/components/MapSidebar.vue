@@ -1,21 +1,24 @@
 <template>
   <div v-show="isVisible" class="sidebar">
-    <button class="close-button" @click="$emit('close')">×</button>
+    <div class="sidebar-sticky">
+      <button class="close-button" @click="$emit('close')">×</button>
+      <!-- Mapbox Map -->
+      <div id="mapbox-sidebar" class="mapbox-sidebar"></div>
 
-    <!-- Mapbox Map -->
-    <div id="mapbox-sidebar" class="mapbox-sidebar"></div>
-
-    <div class="sidebar-content">
       <div class="sidebar-header">
         <div class="sidebar-header-title">
           <h2>{{ title }}</h2>
           <p>{{ content }}</p>
         </div>
-        <p>
-          <span class="skew">{{ storeCount }}</span> stores
-        </p>
+        <div style="text-align: right">
+          <span class="skew number">{{ storeCount }}</span
+          ><br />
+          <span class="text-small">stores</span>
+        </div>
       </div>
+    </div>
 
+    <div class="sidebar-content">
       <div class="shelf">
         <!-- TextualShelf -->
         <TextualShelf
@@ -43,47 +46,69 @@
       <!-- Demographic Data -->
       <div v-if="demographicData" class="demographic-data">
         <h3>Demographics</h3>
-        <div class="demographic-data-list">
-          <strong>Population:</strong> <span>{{ demographicData.Pop }}</span>
+        <div class="demographic-data-group">
+          <div class="demographic-data-list">
+            <div>
+              <span>Population:</span><br />
+              <span class="text-small">Estimated</span>
+            </div>
+            <span class="skew number">{{ demographicData.Pop }}</span>
+          </div>
+          <div class="demographic-data-list">
+            <div>
+              <span>Income:</span><br />
+              <span class="text-small">Medium Household</span>
+            </div>
+            <span class="skew number">{{ demographicData.MdHHIncE }}</span>
+          </div>
         </div>
-        <h3>Age</h3>
-        <div class="demographic-data-list">
-          <strong>Gen Z</strong> <span>{{ demographicData.PopZ }}</span>
+
+        <div class="demographic-data-group">
+          <h3>Age</h3>
+          <div class="demographic-data-list">
+            <span>Gen Z</span>
+            <span class="skew number">{{ demographicData.PopZ }}</span>
+          </div>
+          <div class="demographic-data-list">
+            <span>Gen Y</span>
+            <span class="skew number">{{ demographicData.PopY }}</span>
+          </div>
+          <div class="demographic-data-list">
+            <span>Gen X</span>
+            <span class="skew number">{{ demographicData.PopX }}</span>
+          </div>
+          <div class="demographic-data-list">
+            <span>Baby Boomers</span>
+            <span class="skew number">{{ demographicData.PopBB }}</span>
+          </div>
         </div>
-        <div class="demographic-data-list">
-          <strong>Gen Y</strong> <span>{{ demographicData.PopY }}</span>
-        </div>
-        <div class="demographic-data-list">
-          <strong>Gen X</strong> <span>{{ demographicData.PopX }}</span>
-        </div>
-        <div class="demographic-data-list">
-          <strong>Baby Boomers</strong>
-          <span>{{ demographicData.PopBB }}</span>
-        </div>
-        <h3>Race</h3>
-        <div class="demographic-data-list">
-          <strong>Hispanic</strong>
-          <span
-            >{{ demographicData.Hsp_E }} ({{ demographicData.Hsp_P }}%)</span
-          >
-        </div>
-        <div class="demographic-data-list">
-          <strong>White</strong>
-          <span>{{ demographicData.Wt_E }} ({{ demographicData.Wt_P }}%)</span>
-        </div>
-        <div class="demographic-data-list">
-          <strong>Black</strong>
-          <span>{{ demographicData.Bl_E }} ({{ demographicData.Bl_P }}%)</span>
-        </div>
-        <div class="demographic-data-list">
-          <strong>Asian</strong>
-          <span
-            >{{ demographicData.Asn_E }} ({{ demographicData.Asn_P }}%)</span
-          >
-        </div>
-        <div class="demographic-data-list">
-          <strong>Medium Household Income:</strong>
-          <span>{{ demographicData.MdHHIncE }}</span>
+
+        <div class="demographic-data-group">
+          <h3>Race</h3>
+          <div class="demographic-data-list">
+            <span>Hispanic</span>
+            <span class="skew number"
+              >{{ demographicData.Hsp_E }} ({{ demographicData.Hsp_P }}%)</span
+            >
+          </div>
+          <div class="demographic-data-list">
+            <span>White</span>
+            <span class="skew number"
+              >{{ demographicData.Wt_E }} ({{ demographicData.Wt_P }}%)</span
+            >
+          </div>
+          <div class="demographic-data-list">
+            <span>Black</span>
+            <span class="skew number"
+              >{{ demographicData.Bl_E }} ({{ demographicData.Bl_P }}%)</span
+            >
+          </div>
+          <div class="demographic-data-list">
+            <span>Asian</span>
+            <span class="skew number"
+              >{{ demographicData.Asn_E }} ({{ demographicData.Asn_P }}%)</span
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -136,7 +161,7 @@ export default {
 
   computed: {
     sidebarWidth() {
-      return 600;
+      return 480;
     },
     storeCount() {
       return this.filteredData.length;
@@ -147,6 +172,9 @@ export default {
       console.log("isVisible changed:", newVal);
       if (newVal) {
         this.initializeMap();
+        if (this.map) {
+          this.map.resize(); // Resize the map when the sidebar becomes visible
+        }
       }
     },
     filteredData(newVal) {
@@ -166,6 +194,13 @@ export default {
         style: "mapbox://styles/mapbox/light-v11",
         center: [-74.006, 40.7128], // Default center NYC
         zoom: 20,
+      });
+
+      // Ensure the map resizes when the window is resized
+      window.addEventListener("resize", () => {
+        if (this.map) {
+          this.map.resize();
+        }
       });
 
       this.map.on("load", () => {
@@ -350,6 +385,10 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  margin: 0;
+  line-height: 100%;
+}
 .sidebar {
   position: fixed;
   top: 0;
@@ -363,11 +402,19 @@ export default {
   align-content: left;
 }
 
+.sidebar-sticky {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  z-index: 999;
+}
+
 .sidebar-header {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
   align-items: flex-start;
+  padding: 24px;
 }
 
 .sidebar-header-title {
@@ -376,6 +423,7 @@ export default {
   align-items: left;
   align-content: left;
   text-align: left;
+  gap: 8px;
 }
 
 .sidebar h3 {
@@ -395,7 +443,7 @@ export default {
 }
 
 .sidebar-content {
-  padding: 24px 40px;
+  padding: 0 24px;
   display: flex;
   flex-direction: column;
   align-items: left;
@@ -406,18 +454,26 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 24px 0;
   width: 100%;
 }
 
 .demographic-data {
   text-align: left;
+  padding: 24px 0;
+}
+
+.demographic-data-group {
+  border-bottom: 1px solid #ccc;
+  padding: 8px 0;
+  margin-bottom: 16px;
 }
 
 .demographic-data-list {
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  align-items: center;
+  padding: 0 16px;
 }
 
 .close-button {
@@ -426,8 +482,18 @@ export default {
   right: 16px;
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 32px;
   cursor: pointer;
-  z-index: 100;
+  z-index: 2000;
+}
+
+.text-small {
+  font-size: 12px;
+  color: #555;
+}
+
+.number {
+  font-size: 20px;
+  font-weight: 700;
 }
 </style>
