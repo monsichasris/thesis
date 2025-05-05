@@ -385,46 +385,48 @@ export default {
           },
         });
 
-        // let popup = null;
-        // let popupTimeout = null;
+        let popup = null;
+        let popupTimeout = null;
 
         // Add interactivity for store dots
-        // this.map.on("mouseenter", "store-locations-layer", (e) => {
-        //   const coordinates = e.features[0].geometry.coordinates.slice();
-        //   const { id, borough, name } = e.features[0].properties;
+        this.map.on("mouseenter", "store-locations-layer", (e) => {
+          const coordinates = e.features[0].geometry.coordinates.slice();
+          const { id, borough, name } = e.features[0].properties;
 
-        // const imagePath = `/street_view_images/${borough}/${id}.jpg`;
+          const imagePath = `/street_view_images/${borough}/${id}.jpg`;
 
-        //   // Clear any existing timeout to prevent premature popup removal
-        //   if (popupTimeout) {
-        //     clearTimeout(popupTimeout);
-        //     popupTimeout = null;
-        //   }
+          // Clear any existing timeout to prevent premature popup removal
+          if (popupTimeout) {
+            clearTimeout(popupTimeout);
+            popupTimeout = null;
+          }
 
-        //   // Display a popup with the image
-        //   popup = new mapboxgl.Popup()
-        //     .setLngLat(coordinates)
-        //     .setHTML(
-        //       `
-        //   <div style="text-align: center;">
-        //     <strong>${name}</strong>
-        //     <br />
-        //     <img src="${imagePath}" alt="${name}" style="width: 200px; height: auto;" />
-        //   </div>
-        // `
-        //     )
-        //     .addTo(this.map);
-        // });
+          // Display a popup with the image
+          popup = new mapboxgl.Popup({
+            offset: 0,
+          })
+            .setLngLat(coordinates)
+            .setHTML(
+              `
+          <div style="text-align: left; padding: 0;">
+            <strong>${name}</strong>
+            <br />
+            <img src="${imagePath}" alt="${name}" style="width: 200px; height: auto;" />
+          </div>
+        `
+            )
+            .addTo(this.map);
+        });
 
-        // this.map.on("mouseleave", "store-locations-layer", () => {
-        //   // Set a timeout to remove the popup
-        //   popupTimeout = setTimeout(() => {
-        //     if (popup) {
-        //       popup.remove();
-        //       popup = null;
-        //     }
-        //   }, 1000);
-        // });
+        this.map.on("mouseleave", "store-locations-layer", () => {
+          // Set a timeout to remove the popup
+          popupTimeout = setTimeout(() => {
+            if (popup) {
+              popup.remove();
+              popup = null;
+            }
+          }, 1000);
+        });
       }
     },
   },
@@ -462,7 +464,7 @@ h2 {
   justify-content: space-between;
   flex-direction: row;
   align-items: flex-start;
-  padding: 40px;
+  padding: 24px 40px;
 }
 
 .sidebar-header-title {
