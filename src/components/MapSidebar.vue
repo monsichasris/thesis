@@ -211,16 +211,16 @@ export default {
           data: this.geojsonData,
         });
 
-        // Add a layer to display the polygons
-        this.map.addLayer({
-          id: "neighborhoods-layer",
-          type: "fill",
-          source: "neighborhoods",
-          paint: {
-            "fill-color": "#888888",
-            "fill-opacity": 0.4,
-          },
-        });
+        // // Add a layer to display the polygons
+        // this.map.addLayer({
+        //   id: "neighborhoods-layer",
+        //   type: "fill",
+        //   source: "neighborhoods",
+        //   paint: {
+        //     "fill-color": "#888888",
+        //     "fill-opacity": 0.4,
+        //   },
+        // });
 
         // Add a border for the polygons
         this.map.addLayer({
@@ -228,7 +228,7 @@ export default {
           type: "line",
           source: "neighborhoods",
           paint: {
-            "line-color": "#000",
+            "line-color": "#fff",
             "line-width": 1,
           },
         });
@@ -249,16 +249,13 @@ export default {
       }
 
       const nta2020 = this.filteredData[0].NTA2020;
-      console.log("Selected NTA2020:", nta2020);
 
       const feature = this.geojsonData.features.find(
         (f) => f.properties.NTA2020 === nta2020
       );
-      console.log("Selected Feature:", feature);
 
       if (feature) {
-        const coordinates = feature.geometry.coordinates[0]; // Assuming a Polygon
-        console.log("Feature Coordinates:", coordinates);
+        const coordinates = feature.geometry.coordinates[0];
 
         const bounds = coordinates.reduce(
           (bbox, coord) => {
@@ -281,6 +278,21 @@ export default {
         }
 
         this.map.fitBounds(bounds, { padding: 20 });
+
+        // Use Mapbox expressions to dynamically style the border
+        this.map.setPaintProperty("neighborhoods-border", "line-color", [
+          "case",
+          ["==", ["get", "NTA2020"], nta2020],
+          "#000", // Highlight color for the selected neighborhood
+          "#fff", // Default color for other neighborhoods
+        ]);
+
+        this.map.setPaintProperty("neighborhoods-border", "line-width", [
+          "case",
+          ["==", ["get", "NTA2020"], nta2020],
+          2, // Highlight width for the selected neighborhood
+          1, // Default width for other neighborhoods
+        ]);
 
         this.addStoreLocations();
       } else {
@@ -309,6 +321,7 @@ export default {
           id: store.id,
           borough: store.borough,
           name: store.names || "Unknown Store",
+          imagePath: `/street_view_images/${store.borough}/${store.id}.jpg`,
         },
       }));
 
@@ -327,6 +340,40 @@ export default {
           },
         });
 
+        // Dynamically load images for each store
+        // storeFeatures.forEach((store) => {
+        //   const { id, borough } = store.properties;
+
+        //   const imagePath = `/street_view_images/${borough}/${id}.jpg`;
+
+        //   // Check if the image is already loaded
+        //   if (!this.map.hasImage(id)) {
+        //     this.map.loadImage(imagePath, (error, image) => {
+        //       if (error) {
+        //         console.error(`Error loading image for store ${id}:`, error);
+        //         return;
+        //       }
+
+        //       // Add the image to the map
+        //       this.map.addImage(id, image);
+
+        //       // Add a symbol layer for the store locations
+        //       if (!this.map.getLayer("store-locations-layer")) {
+        //         this.map.addLayer({
+        //           id: "store-locations-layer",
+        //           type: "symbol",
+        //           source: "store-locations",
+        //           layout: {
+        //             "icon-image": ["get", "id"], // Use the image ID as the icon
+        //             "icon-size": 0.1, // Adjust the size of the image
+        //             "icon-allow-overlap": true, // Allow icons to overlap
+        //           },
+        //         });
+        //       }
+        //     });
+        //   }
+        // });
+
         // Add a layer to display store locations as dots
         this.map.addLayer({
           id: "store-locations-layer",
@@ -338,46 +385,46 @@ export default {
           },
         });
 
-        let popup = null;
-        let popupTimeout = null;
+        // let popup = null;
+        // let popupTimeout = null;
 
         // Add interactivity for store dots
-        this.map.on("mouseenter", "store-locations-layer", (e) => {
-          const coordinates = e.features[0].geometry.coordinates.slice();
-          const { id, borough, name } = e.features[0].properties;
+        // this.map.on("mouseenter", "store-locations-layer", (e) => {
+        //   const coordinates = e.features[0].geometry.coordinates.slice();
+        //   const { id, borough, name } = e.features[0].properties;
 
-          const imagePath = `/street_view_images/${borough}/${id}.jpg`;
+        // const imagePath = `/street_view_images/${borough}/${id}.jpg`;
 
-          // Clear any existing timeout to prevent premature popup removal
-          if (popupTimeout) {
-            clearTimeout(popupTimeout);
-            popupTimeout = null;
-          }
+        //   // Clear any existing timeout to prevent premature popup removal
+        //   if (popupTimeout) {
+        //     clearTimeout(popupTimeout);
+        //     popupTimeout = null;
+        //   }
 
-          // Display a popup with the image
-          popup = new mapboxgl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(
-              `
-          <div style="text-align: center;">
-            <strong>${name}</strong>
-            <br />
-            <img src="${imagePath}" alt="${name}" style="width: 200px; height: auto;" />
-          </div>
-        `
-            )
-            .addTo(this.map);
-        });
+        //   // Display a popup with the image
+        //   popup = new mapboxgl.Popup()
+        //     .setLngLat(coordinates)
+        //     .setHTML(
+        //       `
+        //   <div style="text-align: center;">
+        //     <strong>${name}</strong>
+        //     <br />
+        //     <img src="${imagePath}" alt="${name}" style="width: 200px; height: auto;" />
+        //   </div>
+        // `
+        //     )
+        //     .addTo(this.map);
+        // });
 
-        this.map.on("mouseleave", "store-locations-layer", () => {
-          // Set a timeout to remove the popup
-          popupTimeout = setTimeout(() => {
-            if (popup) {
-              popup.remove();
-              popup = null;
-            }
-          }, 1000);
-        });
+        // this.map.on("mouseleave", "store-locations-layer", () => {
+        //   // Set a timeout to remove the popup
+        //   popupTimeout = setTimeout(() => {
+        //     if (popup) {
+        //       popup.remove();
+        //       popup = null;
+        //     }
+        //   }, 1000);
+        // });
       }
     },
   },

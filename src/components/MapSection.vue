@@ -227,13 +227,13 @@ export default {
         .append("path")
         .attr("class", "geojson-path")
         .attr("d", path)
-        .attr("fill", "#ccc")
-        .attr("stroke", "#333")
-        .attr("stroke-width", 0.5)
+        .attr("fill", "#aaa")
+        .attr("stroke", "#eee")
+        .attr("stroke-width", 1)
         .attr("data-nta", (d) => d.properties.NTA2020)
         .attr("cursor", "pointer")
         .on("mouseover", (event, d) => {
-          d3.select(event.currentTarget).attr("stroke-width", 2);
+          d3.select(event.currentTarget).attr("stroke-width", 4);
           this.handleTooltip(event, d);
         })
         .on("mousemove", (event, d) => {
@@ -243,7 +243,7 @@ export default {
           if (
             d3.select(event.currentTarget).attr("data-nta") !== this.selectedNTA
           ) {
-            d3.select(event.currentTarget).attr("stroke-width", 0.5);
+            d3.select(event.currentTarget).attr("stroke-width", 1);
           }
           this.handleTooltip(event, d);
         })
@@ -313,12 +313,14 @@ export default {
       svg
         .selectAll(".geojson-path")
         .filter((d) => d.properties.NTA2020 === this.selectedNTA)
-        .attr("stroke-width", 0.5);
+        .attr("stroke", "#eee")
+        .attr("stroke-width", 1);
 
       // Highlight the newly selected polygon
       svg
         .selectAll(".geojson-path")
         .filter((d) => d.properties.NTA2020 === nta2020)
+        .attr("stroke", "black")
         .attr("stroke-width", 2);
 
       // Update the selected neighborhood
@@ -368,8 +370,8 @@ export default {
           .html(`<strong>${d.properties.NTAName}</strong>`);
       } else if (event.type === "mousemove") {
         tooltip
-          .style("left", `${event.clientX + 2}px`)
-          .style("top", `${event.clientY + 2}px`);
+          .style("left", `${event.clientX}px`)
+          .style("top", `${event.clientY}px`);
       } else if (event.type === "mouseout") {
         tooltip.style("display", "none");
       }
@@ -415,6 +417,16 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  font-family: "Skew VF";
+  font-style: normal;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 100%;
+  text-transform: uppercase;
+  margin: 0;
+  text-align: left;
+}
 p {
   text-align: left;
   font-size: 12px;
@@ -431,17 +443,17 @@ p {
   flex-direction: column;
   gap: 24px;
   width: 20vw;
-  top: 24px;
-  left: 24px;
+  top: 40px;
+  left: 40px;
   z-index: 1000;
 }
 
-#map-controller-title {
+/* #map-controller-title {
   text-align: center;
   padding: 16px;
   border: 4px solid #000;
   background-color: #fff;
-}
+} */
 
 .map-container {
   display: flex;
