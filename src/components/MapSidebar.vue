@@ -25,7 +25,7 @@
           :jsonData="filteredData"
           :minStoreCount="1"
           :fontSizeMultiplier="10"
-          :containerHeight="'200px'"
+          :containerHeight="containerHeight"
         />
 
         <!-- VisualShelf -->
@@ -165,6 +165,10 @@ export default {
     },
     storeCount() {
       return this.filteredData.length;
+    },
+    containerHeight() {
+      const contentHeight = this.filteredData.length * 4;
+      return Math.min(contentHeight, 200) + "px";
     },
   },
   watch: {

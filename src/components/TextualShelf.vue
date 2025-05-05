@@ -295,7 +295,8 @@ export default {
 .word-container-inner {
   display: flex;
   flex-wrap: wrap;
-  align-items: self-end;
+  gap: 0;
+  align-items: flex-end;
 }
 
 .word {
