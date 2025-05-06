@@ -1,27 +1,36 @@
 <svg width="1149" height="259" viewBox="0 0 1149 259" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g clip-path="url(#clip0_174_94)">
-<line x1="329.498" y1="0.506759" x2="353.318" y2="256.401" stroke="black"/>
-<line y1="-0.5" x2="257" y2="-0.5" transform="matrix(-0.0926838 0.995696 0.995696 0.0926838 819.73 0.553101)" stroke="black"/>
-<path d="M433.41 1L435.41 258" stroke="black"/>
-<line x1="527.41" y1="1" x2="527.41" y2="258" stroke="black"/>
-<line x1="621.41" y1="1" x2="621.41" y2="258" stroke="black"/>
-<path d="M715.41 1L713.41 258" stroke="black"/>
-<path d="M1149 259L909.087 1H239.913L0 259" stroke="black"/>
-<path d="M1114 352L888.703 93H260.297L35 352" stroke="black"/>
-<path d="M1081 454L869.484 195H279.516L68 454" stroke="black"/>
-<path d="M240 0.5L293 258.5" stroke="black"/>
-<path d="M196 48L257.5 304" stroke="black"/>
-<path d="M952.5 48L893 304" stroke="black"/>
-<path d="M152 96L211.5 352" stroke="black"/>
-<path d="M996.5 96L935 352" stroke="black"/>
-<path d="M106 145L167.5 401" stroke="black"/>
-<path d="M1042.5 145L982 401" stroke="black"/>
-<path d="M58 198L121.5 454" stroke="black"/>
-<path d="M1090.5 198L1027 454" stroke="black"/>
-<path d="M856 258L909 0" stroke="black"/>
+<g clip-path="url(#clip0_465_860)">
+<line x1="325.588" y1="1.50639" x2="349.407" y2="257.4" stroke="black"/>
+<line y1="-0.5" x2="257" y2="-0.5" transform="matrix(-0.0926838 0.995696 0.995696 0.0926838 815.819 1.55273)" stroke="black"/>
+<line x1="429.5" y1="1" x2="429.5" y2="258" stroke="black"/>
+<line x1="523.5" y1="1" x2="523.5" y2="258" stroke="black"/>
+<line x1="617.5" y1="1" x2="617.5" y2="258" stroke="black"/>
+<line x1="711.5" y1="1" x2="711.5" y2="258" stroke="black"/>
+<mask id="path-7-inside-1_465_860" fill="white">
+<path d="M1149 259H0L239.913 0H909.087L1149 259Z"/>
+</mask>
+<path d="M1149 259V260H1151.29L1149.73 258.32L1149 259ZM0 259L-0.733622 258.32L-2.28941 260H0V259ZM239.913 0V-1H239.476L239.179 -0.679558L239.913 0ZM909.087 0L909.821 -0.679558L909.524 -1H909.087V0ZM1149 259V258H0V259V260H1149V259ZM0 259L0.733622 259.68L240.647 0.679558L239.913 0L239.179 -0.679558L-0.733622 258.32L0 259ZM239.913 0V1H909.087V0V-1H239.913V0ZM909.087 0L908.353 0.679558L1148.27 259.68L1149 259L1149.73 258.32L909.821 -0.679558L909.087 0Z" fill="black" mask="url(#path-7-inside-1_465_860)"/>
+<mask id="path-9-inside-2_465_860" fill="white">
+<path d="M1114 352H35L260.297 93H888.703L1114 352Z"/>
+</mask>
+<path d="M1114 352V353H1116.2L1114.75 351.344L1114 352ZM35 352L34.2455 351.344L32.8047 353H35V352ZM260.297 93V92H259.841L259.542 92.3437L260.297 93ZM888.703 93L889.458 92.3437L889.159 92H888.703V93ZM1114 352V351H35V352V353H1114V352ZM35 352L35.7545 352.656L261.051 93.6563L260.297 93L259.542 92.3437L34.2455 351.344L35 352ZM260.297 93V94H888.703V93V92H260.297V93ZM888.703 93L887.949 93.6563L1113.25 352.656L1114 352L1114.75 351.344L889.458 92.3437L888.703 93Z" fill="black" mask="url(#path-9-inside-2_465_860)"/>
+<mask id="path-11-inside-3_465_860" fill="white">
+<path d="M1081 454H68L279.517 195H869.483L1081 454Z"/>
+</mask>
+<path d="M1081 454V455H1083.11L1081.77 453.367L1081 454ZM68 454L67.2255 453.367L65.8922 455H68V454ZM279.517 195V194H279.042L278.742 194.367L279.517 195ZM869.483 195L870.258 194.367L869.958 194H869.483V195ZM1081 454V453H68V454V455H1081V454ZM68 454L68.7745 454.633L280.291 195.633L279.517 195L278.742 194.367L67.2255 453.367L68 454ZM279.517 195V196H869.483V195V194H279.517V195ZM869.483 195L868.709 195.633L1080.23 454.633L1081 454L1081.77 453.367L870.258 194.367L869.483 195Z" fill="black" mask="url(#path-11-inside-3_465_860)"/>
+<path d="M241 0L293 258.5" stroke="black"/>
+<path d="M196 48L253.5 304" stroke="black"/>
+<path d="M952.5 48L897 304" stroke="black"/>
+<path d="M152 96L203.5 352" stroke="black"/>
+<path d="M996.5 96L943 352" stroke="black"/>
+<path d="M106 145L157.5 401" stroke="black"/>
+<path d="M1042.5 145L991 401" stroke="black"/>
+<path d="M58 198L109.5 454" stroke="black"/>
+<path d="M1090.5 198L1039 454" stroke="black"/>
+<path d="M856 258L908.5 0" stroke="black"/>
 </g>
 <defs>
-<clipPath id="clip0_174_94">
+<clipPath id="clip0_465_860">
 <rect width="1149" height="259" fill="white"/>
 </clipPath>
 </defs>
