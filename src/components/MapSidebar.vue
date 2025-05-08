@@ -344,40 +344,6 @@ export default {
           },
         });
 
-        // Dynamically load images for each store
-        // storeFeatures.forEach((store) => {
-        //   const { id, borough } = store.properties;
-
-        //   const imagePath = `/street_view_images/${borough}/${id}.jpg`;
-
-        //   // Check if the image is already loaded
-        //   if (!this.map.hasImage(id)) {
-        //     this.map.loadImage(imagePath, (error, image) => {
-        //       if (error) {
-        //         console.error(`Error loading image for store ${id}:`, error);
-        //         return;
-        //       }
-
-        //       // Add the image to the map
-        //       this.map.addImage(id, image);
-
-        //       // Add a symbol layer for the store locations
-        //       if (!this.map.getLayer("store-locations-layer")) {
-        //         this.map.addLayer({
-        //           id: "store-locations-layer",
-        //           type: "symbol",
-        //           source: "store-locations",
-        //           layout: {
-        //             "icon-image": ["get", "id"], // Use the image ID as the icon
-        //             "icon-size": 0.1, // Adjust the size of the image
-        //             "icon-allow-overlap": true, // Allow icons to overlap
-        //           },
-        //         });
-        //       }
-        //     });
-        //   }
-        // });
-
         // Add a layer to display store locations as dots
         this.map.addLayer({
           id: "store-locations-layer",
