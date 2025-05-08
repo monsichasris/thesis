@@ -40,14 +40,16 @@
   </div>
   <div class="scroll">
     <p class="textbox">
-      If you live in the city, going to the grocery store is a part of life,
-      whether you enjoy it or not.
+      If you live in the city,<br />
+      going to the
+      <img src="img/gifcery.gif" alt="grocery" style="height: 40px" /> store is
+      a part of life, whether you enjoy it or not.
     </p>
     <p class="textbox">
       Exploring grocery stores is one of the ways to understand a place and the
       people who live there.
     </p>
-    <img src="img/people.png" width="100%" />
+    <img src="img/people.png" style="margin-top: -80px" width="100%" />
     <p class="textbox">
       In NYC, there are almost 10,000 grocery stores, each reflecting different
       foods, cuisines, and cultures
@@ -56,23 +58,27 @@
       But before you ever walk in... <br />
       have you ever really looked at the
       <b>signs</b>?<br />
-      They might say something more than you think<br /><br />
-      Let’s take a closer look.
+      They might seem small—but they say a lot.<br /><br />
     </p>
-    <p class="textbox">What we will explore on grocery store signs</p>
+    <p class="textbox">
+      We will explore grocery store signs using store names and locations from
+      New York State, along with images from Google Street View, focusing on...
+    </p>
     <img
       src="img/explain-sign.png"
-      width="60%"
+      width="50%"
       style="
-        margin-top: -320px;
+        margin-top: -80px;
         transform: translate(-50%, 0%);
         margin-left: 50%;
         z-index: 0;
       "
     />
-    <p class="textbox">
+    <p class="textbox" style="margin: 50vh auto">
       These are the key elements of brand identity that shape how a store look,
       But beyond branding, these signs also reflect identity in the community.
+      <br /><br />
+      Let’s take a closer look.
     </p>
   </div>
 </template>
@@ -138,6 +144,6 @@ export default {
 }
 
 .textbox {
-  margin: 400px auto;
+  margin: 20vh auto;
 }
 </style>
