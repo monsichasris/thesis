@@ -421,6 +421,7 @@ h2 {
   overflow-y: auto;
   align-content: left;
   border-left: 1px solid #ccc;
+  overflow: visible;
 }
 
 .sidebar-sticky {
@@ -461,6 +462,11 @@ h2 {
   flex: 0 0 auto;
   width: 100%;
   height: 320px;
+}
+
+.mapboxgl-canvas {
+  width: 100% !important; /* Ensure it takes the full width */
+  height: 100% !important; /* Ensure it takes the full height */
 }
 
 .sidebar-content {
