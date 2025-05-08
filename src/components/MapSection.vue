@@ -308,7 +308,6 @@ export default {
             this.selectedFont && d.fonts.includes(this.selectedFont)
               ? this.selectedFont
               : d.fonts[0]; // Fallback to the first font in the array
-          console.log(`Using font for shape: ${font}`);
           return this.getShapeForFont(font);
         })
         .attr("transform", (d) => {
@@ -320,8 +319,6 @@ export default {
             console.warn(`No colors found for item:`, d);
             return "#aaaaaa"; // Default color if no colors are found
           }
-
-          // Prioritize the selected color if it exists in the array
           const colorName =
             this.selectedColor && d.colors.includes(this.selectedColor)
               ? this.selectedColor
@@ -331,7 +328,31 @@ export default {
           return color;
         })
         .attr("stroke", "#eee")
-        .attr("stroke-width", 0.5);
+        .attr("stroke-width", 0.5)
+        .on("mouseover", (event, d) => {
+          event.stopPropagation(); // Prevent hover event from propagating to GeoJSON paths
+          this.showStoreImage(d, event); // Show the store image tooltip
+        })
+        .on("mouseout", (event) => {
+          event.stopPropagation(); // Prevent hover event from propagating to GeoJSON paths
+          this.hideStoreImage(); // Hide the store image tooltip
+        });
+    },
+    showStoreImage(storeData, event) {
+      const storeImagePath = `/street_view_images/${storeData.borough}/${storeData.id}.jpg`;
+      const tooltip = d3.select(this.$refs.tooltip);
+
+      tooltip
+        .attr("class", "store-tooltip")
+        .style("display", "block")
+        .html(
+          `<div>
+            <div style="background-color: white; border: 1px solid #000; border-bottom: none; width: fit-content; padding: 4px 8px;">Store name: <b>${storeData.names}</b></div>
+            <div style="border: 1px solid #000;"><img src="${storeImagePath}" alt="${storeData.name}" /></div>
+        </div>`
+        )
+        .style("left", `${event.clientX}px`)
+        .style("top", `${event.clientY}px`);
     },
     showSidebar(nta2020) {
       const svg = d3.select(this.$refs.svg);
@@ -382,6 +403,10 @@ export default {
       this.sidebarVisible = true;
       this.$refs.mapSidebar.zoomToNeighborhood();
     },
+    hideStoreImage() {
+      const tooltip = d3.select(this.$refs.tooltip);
+      tooltip.style("display", "none"); // Hide the tooltip
+    },
     closeSidebar() {
       this.sidebarVisible = false;
       this.selectedNTA = null; // Reset the selected neighborhood
@@ -393,6 +418,7 @@ export default {
       const tooltip = d3.select(this.$refs.tooltip);
       if (event.type === "mouseover") {
         tooltip
+          .attr("class", "tooltip") // Add the tooltip class
           .style("display", "block")
           .html(`<strong>${d.properties.NTAName}</strong>`);
       } else if (event.type === "mousemove") {
@@ -477,13 +503,6 @@ span {
   z-index: 1000;
 }
 
-/* #map-controller-title {
-  text-align: center;
-  padding: 16px;
-  border: 4px solid #000;
-  background-color: #fff;
-} */
-
 .map-container {
   display: flex;
   width: 100%;
@@ -504,12 +523,6 @@ span {
 #neighborhood-map.with-sidebar {
   flex: 0.6;
 }
-
-/* .mapbox-sidebar {
-  width: 100%;
-  height: 300px;
-  margin-bottom: 20px;
-} */
 
 .map-sidebar {
   flex: 0.4; /* Sidebar takes up 40% of the container */
@@ -601,14 +614,27 @@ svg {
 
 .tooltip {
   position: absolute;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  background-color: black;
+  color: white;
+  border-radius: 2px;
   padding: 4px 8px;
   font-size: 12px;
   pointer-events: none; /* Prevent the tooltip from interfering with mouse events */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.store-tooltip {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  font-size: 12px;
+  pointer-events: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  z-index: 1000;
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .break-section .textbox {
