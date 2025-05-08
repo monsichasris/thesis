@@ -76,9 +76,24 @@
     />
     <p class="textbox" style="margin: 50vh auto">
       These are the key elements of brand identity that shape how a store look,
-      But beyond branding, these signs also reflect identity in the community.
-      <br /><br />
+      But beyond branding, these signs also reflect identity in the
+      community.<br /><br />
       Let’s take a closer look.
+    </p>
+    <img
+      src="img/title.svg"
+      width="50%"
+      style="
+        margin-top: -80px;
+        transform: translate(-50%, 0%);
+        margin-left: 50%;
+        z-index: 0;
+      "
+    />
+    <p class="textbox" style="margin: 5vh auto 50vh auto">
+      The scenery behind NYC storefront signs <br />
+      <!-- by<br />
+      <a href="https://monsicha.info/">Monsicha Srisuantang</a> -->
     </p>
   </div>
 </template>
