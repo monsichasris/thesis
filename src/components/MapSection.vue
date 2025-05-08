@@ -260,7 +260,9 @@ export default {
         .attr("data-nta", (d) => d.properties.NTA2020)
         .attr("cursor", "pointer")
         .on("mouseover", (event, d) => {
-          d3.select(event.currentTarget).attr("stroke-width", 4);
+          d3.select(event.currentTarget)
+            .attr("stroke-width", 4)
+            .attr("fill", "#777");
           this.handleTooltip(event, d);
         })
         .on("mousemove", (event, d) => {
@@ -270,7 +272,9 @@ export default {
           if (
             d3.select(event.currentTarget).attr("data-nta") !== this.selectedNTA
           ) {
-            d3.select(event.currentTarget).attr("stroke-width", 1);
+            d3.select(event.currentTarget)
+              .attr("stroke-width", 1)
+              .attr("fill", "#aaa");
           }
           this.handleTooltip(event, d);
         })
@@ -361,15 +365,13 @@ export default {
       svg
         .selectAll(".geojson-path")
         .filter((d) => d.properties.NTA2020 === this.selectedNTA)
-        .attr("stroke", "#eee")
-        .attr("stroke-width", 1);
+        .attr("fill", "#aaa");
 
       // Highlight the newly selected polygon
       svg
         .selectAll(".geojson-path")
         .filter((d) => d.properties.NTA2020 === nta2020)
-        .attr("stroke", "black")
-        .attr("stroke-width", 2);
+        .attr("fill", "#555");
 
       // Update the selected neighborhood
       this.selectedNTA = nta2020;
