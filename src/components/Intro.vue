@@ -43,11 +43,12 @@
       If you live in the city,<br />
       going to the
       <img src="img/gifcery.gif" alt="grocery" style="height: 40px" /> store is
-      a part of life, whether you enjoy it or not.
+      a part of life,<br />
+      whether you enjoy it or not.
     </p>
     <p class="textbox">
-      Exploring grocery stores is one of the ways to understand a place and the
-      people who live there.
+      Exploring grocery stores is one of the ways<br />
+      to understand a place and the people who live there.
     </p>
     <img src="img/people.png" style="margin-top: -80px" width="100%" />
     <p class="textbox">
