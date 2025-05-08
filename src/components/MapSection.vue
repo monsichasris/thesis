@@ -91,6 +91,59 @@
         </div>
         <img src="img/shelf.svg" width="100%" style="margin-top: -2%" />
       </div>
+
+      <div class="map-filter">
+        <div class="chart-label">Filters</div>
+
+        <!-- Dropdown for Medium Household Income -->
+        <div class="filter-group">
+          <label for="income-filter">Medium Household Income:</label>
+          <select
+            id="income-filter"
+            v-model="selectedIncome"
+            @change="applyFilters"
+          >
+            <option value="">All</option>
+            <option value="low">Low (Below 50,000)</option>
+            <option value="medium">Medium (50,000 - 100,000)</option>
+            <option value="high">High (Above 100,000)</option>
+          </select>
+        </div>
+
+        <!-- Dropdown for Race -->
+        <div class="filter-group">
+          <label for="race-filter">Race:</label>
+          <select
+            id="race-filter"
+            v-model="selectedRace"
+            @change="applyFilters"
+          >
+            <option value="">All</option>
+            <option value="Hsp_P">Hispanic</option>
+            <option value="Wt_P">White</option>
+            <option value="Bl_P">Black</option>
+            <option value="Asn_P">Asian</option>
+          </select>
+        </div>
+
+        <!-- Dropdown for Generation -->
+        <div class="filter-group">
+          <label for="generation-filter">Generation:</label>
+          <select
+            id="generation-filter"
+            v-model="selectedGeneration"
+            @change="applyFilters"
+          >
+            <option value="">All</option>
+            <option value="PopZ">Generation Z</option>
+            <option value="PopY">Millennials</option>
+            <option value="PopX">Generation X</option>
+            <option value="PopBB">Baby Boomers</option>
+          </select>
+        </div>
+        <img src="img/shelf.svg" width="100%" style="margin-top: -2%" />
+      </div>
+
       <button @click="resetFilters">Reset Filters</button>
     </div>
 
@@ -165,6 +218,9 @@ export default {
       selectedFilter: null,
       selectedFont: null,
       selectedColor: null,
+      selectedIncome: "",
+      selectedRace: "",
+      selectedGeneration: "",
     };
   },
   watch: {
@@ -432,9 +488,8 @@ export default {
       }
     },
     applyFilters() {
-      if (!this.jsonData || !this.geojsonData) return;
+      if (!this.jsonData || !this.geojsonData || !this.demographicData) return;
 
-      // Filter data based on both selectedFont and selectedColor
       const filteredData = this.jsonData.filter((item) => {
         const matchesFont = this.selectedFont
           ? item.fonts && item.fonts.includes(this.selectedFont)
@@ -442,7 +497,45 @@ export default {
         const matchesColor = this.selectedColor
           ? item.colors && item.colors.includes(this.selectedColor)
           : true; // If no color is selected, match all
-        return matchesFont && matchesColor; // Both conditions must be true
+
+        const demographic = this.demographicData.find(
+          (d) => d.GeoID === item.NTA2020
+        );
+
+        if (!demographic) return false;
+
+        // Filter by Medium Household Income
+        const income = parseFloat(demographic.MdHHIncE);
+        const matchesIncome =
+          !this.selectedIncome ||
+          (this.selectedIncome === "low" && income < 50000) ||
+          (this.selectedIncome === "medium" &&
+            income >= 50000 &&
+            income <= 100000) ||
+          (this.selectedIncome === "high" && income > 100000);
+
+        // Filter by Race (percentage > 50%)
+        const matchesRace =
+          !this.selectedRace ||
+          (["Hsp_P", "Bl_P", "Wt_P", "Asn_P"].includes(this.selectedRace) &&
+            parseFloat(demographic[this.selectedRace]) > 50);
+
+        // Filter by Generation (population > 10,000)
+        const matchesGeneration =
+          !this.selectedGeneration ||
+          (["PopZ", "PopY", "PopX", "PopBB"].includes(
+            this.selectedGeneration
+          ) &&
+            parseFloat(demographic[this.selectedGeneration]) > 10000);
+
+        // All conditions must be true
+        return (
+          matchesFont &&
+          matchesColor &&
+          matchesIncome &&
+          matchesRace &&
+          matchesGeneration
+        );
       });
 
       console.log("Filtered Data:", filteredData);
@@ -540,6 +633,24 @@ span {
   flex-wrap: wrap;
   justify-content: center;
   z-index: 5;
+}
+
+.filter-group {
+  margin-bottom: 16px;
+}
+
+.filter-group label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.filter-group select {
+  width: 100%;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .map-filter {
