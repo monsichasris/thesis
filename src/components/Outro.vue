@@ -7,7 +7,11 @@
       details of life. Grocery store signs are just one piece of the
       puzzle—there are more stories waiting to be discovered out there.
     </div>
-    <img src="img/stores.png" width="100%" style="margin: auto" />
+    <img src="img/cashier.png" width="100%" style="margin: auto" />
+  </div>
+  <div class="foot">
+    <a>Monsicha Srisuantang</a>
+    <a>MS Data Visualization, Parsons School of Design, The New School</a>
   </div>
 </template>
 
@@ -20,4 +24,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.foot {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 24px;
+}
+</style>

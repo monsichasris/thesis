@@ -1,16 +1,33 @@
 <template>
-  <div class="textbox">
-    Explore the city through this map.
-    <br />
-    Each area provides a unique glimpse into the city’s visual and cultural
-    landscape.
+  <div class="break-section">
+    <div style="display: flex; flex-direction: column; gap: 24px">
+      <div class="textbox">
+        Now, all elements come together. Time to explore the signery through the
+        map!
+      </div>
+      <div class="lottie-container" ref="lottieContainer"></div>
+    </div>
+    <img
+      style="
+        position: absolute;
+        height: 100%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      "
+      src="/img/break.png"
+    />
   </div>
   <div class="map-section">
     <div id="map-controller">
       <div id="map-controller-title">
         <h2>Neighborhood Map</h2>
       </div>
-      <p>Click on the neighborhoods to view the details</p>
+      <p>
+        Each area provides a unique glimpse into the city’s visual and cultural
+        landscape.
+      </p>
+      <span>☞ Click on the neighborhoods to view the details</span>
 
       <div class="map-filter">
         <div class="chart-label">Fonts</div>
@@ -103,6 +120,7 @@
 <script>
 import * as d3 from "d3";
 import MapSidebar from "./MapSidebar.vue";
+import lottie from "lottie-web";
 
 export default {
   name: "MapSection",
@@ -175,6 +193,15 @@ export default {
         this.renderGeoJSON(); // Re-render the GeoJSON to fit the new dimensions
       });
     },
+  },
+  mounted() {
+    lottie.loadAnimation({
+      container: this.$refs.lottieContainer, // The container where the animation will be rendered
+      renderer: "svg", // Render as SVG
+      loop: true, // Loop the animation
+      autoplay: true, // Start playing automatically
+      path: "/img/chevron-down.json", // Path to your Lottie JSON file
+    });
   },
 
   methods: {
@@ -399,7 +426,6 @@ export default {
       this.selectedFont = font; // Update the selected font
       this.applyFilters(); // Apply the combined filters
     },
-
     highlightByColor(color) {
       this.selectedColor = color; // Update the selected color
       this.applyFilters(); // Apply the combined filters
@@ -428,6 +454,9 @@ h2 {
   text-align: left;
 }
 p {
+  text-align: left;
+}
+span {
   text-align: left;
   font-size: 12px;
 }
@@ -580,5 +609,27 @@ svg {
   pointer-events: none; /* Prevent the tooltip from interfering with mouse events */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
+}
+
+.break-section .textbox {
+  width: 40%;
+  z-index: 5;
+  text-align: center;
+}
+
+.break-section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  margin: 10% 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.lottie-container {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto;
 }
 </style>
