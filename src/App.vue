@@ -121,9 +121,9 @@ export default {
 .textbox {
   font-size: 24px;
   line-height: 1.5;
-  text-align: left;
-  margin: 200px auto 400px auto;
-  width: 60%;
+  text-align: center;
+  margin: auto;
+  width: 50%;
   background-color: #eee;
 }
 
