@@ -163,8 +163,8 @@ export default {
       filteredDemographicData: null,
       selectedNTA: null,
       selectedFilter: null,
-      selectedFont: null, // Track the selected font
-      selectedColor: null, // Track the selected color
+      selectedFont: null,
+      selectedColor: null,
     };
   },
   watch: {
@@ -196,11 +196,11 @@ export default {
   },
   mounted() {
     lottie.loadAnimation({
-      container: this.$refs.lottieContainer, // The container where the animation will be rendered
-      renderer: "svg", // Render as SVG
-      loop: true, // Loop the animation
-      autoplay: true, // Start playing automatically
-      path: "/img/chevron-down.json", // Path to your Lottie JSON file
+      container: this.$refs.lottieContainer,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: "/img/chevron-down.json",
     });
   },
 
@@ -208,10 +208,10 @@ export default {
     getColorForName(name) {
       if (!name) {
         console.warn("Invalid color name:", name);
-        return "#CCCCCC"; // Default to light gray for invalid names
+        return "#CCCCCC";
       }
 
-      const color = this.colorMapping[name.toLowerCase()] || "#CCCCCC"; // Default to light gray
+      const color = this.colorMapping[name.toLowerCase()] || "#CCCCCC";
       console.log("Getting color for:", name, "Color found:", color);
       return color;
     },
@@ -227,7 +227,7 @@ export default {
         "Sans-serif": "M3.01758 2.25H22.5176V21.75H3.01758V2.25Z",
       };
 
-      return shapes[font] || "M 0,0 A 10,10 0 1,1 0.1,0 Z"; // Default to circle
+      return shapes[font] || "M 0,0 A 10,10 0 1,1 0.1,0 Z";
     },
 
     renderGeoJSON() {
@@ -236,11 +236,11 @@ export default {
         return;
       }
       const svg = d3.select(this.$refs.svg);
-      svg.selectAll(".geojson-path").remove(); // Clear existing paths
+      svg.selectAll(".geojson-path").remove();
 
       // Use the fixed dimensions
-      const width = 800; // Locked width
-      const height = 800; // Locked height
+      const width = 800;
+      const height = 800;
 
       const projection = d3
         .geoMercator()
@@ -409,7 +409,7 @@ export default {
     },
     closeSidebar() {
       this.sidebarVisible = false;
-      this.selectedNTA = null; // Reset the selected neighborhood
+      this.selectedNTA = null;
       this.renderGeoJSON();
 
       console.log("sidebarVisible:", this.sidebarVisible);
@@ -418,7 +418,7 @@ export default {
       const tooltip = d3.select(this.$refs.tooltip);
       if (event.type === "mouseover") {
         tooltip
-          .attr("class", "tooltip") // Add the tooltip class
+          .attr("class", "tooltip")
           .style("display", "block")
           .html(`<strong>${d.properties.NTAName}</strong>`);
       } else if (event.type === "mousemove") {
@@ -525,12 +525,12 @@ span {
 }
 
 .map-sidebar {
-  flex: 0.4; /* Sidebar takes up 40% of the container */
+  flex: 0.4;
   height: 100%;
   background-color: white;
   box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
   overflow-y: auto;
-  transition: flex 0.3s ease; /* Smooth transition for resizing */
+  transition: flex 0.3s ease;
 }
 
 .filter-buttons {
@@ -619,7 +619,7 @@ svg {
   border-radius: 2px;
   padding: 4px 8px;
   font-size: 12px;
-  pointer-events: none; /* Prevent the tooltip from interfering with mouse events */
+  pointer-events: none;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   transition: opacity 0.3s ease, transform 0.3s ease;

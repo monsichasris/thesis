@@ -209,6 +209,7 @@ export default {
 
       this.map.on("load", () => {
         console.log("Map loaded");
+        this.map.resize();
         // Add GeoJSON data as a source
         this.map.addSource("neighborhoods", {
           type: "geojson",
