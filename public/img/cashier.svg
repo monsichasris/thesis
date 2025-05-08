@@ -1,0 +1,23 @@
+<svg width="1280" height="480" viewBox="0 0 1280 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="-0.5" y="277.5" width="1281" height="161" stroke="black"/>
+<rect x="-0.5" y="257.5" width="1281" height="201" stroke="black"/>
+<rect x="866.5" y="145.5" width="319" height="112" rx="1.5" stroke="black"/>
+<rect x="1076.5" y="0.5" width="109" height="66" rx="1.5" stroke="black"/>
+<rect x="1084.5" y="9.5" width="93" height="48" rx="1.5" stroke="black"/>
+<rect x="1144.5" y="66.5" width="79" height="23" transform="rotate(90 1144.5 66.5)" stroke="black"/>
+<path d="M302.454 134.98C303.359 134.981 303.994 135.874 303.697 136.729L267.844 257.363H105.794L69.9412 136.729C69.6441 135.874 70.2786 134.981 71.1837 134.98H302.454Z" stroke="black"/>
+<path d="M78.1802 161.895H295.361" stroke="black" stroke-linecap="round"/>
+<path d="M87.9009 194.801L285.641 195.08" stroke="black" stroke-linecap="round"/>
+<path d="M97.0806 227.986L276.461 227.99" stroke="black" stroke-linecap="round"/>
+<line x1="111.5" y1="134.355" x2="111.5" y2="257.363" stroke="black"/>
+<line x1="141.938" y1="134.355" x2="141.938" y2="257.363" stroke="black"/>
+<line x1="172.376" y1="134.355" x2="172.376" y2="257.363" stroke="black"/>
+<line x1="202.815" y1="134.355" x2="202.815" y2="257.363" stroke="black"/>
+<line x1="233.253" y1="134.355" x2="233.253" y2="257.363" stroke="black"/>
+<line x1="263.691" y1="134.355" x2="263.691" y2="257.363" stroke="black"/>
+<path d="M116.798 127.194C109.229 127.77 108.571 135.256 111.45 133.117L186.559 64.5898L261.668 133.117C264.547 135.256 263.889 127.77 256.32 127.194" stroke="black" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M224.116 98.8535L186.561 64.5898L149.007 98.8535" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M118.856 135.339L113.068 130.837C112.117 130.098 110.786 130.098 109.836 130.837L104.048 135.339" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M269.894 135.339L264.106 130.837C263.155 130.098 261.824 130.098 260.874 130.837L255.086 135.339" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M104.045 136.652H70.3169C69.5899 136.652 68.9995 136.063 68.9995 135.336C68.9995 134.609 69.5899 134.02 70.3169 134.02H104.045V136.652ZM255.086 136.652H118.853V134.02H255.086V136.652ZM303.428 134.026C304.091 134.094 304.61 134.655 304.61 135.336C304.61 136.017 304.091 136.578 303.428 136.646L303.293 136.652H269.894V134.02H303.293L303.428 134.026Z" fill="black"/>
+</svg>

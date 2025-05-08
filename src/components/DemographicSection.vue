@@ -2,8 +2,9 @@
   <div>
     <div class="break-section">
       <div class="textbox">
-        When we examine the demographics of each neighborhood, certain words,
-        fonts, and colors appear more frequently in specific communities.
+        When we examine the demographics of each neighborhood looking at race,
+        age, and income, certain words, fonts, and colors appear more frequently
+        in specific communities.
       </div>
       <img
         style="
@@ -44,7 +45,7 @@
         <h2>Age</h2>
         <div class="textbox">
           These groups represent neighborhoods with an estimated population of
-          over 10,000, categorized by age range (data from 2022).
+          over 10,000 categorized by age range (data from 2022).
         </div>
       </div>
       <div class="demographic-column">
