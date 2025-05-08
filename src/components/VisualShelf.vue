@@ -89,7 +89,7 @@ export default {
         .style("font-style", "normal")
         .style("font-weight", 700)
         .style("font-size", "24px")
-        .style("z-index", 10)
+        .style("z-index", 1000)
         .style("pointer-events", "none")
         .style("opacity", 0);
 
@@ -275,14 +275,13 @@ export default {
   padding: 8px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  font-size: 12px;
   pointer-events: none;
   opacity: 0; /* Initially hidden */
   transition: opacity 0.2s ease-in-out;
-  z-index: 10;
+  z-index: 1000;
   font-family: "Skew VF";
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 16px;
 }
 </style>

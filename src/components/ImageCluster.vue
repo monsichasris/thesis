@@ -5,7 +5,7 @@
   </div>
   <img
     src="img/basket.svg"
-    width="80%"
+    width="90%"
     style="
       position: absolute;
       bottom: 0;
@@ -137,8 +137,8 @@ export default {
             .on("mouseover", (event, d) => {
               tooltip
                 .style("display", "block")
-                .style("left", `${event.clientX + 4}px`)
-                .style("top", `${event.clientY + 4}px`)
+                .style("left", `${event.clientX + 2}px`)
+                .style("top", `${event.clientY}px`)
                 .html(
                   `<strong>${d.name}</strong><br>Neighborhood: ${d.neighborhood}<br>Borough: ${d.borough}`
                 );
@@ -154,8 +154,8 @@ export default {
             })
             .on("mousemove", (event) => {
               tooltip
-                .style("left", `${event.clientX + 4}px`)
-                .style("top", `${event.clientY + 4}px`);
+                .style("left", `${event.clientX + 2}px`)
+                .style("top", `${event.clientY}px`);
             });
         });
     },
