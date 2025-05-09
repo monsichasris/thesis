@@ -334,7 +334,7 @@ export default {
 }
 
 .wordhighlight {
-  background-color: yellow;
+  background-color: #d4ff5e;
   font-weight: bold;
   border: 2px solid black;
 }
