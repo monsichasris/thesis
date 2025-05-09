@@ -370,9 +370,8 @@ export default {
         .attr("d", (d) => {
           if (!d.fonts || d.fonts.length === 0) {
             console.warn(`No fonts found for item:`, d);
-            return "M 0,0 A 10,10 0 1,1 0.1,0 Z"; // Default to circle
+            return "";
           }
-
           // Prioritize the selected font if it exists in the array
           const font =
             this.selectedFont && d.fonts.includes(this.selectedFont)
@@ -570,6 +569,9 @@ export default {
     resetFilters() {
       this.selectedFont = null;
       this.selectedColor = null;
+      this.selectedIncome = "";
+      this.selectedRace = "";
+      this.selectedGeneration = "";
 
       // Remove all existing filtered shapes
       const svg = d3.select(this.$refs.svg);
