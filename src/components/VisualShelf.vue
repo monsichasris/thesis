@@ -79,11 +79,11 @@ export default {
         .append("div")
         .attr("class", "tooltip")
         .style("position", "absolute")
-        .style("background-color", "black")
-        .style("color", "white")
+        .style("background-color", "white")
         .style("padding", "8px")
+        .style("padding-top", "0")
         .style("align-items", "left")
-        .style("border-radius", "4px")
+        .style("border", "1px solid black")
         .style("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.2)")
         .style("font-family", "Skew VF")
         .style("font-style", "normal")
@@ -150,7 +150,7 @@ export default {
             this.type === "colors"
               ? this.getColorForName(d.name)
               : d.name?.toLowerCase() === this.activeTitle
-              ? "lime" // Highlight matching bar
+              ? "#D4FF5E" // Highlight matching bar
               : "black" // Default color for non-matching bars
           )
           .attr(
@@ -172,7 +172,7 @@ export default {
             } else if (this.type === "colors") {
               tooltip.style("opacity", 1) // Show the tooltip
                 .html(`
-                  <b>${d.name}</b>:<br>${d.value}
+                  <b style="font-size: 16px; font-weight: 400;">${d.name}</b><br>${d.value}
                 `); // Set tooltip content without the image
             }
           })
@@ -270,18 +270,10 @@ export default {
 
 .tooltip {
   position: absolute;
-  background-color: black;
-  color: white;
-  padding: 8px;
   border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   pointer-events: none;
-  opacity: 0; /* Initially hidden */
+  opacity: 0;
   transition: opacity 0.2s ease-in-out;
   z-index: 1000;
-  font-family: "Skew VF";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
 }
 </style>
