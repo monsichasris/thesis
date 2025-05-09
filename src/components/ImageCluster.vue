@@ -140,7 +140,7 @@ export default {
                 .style("left", `${event.clientX + 2}px`)
                 .style("top", `${event.clientY}px`)
                 .html(
-                  `<strong>${d.name}</strong><br>Neighborhood: ${d.neighborhood}<br>Borough: ${d.borough}`
+                  `<strong>${d.name}</strong><br>Neighborhood: ${d.neighborhood}, ${d.borough}`
                 );
 
               d3.select(event.target).attr("width", 200).attr("height", 120);
@@ -167,9 +167,8 @@ export default {
 .tooltip {
   position: absolute;
   background-color: white;
-  border: 1px solid #ccc;
+  border: 1px solid #000;
   padding: 8px;
-  border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   pointer-events: none;
   font-size: 12px;
