@@ -103,11 +103,6 @@ export default {
             "Family-related words are used in store names, but they mostly reference men in the family or male prefixes like 'Mr.' Only a few stores use names like 'sister' or 'daughter.'",
           isH1: false,
         },
-        // {
-        //   title: "Lucky",
-        //   content: "The word lucky has been used...",
-        //   isH1: false,
-        // },
 
         {
           title: "VISUAL",
