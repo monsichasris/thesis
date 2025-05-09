@@ -414,14 +414,14 @@ h2 {
   top: 0;
   right: 0;
   width: 40vw;
-  height: 100%;
+  height: 100vh;
   background-color: white;
   box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   overflow-y: auto;
   align-content: left;
   border-left: 1px solid #ccc;
-  overflow: visible;
+  overflow-y: auto;
 }
 
 .sidebar-sticky {
