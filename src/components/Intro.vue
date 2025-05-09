@@ -23,7 +23,7 @@
     />
   </div>
 
-  <MatterAnimation :basketSvg="'img/baseline.svg'" :images="images" />
+  <MatterAnimation :images="images" />
 
   <div style="height: 100vh; position: sticky; top: 0">
     <img
@@ -66,7 +66,7 @@
       New York State, along with images from Google Street View, focusing on...
     </p>
     <img
-      src="img/explain-sign.png"
+      src="img/explain-sign.svg"
       width="50%"
       style="
         margin-top: -80px;
