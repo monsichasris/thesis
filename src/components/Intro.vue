@@ -19,7 +19,14 @@
     <img
       src="img/title_basket.svg"
       height="100%"
-      style="position: absolute; top: 0; left: 50%; transform: translateX(-50%)"
+      style="
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        pointer-events: none;
+        z-index: 1;
+      "
     />
   </div>
 
@@ -115,12 +122,15 @@ export default {
   },
   mounted() {
     lottie.loadAnimation({
-      container: this.$refs.lottieContainer, // The container where the animation will be rendered
-      renderer: "svg", // Render as SVG
-      loop: true, // Loop the animation
-      autoplay: true, // Start playing automatically
-      path: "/img/chevron-down.json", // Path to your Lottie JSON file
+      container: this.$refs.lottieContainer,
+      renderer: "svg",
+      loop: true,
+      autoplay: true,
+      path: "/img/chevron-down.json",
     });
+
+    // Add click event listener to the Lottie container
+    this.$refs.lottieContainer.addEventListener("click", this.scrollDown);
   },
   methods: {
     loadImages() {
@@ -131,6 +141,12 @@ export default {
         /\.(png|jpe?g|svg)$/
       );
       return context.keys().map((key) => context(key));
+    },
+    scrollDown() {
+      window.scrollBy({
+        top: window.innerHeight, // Scroll down by 100vh
+        behavior: "smooth", // Smooth scrolling
+      });
     },
   },
 };
@@ -157,6 +173,7 @@ export default {
   width: 64px;
   height: 64px;
   margin: 0 auto;
+  cursor: pointer;
 }
 
 .textbox {

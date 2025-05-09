@@ -10,11 +10,11 @@ export default {
   props: {
     basketSvg: {
       type: String,
-      required: true, // Pass the SVG path for the basket
+      required: true,
     },
     images: {
       type: Array,
-      required: true, // Pass an array of image paths for the objects
+      required: true,
     },
   },
   mounted() {
@@ -37,33 +37,25 @@ export default {
         element: this.$refs.matterContainer,
         engine: engine,
         options: {
-          width: width, // Full screen width
-          height: height, // Full screen height
-          wireframes: false, // Use actual images instead of wireframes
+          width: width,
+          height: height,
+          wireframes: false,
           background: "transparent",
         },
       });
 
       Render.run(render);
 
-      // Create runner
       const runner = Runner.create();
       Runner.run(runner, engine);
 
-      // Add walls to approximate the SVG path
-      const leftWall = Bodies.rectangle(
-        280,
-        height / 1.2,
-        50,
-        height, // Length of the wall,
-        {
-          isStatic: true,
-          angle: Math.atan2(height / 2 - 0, width / 3 - height * 2), // Calculate the angle of the left wall
-          render: {
-            fillStyle: "transparent", // Optional: color for the wall
-          },
-        }
-      );
+      const leftWall = Bodies.rectangle(280, height / 1.2, 50, height, {
+        isStatic: true,
+        angle: Math.atan2(height / 2 - 0, width / 3 - height * 2),
+        render: {
+          fillStyle: "transparent",
+        },
+      });
 
       const rightWall = Bodies.rectangle(
         width - 280,
@@ -72,7 +64,7 @@ export default {
         height,
         {
           isStatic: true,
-          angle: Math.atan2(0 - height / 2, width / 3 - height * 2), // Calculate the angle of the right wall
+          angle: Math.atan2(0 - height / 2, width / 3 - height * 2),
           render: {
             fillStyle: "transparent",
           },
@@ -88,18 +80,16 @@ export default {
 
       Composite.add(world, [leftWall, rightWall, bottomWall]);
 
-      // Use all images in order
       const allImages = [...this.images];
 
-      // Define the new size for the objects
-      const objectWidth = 40; // Width of the objects
-      const objectHeight = 40; // Height of the objects
+      const objectWidth = 200;
+      const objectHeight = 100;
 
       // Add objects randomly
       allImages.forEach((texture) => {
         // Generate random positions above the canvas
-        const x = Math.random() * (width - objectWidth * 0.7) + objectWidth / 2; // Random horizontal position
-        const y = Math.random() * -500; // Random vertical position above the canvas
+        const x = Math.random() * (width - objectWidth * 0.7) + objectWidth / 2;
+        const y = Math.random() * -500;
 
         const body = Bodies.rectangle(x, y, objectWidth, objectHeight, {
           restitution: 0.6, // Bounciness
@@ -180,9 +170,8 @@ export default {
 
 <style scoped>
 .matter-container {
-  width: 90vw;
+  width: 100vw;
   height: 100vh;
-  overflow: hidden;
   position: relative;
 }
 </style>
