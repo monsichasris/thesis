@@ -84,8 +84,8 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
-  width: 30vw;
-  padding: 1rem;
+  width: 24vw;
+  padding: 40px;
   padding-top: 50%;
   padding-bottom: 50%;
   background: transparent;
@@ -95,22 +95,37 @@ export default {
 
 .highlight {
   margin-bottom: 60vh;
-  padding: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #f9f9f9;
+  padding: 40px;
+  background-color: #ffffff;
   pointer-events: auto;
+  line-height: 150%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.highlight h1 {
+  font-family: "Skew VF";
+  font-style: normal;
+  font-size: 4rem;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  border-top: #000 dashed 1px;
+  border-bottom: #000 dashed 1px;
 }
 
 .highlight h2 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #333;
+  margin-top: 0;
+  line-height: normal;
+  font-size: 2rem;
+  text-transform: uppercase;
+  color: #000;
 }
 
 .highlight p {
-  margin: 0.5rem 0 0;
+  margin: 0.5rem 0;
+  padding-top: 1rem;
   font-size: 1rem;
-  color: #666;
+  color: #000;
+  border-top: #000 dashed 1px;
 }
 </style>
