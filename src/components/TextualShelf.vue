@@ -318,14 +318,15 @@ export default {
 }
 
 .tooltip {
-  background-color: black;
-  color: white;
+  background-color: white;
+  color: black;
   text-align: center;
   padding: 0.4em 0.6em;
-  border-radius: 4px;
+  border: 1px solid black;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   white-space: nowrap;
   z-index: 1000;
-  pointer-events: none; /* Prevent tooltip from interfering with mouse events */
+  pointer-events: none;
   transition: opacity 0.2s ease-in-out;
   font-family: "Skew VF";
   font-style: normal;

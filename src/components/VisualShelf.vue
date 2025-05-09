@@ -116,7 +116,6 @@ export default {
       const svg = d3
         .select(`#${this.containerId}`)
         .append("svg")
-        // .attr("viewBox", `0 0 ${width} 80`) // Use viewBox for responsiveness
         .style("width", width)
         .attr("height", height);
 
@@ -198,7 +197,8 @@ export default {
               .attr("xlink:href", imagePath)
               .attr("x", x(cumulative) + 16)
               .attr("y", 8)
-              .attr("height", 40);
+              .attr("height", 40)
+              .style("filter", "invert(1)");
           }
         }
 
