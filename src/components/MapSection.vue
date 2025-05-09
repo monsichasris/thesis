@@ -23,10 +23,6 @@
       <div id="map-controller-title">
         <h2>Neighborhood Map</h2>
       </div>
-      <p>
-        Each area provides a unique glimpse into the city’s visual and cultural
-        landscape.
-      </p>
       <span>☞ Click on the neighborhoods to view the details</span>
 
       <div class="map-filter">
@@ -34,6 +30,7 @@
         <div class="chart-label-shadow">Fonts</div>
         <div class="filter-buttons">
           <button
+            style="width: 120px"
             v-for="font in fonts"
             :key="font"
             @click="highlightByFont(font)"
@@ -54,7 +51,7 @@
                 stroke-width="1"
               />
             </svg>
-            {{ font }}
+            <span style="width: 100%">{{ font }}</span>
           </button>
         </div>
         <img src="img/shelf.svg" width="100%" style="margin-top: -2%" />
@@ -65,6 +62,7 @@
         <div class="chart-label-shadow">Colors</div>
         <div class="filter-buttons">
           <button
+            style="width: 88px"
             v-for="color in colors"
             :key="color"
             @click="highlightByColor(color)"
@@ -86,27 +84,29 @@
                 stroke-width="1"
               />
             </svg>
-            {{ color }}
+            <span style="width: 100%">{{ color }}</span>
           </button>
         </div>
         <img src="img/shelf.svg" width="100%" style="margin-top: -2%" />
       </div>
 
       <div class="map-filter">
-        <div class="chart-label">Filters</div>
+        <div class="chart-label">Demographic</div>
+        <div class="chart-label-shadow">Demographic</div>
 
         <!-- Dropdown for Medium Household Income -->
         <div class="filter-group">
-          <label for="income-filter">Medium Household Income:</label>
+          <label for="income-filter">Income:</label>
           <select
             id="income-filter"
             v-model="selectedIncome"
             @change="applyFilters"
           >
             <option value="">All</option>
-            <option value="low">Low (Below 50,000)</option>
-            <option value="medium">Medium (50,000 - 100,000)</option>
-            <option value="high">High (Above 100,000)</option>
+            <option value="100k_or_more">100k or More</option>
+            <option value="60k_to_99k">60k to 99k</option>
+            <option value="30k_to_59k">30k to 59k</option>
+            <option value="under_30k">Under 30k</option>
           </select>
         </div>
 
@@ -135,16 +135,26 @@
             @change="applyFilters"
           >
             <option value="">All</option>
-            <option value="PopZ">Generation Z</option>
-            <option value="PopY">Millennials</option>
-            <option value="PopX">Generation X</option>
+            <option value="PopZ">Gen Z</option>
+            <option value="PopY">Gen Y</option>
+            <option value="PopX">Gen X</option>
             <option value="PopBB">Baby Boomers</option>
           </select>
         </div>
         <img src="img/shelf.svg" width="100%" style="margin-top: -2%" />
       </div>
 
-      <button @click="resetFilters">Reset Filters</button>
+      <button
+        @click="resetFilters"
+        style="
+          background-color: transparent;
+          width: fit-content;
+          text-align: center;
+          border: solid 1px #000;
+        "
+      >
+        Reset Filters
+      </button>
     </div>
 
     <div ref="tooltip" class="tooltip" style="display: none"></div>
@@ -504,15 +514,21 @@ export default {
 
         if (!demographic) return false;
 
+        // Logic for income groups
+        const incomeGroups = {
+          "100k_or_more": (value) => value >= 100000,
+          "60k_to_99k": (value) => value >= 60000 && value < 100000,
+          "30k_to_59k": (value) => value >= 30000 && value < 60000,
+          under_30k: (value) => value < 30000,
+        };
+
         // Filter by Medium Household Income
-        const income = parseFloat(demographic.MdHHIncE);
         const matchesIncome =
-          !this.selectedIncome ||
-          (this.selectedIncome === "low" && income < 50000) ||
-          (this.selectedIncome === "medium" &&
-            income >= 50000 &&
-            income <= 100000) ||
-          (this.selectedIncome === "high" && income > 100000);
+          !this.selectedIncome || // If no income group is selected, match all
+          (incomeGroups[this.selectedIncome] &&
+            incomeGroups[this.selectedIncome](
+              parseFloat(demographic.MdHHIncE)
+            ));
 
         // Filter by Race (percentage > 50%)
         const matchesRace =
@@ -591,6 +607,7 @@ span {
   position: absolute;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
   width: 20vw;
   top: 40px;
@@ -636,18 +653,26 @@ span {
 }
 
 .filter-group {
-  margin-bottom: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  width: 80%;
+  z-index: 5;
 }
 
 .filter-group label {
   display: block;
   font-size: 14px;
   margin-bottom: 4px;
+  text-align: right;
+  width: 50%;
 }
 
 .filter-group select {
-  width: 100%;
   padding: 8px;
+  width: 50%;
   font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -699,13 +724,14 @@ button {
   display: flex;
   flex-direction: row;
   align-items: center;
+  align-content: center;
   justify-content: center;
   flex-wrap: nowrap;
   white-space: nowrap;
 }
 
 button:hover {
-  background-color: #e0e0e0;
+  background-color: #ddd;
 }
 
 button:active {
