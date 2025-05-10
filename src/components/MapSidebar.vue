@@ -357,7 +357,6 @@ export default {
         });
 
         let popup = null;
-        let popupTimeout = null;
 
         // Add interactivity for store dots
         this.map.on("mouseenter", "store-locations-layer", (e) => {
@@ -366,15 +365,11 @@ export default {
 
           const imagePath = `/street_view_images/${borough}/${id}.jpg`;
 
-          // Clear any existing timeout to prevent premature popup removal
-          if (popupTimeout) {
-            clearTimeout(popupTimeout);
-            popupTimeout = null;
-          }
-
           // Display a popup with the image
           popup = new mapboxgl.Popup({
             offset: 0,
+            closeButton: false,
+            closeOnClick: false,
           })
             .setLngLat(coordinates)
             .setHTML(
@@ -390,13 +385,11 @@ export default {
         });
 
         this.map.on("mouseleave", "store-locations-layer", () => {
-          // Set a timeout to remove the popup
-          popupTimeout = setTimeout(() => {
-            if (popup) {
-              popup.remove();
-              popup = null;
-            }
-          }, 1000);
+          // Remove the popup when the mouse leaves the store dot
+          if (popup) {
+            popup.remove();
+            popup = null;
+          }
         });
       }
     },
