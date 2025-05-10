@@ -76,7 +76,7 @@
       src="img/explain-sign.svg"
       width="50%"
       style="
-        margin-top: -80px;
+        margin-top: -20vh;
         transform: translate(-50%, 0%);
         margin-left: 50%;
         z-index: 0;
@@ -86,7 +86,7 @@
       These are the key elements of brand identity that shape how a store look,
       But beyond branding, these signs also reflect identity in the
       community.<br /><br />
-      Let’s take a closer look.
+      <!-- Let’s take a closer look. -->
     </p>
     <img
       src="img/title.svg"
@@ -134,7 +134,7 @@ export default {
   },
   methods: {
     loadImages() {
-      // Dynamically load all images from the img/objects folder
+      // Dynamically load all images from folder
       const context = require.context(
         "/public/img/objects",
         false,
@@ -144,8 +144,8 @@ export default {
     },
     scrollDown() {
       window.scrollBy({
-        top: window.innerHeight, // Scroll down by 100vh
-        behavior: "smooth", // Smooth scrolling
+        top: window.innerHeight,
+        behavior: "smooth",
       });
     },
   },
@@ -177,6 +177,6 @@ export default {
 }
 
 .textbox {
-  margin: 20vh auto;
+  margin: 30vh auto;
 }
 </style>
