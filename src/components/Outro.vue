@@ -89,33 +89,37 @@ export default {
     left: 40%;
     transform: translateX(-40%);
   }
-  25% {
+  22.5% {
+    /* Pause for 0.5 seconds */
     left: 40%;
-    transform: translateX(-40%); /* Pause for 1 second */
+    transform: translateX(-40%);
   }
   40% {
     left: 30%;
     transform: translateX(-30%);
   }
-  45% {
+  42.5% {
+    /* Pause for 0.5 seconds */
     left: 30%;
-    transform: translateX(-30%); /* Pause for 1 second */
+    transform: translateX(-30%);
   }
   60% {
     left: 20%;
     transform: translateX(-20%);
   }
-  65% {
+  62.5% {
+    /* Pause for 0.5 seconds */
     left: 20%;
-    transform: translateX(-20%); /* Pause for 1 second */
+    transform: translateX(-20%);
   }
   80% {
     left: 10%;
     transform: translateX(-10%);
   }
-  85% {
+  82.5% {
+    /* Pause for 0.5 seconds */
     left: 10%;
-    transform: translateX(-10%); /* Pause for 1 second */
+    transform: translateX(-10%);
   }
   100% {
     left: 0%;
