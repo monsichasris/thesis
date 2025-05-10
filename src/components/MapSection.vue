@@ -207,17 +207,19 @@ export default {
   },
   data() {
     return {
-      fonts: ["Script", "Decorative", "Serif", "Sans-serif"],
+      fonts: ["Sans-serif", "Serif", "Script", "Decorative"],
       colors: [
         "Red",
-        "Blue",
-        "Green",
+        "Orange",
         "Yellow",
         "Pink",
         "Purple",
+        "Green",
+        "Blue",
         "Brown",
-        "White",
+        "Gray",
         "Black",
+        "White",
       ],
       sidebarVisible: false,
       sidebarTitle: "",
@@ -469,17 +471,31 @@ export default {
       this.sidebarContent = `${boroughName}`;
       this.sidebarVisible = true;
       this.$refs.mapSidebar.zoomToNeighborhood();
+
+      // Re-render the filtered circles to ensure they are on top
+      if (
+        this.filteredNeighborhoodData &&
+        this.filteredNeighborhoodData.length > 0
+      ) {
+        this.renderFilteredCircles(this.filteredNeighborhoodData);
+      }
     },
     hideStoreImage() {
       const tooltip = d3.select(this.$refs.tooltip);
-      tooltip.style("display", "none"); // Hide the tooltip
+      tooltip.style("display", "none");
     },
     closeSidebar() {
       this.sidebarVisible = false;
       this.selectedNTA = null;
       this.renderGeoJSON();
 
-      console.log("sidebarVisible:", this.sidebarVisible);
+      // Re-render the filtered circles to ensure they are on top
+      if (
+        this.filteredNeighborhoodData &&
+        this.filteredNeighborhoodData.length > 0
+      ) {
+        this.renderFilteredCircles(this.filteredNeighborhoodData);
+      }
     },
     handleTooltip(event, d) {
       const tooltip = d3.select(this.$refs.tooltip);
