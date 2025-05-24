@@ -1,5 +1,4 @@
 # Thesis | MS Data Visualization 2025
-Monsicha Srisuantang
 
 ## Abstract
 
@@ -9,5 +8,3 @@ Grocery stores shape the everyday food experience of New Yorkers and offer a vie
 Using data visualization, it maps linguistic and visual patterns across city neighborhoods alongside demographic indicators such as race, age, and income. By analyzing name structures and signage aesthetics—such as color, typography, and language—the study reveals how design choices express identity and reflect the communities they serve. In doing so, the project positions grocery signage not only as functional design, but as a form of cultural storytelling within the evolving landscape of New York City.
 
 ![preview](https://github.com/user-attachments/assets/f6ce498b-e987-43e1-a499-512d11b02472)
-
-
