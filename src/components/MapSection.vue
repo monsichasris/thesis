@@ -322,11 +322,7 @@ export default {
         .enter()
         .append("path")
         .attr("class", "geojson-path")
-        .attr("d", (d) => {
-          const pathData = path(d);
-          if (!pathData) console.warn("No path generated for:", d);
-          return pathData;
-        })
+        .attr("d", path)
         .attr("fill", "#aaa")
         .attr("stroke", "#eee")
         .attr("stroke-width", 1)
@@ -356,7 +352,6 @@ export default {
         .on("click", (event, d) => {
           this.showSidebar(d.properties.NTA2020, d.properties.neighborhood);
         });
-      console.log(`Rendered ${paths.size()} paths`);
     },
     renderFilteredCircles(filteredData) {
       const svg = d3.select(this.$refs.svg);
