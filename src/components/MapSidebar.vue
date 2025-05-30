@@ -118,8 +118,8 @@
 <script>
 import TextualShelf from "./TextualShelf.vue";
 import VisualShelf from "./VisualShelf.vue";
-import mapboxgl from "mapbox-gl";
-import "mapbox-gl/dist/mapbox-gl.css";
+// import mapboxgl from "mapbox-gl";
+// import "mapbox-gl/dist/mapbox-gl.css";
 
 export default {
   name: "MapSidebar",
@@ -186,7 +186,7 @@ export default {
       this.zoomToNeighborhood();
     },
   },
-
+  /* global mapboxgl */
   methods: {
     initializeMap() {
       if (this.map) return; // Prevent reinitializing the map
@@ -210,22 +210,12 @@ export default {
       this.map.on("load", () => {
         console.log("Map loaded");
         this.map.resize();
+
         // Add GeoJSON data as a source
         this.map.addSource("neighborhoods", {
           type: "geojson",
           data: this.geojsonData,
         });
-
-        // // Add a layer to display the polygons
-        // this.map.addLayer({
-        //   id: "neighborhoods-layer",
-        //   type: "fill",
-        //   source: "neighborhoods",
-        //   paint: {
-        //     "fill-color": "#888888",
-        //     "fill-opacity": 0.4,
-        //   },
-        // });
 
         // Add a border for the polygons
         this.map.addLayer({
@@ -238,7 +228,6 @@ export default {
           },
         });
 
-        // Zoom to the selected neighborhood
         this.zoomToNeighborhood();
       });
     },

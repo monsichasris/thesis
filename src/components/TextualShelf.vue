@@ -46,8 +46,8 @@
 </template>
 
 <script>
-import { RiTa } from "rita";
-
+// import { RiTa } from "rita";
+/* global RiTa */
 export default {
   name: "TextualShelf",
   props: {

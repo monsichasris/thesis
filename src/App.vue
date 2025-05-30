@@ -90,7 +90,9 @@ export default {
     },
     async loadDemographicData() {
       try {
-        const response = await fetch("/demographic.csv");
+        const response = await fetch(
+          "https://qbssawkoheaimaffnrbd.supabase.co/storage/v1/object/public/json-files/demographic.csv"
+        );
         if (!response.ok) {
           throw new Error(
             `Failed to fetch demographic.csv: ${response.statusText}`
