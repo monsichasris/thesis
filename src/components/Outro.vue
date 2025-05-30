@@ -1,11 +1,12 @@
 <template>
-  <div style="display: flex; flex-direction: column">
+  <div style="display: flex; flex-direction: column; position: relative">
     <div class="textbox">
       Each neighborhood has its own unique identity, shaped by the people who
       live there. We can see it reflected in everyday objects, like grocery
       stores. It’s another way to experience the city through the signs we often
-      pass by. <br /><br />Let's go check out in your neighborhood!
+      pass by. <br /><br /><i>Let's go check out in your neighborhood!</i>
     </div>
+    <button class="back-to-top skew" @click="scrollToTop">Back to Top ⬆</button>
     <div class="image-container">
       <img src="img/cashier.svg" class="cashier" />
       <img src="img/checkout.png" class="checkout" ref="checkoutImage" />
@@ -41,6 +42,14 @@ export default {
     // Observe the checkout image
     observer.observe(this.$refs.checkoutImage);
   },
+  methods: {
+    scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth", // Smooth scrolling
+      });
+    },
+  },
 };
 </script>
 
@@ -49,7 +58,7 @@ export default {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 24px;
+  padding: 0 24px 24px 24px;
 }
 
 .foot a {
@@ -88,6 +97,26 @@ export default {
 
 .checkout.animate {
   animation: moveToLeft 20s ease-in-out forwards; /* Add animation when visible */
+}
+
+.back-to-top {
+  position: absolute;
+  left: 10%;
+  bottom: 32%;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 12px 16px;
+  width: fit-content;
+  font-size: 16px;
+
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.back-to-top:hover {
+  background-color: #111;
+  cursor: pointer;
 }
 
 /* Keyframe animation to move the checkout image to the left */
