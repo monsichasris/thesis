@@ -11,10 +11,10 @@
       <img src="img/checkout.png" class="checkout" ref="checkoutImage" />
     </div>
   </div>
-  <!-- <div class="foot">
-    <a>Monsicha Srisuantang</a>
-    <a>MS Data Visualization, Parsons School of Design, The New School</a>
-  </div> -->
+  <div class="foot">
+    <a href="https://monsicha.info/">Monsicha Srisuantang</a>
+    <a href="https://github.com/monsichasris/thesis">github↗</a>
+  </div>
 </template>
 
 <script>
@@ -51,6 +51,17 @@ export default {
   justify-content: space-between;
   padding: 24px;
 }
+
+.foot a {
+  color: #000;
+}
+
+.foot a:hover {
+  font-weight: 500;
+  font-style: italic;
+  cursor: pointer;
+}
+
 .textbox {
   margin-top: 20vh;
 }

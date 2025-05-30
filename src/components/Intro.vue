@@ -86,9 +86,9 @@
       These are the key elements of brand identity that shape how a store look,
       But beyond branding, these signs also reflect identity in the
       community.<br /><br />
-      <!-- Let’s take a closer look. -->
+      Let’s take a closer look.
     </p>
-    <img
+    <!-- <img
       src="img/title.svg"
       width="50%"
       style="
@@ -100,9 +100,7 @@
     />
     <p class="textbox" style="margin: 5vh auto 50vh auto">
       The scenery behind NYC storefront signs <br />
-      <!-- by<br />
-      <a href="https://monsicha.info/">Monsicha Srisuantang</a> -->
-    </p>
+    </p> -->
   </div>
 </template>
 
