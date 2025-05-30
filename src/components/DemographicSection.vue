@@ -14,7 +14,7 @@
           left: 50%;
           transform: translate(-50%, -50%);
         "
-        src="/img/paper.png"
+        src="https://qbssawkoheaimaffnrbd.supabase.co/storage/v1/object/public/png-images//paper.png"
       />
     </div>
 

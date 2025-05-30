@@ -15,7 +15,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
       "
-      src="/img/break.png"
+      src="https://qbssawkoheaimaffnrbd.supabase.co/storage/v1/object/public/png-images//break.png"
     />
   </div>
   <div class="map-section">
