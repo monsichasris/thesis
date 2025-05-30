@@ -3,8 +3,8 @@
 </template>
 
 <script>
-import Matter from "matter-js";
-
+// import Matter from "matter-js";
+/* global Matter */
 export default {
   name: "MatterAnimation",
   props: {

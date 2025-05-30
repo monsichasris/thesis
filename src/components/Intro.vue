@@ -108,7 +108,8 @@
 
 <script>
 import MatterAnimation from "./MatterAnimation.vue";
-import lottie from "lottie-web";
+// import lottie from "lottie-web";
+/* global lottie */
 export default {
   name: "IntroSection",
   components: { MatterAnimation },
@@ -120,13 +121,14 @@ export default {
       images: this.loadImages(),
     };
   },
+
   mounted() {
     lottie.loadAnimation({
       container: this.$refs.lottieContainer,
       renderer: "svg",
       loop: true,
       autoplay: true,
-      path: "/img/chevron-down.json",
+      path: "https://lottie.host/467ef57e-4846-40da-b692-24e222879fb6/LGSvEOUExP.json",
     });
 
     // Add click event listener to the Lottie container

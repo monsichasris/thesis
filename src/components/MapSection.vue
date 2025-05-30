@@ -183,8 +183,8 @@
 <script>
 import * as d3 from "d3";
 import MapSidebar from "./MapSidebar.vue";
-import lottie from "lottie-web";
-
+// import lottie from "lottie-web";
+/* global lottie */
 export default {
   name: "MapSection",
   components: {
@@ -268,7 +268,7 @@ export default {
       renderer: "svg",
       loop: true,
       autoplay: true,
-      path: "/img/chevron-down.json",
+      path: "https://lottie.host/467ef57e-4846-40da-b692-24e222879fb6/LGSvEOUExP.json",
     });
   },
 
