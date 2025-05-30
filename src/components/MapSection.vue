@@ -280,7 +280,6 @@ export default {
       }
 
       const color = this.colorMapping[name.toLowerCase()] || "#CCCCCC";
-      console.log("Getting color for:", name, "Color found:", color);
       return color;
     },
 
@@ -306,27 +305,35 @@ export default {
       const svg = d3.select(this.$refs.svg);
       svg.selectAll(".geojson-path").remove();
 
-      // Use the fixed dimensions
-      const width = 800;
-      const height = 800;
+      // Get actual SVG dimensions from the DOM element
+      const svgNode = svg.node();
+      const width = svgNode.clientWidth || 800;
+      const height = svgNode.clientHeight || 800;
 
       const projection = d3
         .geoMercator()
         .fitSize([width, height], this.geojsonData);
       const path = d3.geoPath().projection(projection);
 
-      svg
+      // Create paths with debugging
+      const paths = svg
         .selectAll(".geojson-path")
         .data(this.geojsonData.features)
         .enter()
         .append("path")
         .attr("class", "geojson-path")
-        .attr("d", path)
+        .attr("d", (d) => {
+          const pathData = path(d);
+          if (!pathData) console.warn("No path generated for:", d);
+          return pathData;
+        })
         .attr("fill", "#aaa")
         .attr("stroke", "#eee")
         .attr("stroke-width", 1)
         .attr("data-nta", (d) => d.properties.NTA2020)
-        .attr("cursor", "pointer")
+        .attr("cursor", "pointer");
+
+      paths
         .on("mouseover", (event, d) => {
           d3.select(event.currentTarget)
             .attr("stroke-width", 4)
@@ -349,6 +356,7 @@ export default {
         .on("click", (event, d) => {
           this.showSidebar(d.properties.NTA2020, d.properties.neighborhood);
         });
+      console.log(`Rendered ${paths.size()} paths`);
     },
     renderFilteredCircles(filteredData) {
       const svg = d3.select(this.$refs.svg);
@@ -410,7 +418,7 @@ export default {
         });
     },
     showStoreImage(storeData, event) {
-      const storeImagePath = `/street_view_images/${storeData.borough}/${storeData.id}.jpg`;
+      const storeImagePath = `https://qbssawkoheaimaffnrbd.supabase.co/storage/v1/object/public/street-view-images/${storeData.borough}/${storeData.id}.jpg`;
       const tooltip = d3.select(this.$refs.tooltip);
 
       tooltip

@@ -363,7 +363,7 @@ export default {
           const coordinates = e.features[0].geometry.coordinates.slice();
           const { id, borough, name } = e.features[0].properties;
 
-          const imagePath = `/street_view_images/${borough}/${id}.jpg`;
+          const imagePath = `https://qbssawkoheaimaffnrbd.supabase.co/storage/v1/object/public/street-view-images/${borough}/${id}.jpg`;
 
           // Display a popup with the image
           popup = new mapboxgl.Popup({

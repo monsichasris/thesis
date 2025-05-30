@@ -60,7 +60,9 @@ export default {
   methods: {
     async loadJSON() {
       try {
-        const response = await fetch("/main_df.json");
+        const response = await fetch(
+          "https://qbssawkoheaimaffnrbd.supabase.co/storage/v1/object/public/json-files//main_df.json"
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch words.json");
         }
@@ -73,7 +75,9 @@ export default {
     },
     async loadGeoJSON() {
       try {
-        const response = await fetch("/neighborhoods.json");
+        const response = await fetch(
+          "https://qbssawkoheaimaffnrbd.supabase.co/storage/v1/object/public/json-files//neighborhoods.json"
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch neighborhoods.json");
         }

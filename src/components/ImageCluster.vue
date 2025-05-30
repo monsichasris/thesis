@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     getImagePath(store) {
-      return `/street_view_images/${store.borough}/${store.id}.jpg`;
+      return `https://qbssawkoheaimaffnrbd.supabase.co/storage/v1/object/public/street-view-images/${store.borough}/${store.id}.jpg`;
     },
     createForceSimulation() {
       const width = this.$refs.svg.parentElement.offsetWidth;
