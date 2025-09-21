@@ -3,7 +3,7 @@
 **The Scenery Behind NYC Storefront Signs**
 <br>
 
-This repository is a part of thesis project for Master of Science in Data Visualization, at Parsons The New School for Design — by [Monsicha Srisuantang](https://monsicha.info/)
+This repository is a part of thesis project for Master of Science in Data Visualization, at Parsons School of Design, The New School — by [Monsicha Srisuantang](https://monsicha.info/)
 <br>
 
 [→ View Live](https://monsichasris.github.io/thesis/)
