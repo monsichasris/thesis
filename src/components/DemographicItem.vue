@@ -77,10 +77,10 @@ export default {
 }
 
 h3 {
-  font-family: "Skew VF";
+  font-family: "skew-variable", sans-serif;
+  font-variation-settings: "wght" 700;
   font-style: normal;
   font-size: 2rem;
-  font-weight: 700;
   line-height: normal;
 }
 </style>

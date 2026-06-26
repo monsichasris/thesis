@@ -328,15 +328,14 @@ export default {
   z-index: 1000;
   pointer-events: none;
   transition: opacity 0.2s ease-in-out;
-  font-family: "Skew VF";
-  font-style: normal;
-  font-weight: 700;
+  font-family: "skew-variable", sans-serif;
+  font-variation-settings: "wght" 700;
   font-size: 24px;
 }
 
 .wordhighlight {
   background-color: #d4ff5e;
-  font-weight: bold;
+  font-variation-settings: "wght" 700;
   border: 2px solid black;
 }
 </style>

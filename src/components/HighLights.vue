@@ -103,10 +103,10 @@ export default {
 }
 
 .highlight h1 {
-  font-family: "Skew VF";
+  font-family: "skew-variable", sans-serif;
+  font-variation-settings: "wght" 700;
   font-style: normal;
   font-size: 4rem;
-  font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
   border-top: #000 dashed 1px;

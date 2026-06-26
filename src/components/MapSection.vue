@@ -602,10 +602,9 @@ export default {
 
 <style scoped>
 h2 {
-  font-family: "Skew VF";
-  font-style: normal;
+  font-family: "skew-variable", sans-serif;
+  font-variation-settings: "wght" 700;
   font-size: 40px;
-  font-weight: 700;
   line-height: 100%;
   text-transform: uppercase;
   margin: 0;
@@ -712,10 +711,10 @@ span {
   position: absolute;
   bottom: -8px;
   text-align: center;
-  font-family: "Skew VF";
+  font-family: "skew-variable", sans-serif;
+  font-variation-settings: "wght" 700;
   font-style: normal;
   font-size: 16px;
-  font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
 }

@@ -20,7 +20,7 @@
 
     <div class="demographic-group" id="demo-race">
       <div class="demographic-group-header">
-        <h2>Race</h2>
+        <h2 :style="headerBackgroundStyle">Race</h2>
         <div class="textbox">
           These groups are based on neighborhoods where more than 50% of the
           population shares the same racial background.
@@ -42,7 +42,7 @@
     </div>
     <div class="demographic-group" id="demo-age">
       <div class="demographic-group-header">
-        <h2>Age</h2>
+        <h2 :style="headerBackgroundStyle">Age</h2>
         <div class="textbox">
           These groups represent neighborhoods with an estimated population of
           over 10,000 categorized by age range (data from 2022).
@@ -64,7 +64,7 @@
     </div>
     <div class="demographic-group" id="demo-income">
       <div class="demographic-group-header">
-        <h2>Income</h2>
+        <h2 :style="headerBackgroundStyle">Income</h2>
         <div class="textbox">
           These groups are based on the median household income in each
           neighborhood.
@@ -108,6 +108,11 @@ export default {
   computed: {
     sidebarWidth() {
       return 240;
+    },
+    headerBackgroundStyle() {
+      return {
+        backgroundImage: "url(/img/boom.svg)",
+      };
     },
     raceGroups() {
       return [
@@ -277,10 +282,10 @@ export default {
 
 <style scoped>
 h2 {
-  font-family: "Skew VF";
+  font-family: "skew-variable", sans-serif;
+  font-variation-settings: "wght" 700;
   font-style: normal;
   font-size: 48px;
-  font-weight: 700;
   line-height: 100%;
   text-transform: uppercase;
   margin: 0;
@@ -307,7 +312,6 @@ h2 {
 .demographic-group-header h2 {
   position: relative;
   z-index: 1; /* Ensure the text is above the background */
-  background-image: url("/Users/monsichasris/Documents/MS/msdv/thesis/public/img/boom.svg");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

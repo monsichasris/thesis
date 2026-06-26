@@ -85,9 +85,9 @@ export default {
         .style("align-items", "left")
         .style("border", "1px solid black")
         .style("box-shadow", "0 2px 4px rgba(0, 0, 0, 0.2)")
-        .style("font-family", "Skew VF")
+        .style("font-family", "skew-variable", "sans-serif")
         .style("font-style", "normal")
-        .style("font-weight", 700)
+        .style("font-variation-settings", "wght", "700")
         .style("font-size", "24px")
         .style("z-index", 1000)
         .style("pointer-events", "none")
@@ -231,10 +231,10 @@ export default {
   position: absolute;
   bottom: 0;
   text-align: center;
-  font-family: "Skew VF";
+  font-family: "skew-variable", sans-serif;
+  font-variation-settings: "wght" 700;
   font-style: normal;
   font-size: 16px;
-  font-weight: 700;
   line-height: normal;
   text-transform: uppercase;
 }
