@@ -3,6 +3,14 @@ const CompressionPlugin = require("compression-webpack-plugin");
 module.exports = defineConfig({
   transpileDependencies: true,
   publicPath: process.env.NODE_ENV === "production" ? "/thesis/" : "/",
+  devServer: {
+    client: {
+      overlay: {
+        runtimeErrors: (error) =>
+          !error?.message?.includes("ResizeObserver loop completed"),
+      },
+    },
+  },
   chainWebpack: (config) => {
     config.optimization.splitChunks({
       chunks: "all",
